@@ -21,19 +21,19 @@
         </div>
 
       </div>
-      <div class="col-4 ">
+      <div class="col col-3 ">
 
-        <div class="row">
-          user INPUT
+        <div class="mb-3">
+          <label class="form-label">Kasutajanimi</label>
+          <input v-model="username" type="text" class="form-control">
         </div>
-        <div class="row">
-          PASSWORD INPUT
+        <div class="mb-3">
+          <label class="form-label">Parool</label>
+          <input v-model="password" type="password" class="form-control">
         </div>
-        <div class="row">
-          LOGI SISSE NUPP
-        </div>
-        <div class="row">
-          REGISTREERI NUPP
+        <div>
+          <button type="submit" class="btn btn-primary me-3">Logi sisse</button>
+          <button type="submit" class="btn btn-secondary">Registreeri konto</button>
         </div>
 
       </div>
@@ -42,7 +42,35 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'HomeView',
+  data() {
+    return {
+      username: '',
+      password: '',
+
+    }
+  },
+  methods: {
+
+    allFieldsWithCorrectInput() {
+      return this.username.length > 0 && this.password.length > 0;
+    },
+
+    login() {
+      if (this.allFieldsWithCorrectInput()) {
+        axios.get('',this.username, this.password)
+            .then(response => this.handleLoginResponse = response.data)
+            .catch(error => this.handleLoginErrorResponse = error.response.data)
+
+      }
+
+
+    },
+
+  }
+
 }
 </script>
