@@ -32,7 +32,7 @@
           <input v-model="password" type="password" class="form-control">
         </div>
         <div>
-          <button type="submit" class="btn btn-primary me-3">Logi sisse</button>
+          <button @click="login" type="submit" class="btn btn-primary me-3">Logi sisse</button>
           <button type="submit" class="btn btn-secondary">Registreeri konto</button>
         </div>
 
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import LoginService from "@/services/LoginService";
 
 export default {
   name: 'HomeView',
@@ -61,16 +61,13 @@ export default {
 
     login() {
       if (this.allFieldsWithCorrectInput()) {
-        axios.get('',this.username, this.password)
+        LoginService.sendLoginRequest(this.username, this.password)
             .then(response => this.handleLoginResponse = response.data)
             .catch(error => this.handleLoginErrorResponse = error.response.data)
 
       }
-
-
     },
-
-  }
+  },
 
 }
 </script>
