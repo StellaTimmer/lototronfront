@@ -1,6 +1,6 @@
 <template>
   <div class="container text-center">
-    <div class="row">
+    <div class="row justify-content-center">
 
 
       <div class="col-4 justify-content-center">
