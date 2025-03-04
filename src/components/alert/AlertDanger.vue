@@ -1,8 +1,8 @@
 <template>
 
   <div
-      v-if="message.length > 0" class="alert alert-danger" role="alert">
-    {{ message }}
+  v-if= "message.length > 0" class="alert alert-danger" role="alert">
+  {{message}}
 
   </div>
 
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "AlertDanger",
+name: "AlertDanger",
   props: {
     message: String
   }

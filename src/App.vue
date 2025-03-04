@@ -1,8 +1,12 @@
 <template>
-  <nav>
+
+  <div>
+    <nav>
     <router-link to="/">Lototron</router-link>
   </nav>
-  <router-view/>
+    <router-view/>
+  </div>
+
 </template>
 
 <script>

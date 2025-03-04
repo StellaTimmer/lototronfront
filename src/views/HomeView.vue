@@ -25,8 +25,8 @@
       </div>
       <div class="col col-3 ">
 
-        <div class="col col-8" >
-          <AlertDanger :message="message" />
+        <div class="col col-8">
+          <AlertDanger :message="errorMessage"/>
         </div>
 
         <div class="mb-3">
@@ -50,6 +50,10 @@
 <script>
 import LoginService from "@/services/LoginService";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
+import router from "@/router";
+import HttpStatusCodes from "@/errors/HttpStatusCodes";
+import BusinessErrors from "@/errors/BusinessErrors";
+import NavigationService from "@/services/NavigationService";
 
 
 export default {
@@ -59,32 +63,80 @@ export default {
     return {
       username: '',
       password: '',
-      message: '',
+      errorMessage: '',
+      loginResponse: {
+        userId: 0,
+        roleName: ''
+      },
+      errorResponse: {
+        message: '',
+        errorCode: 0
+      }
     }
   },
   methods: {
+
+    login() {
+      if (this.allFieldsWithCorrectInput()) {
+        this.sendLoginRequest();
+      } else {
+        this.alertMissingFields();
+      }
+    },
+
 
     allFieldsWithCorrectInput() {
       return this.username.length > 0 && this.password.length > 0;
     },
 
+    sendLoginRequest() {
+      LoginService.sendLoginRequest(this.username, this.password)
+          .then(response => this.handleLoginResponse(response))
+          .catch(error => this.handleLoginErrorResponse(error))
+    },
+
+    handleLoginResponse(response) {
+      this.loginResponse = response.data
+      this.updateSessionStorageWithUserDetails();
+      router.push({name: 'lototronRoute'})
+
+    },
+
     alertMissingFields() {
-      this.message = "Täida kõik väljad"
+      this.errorMessage = 'Täida kõik väljad'
       setTimeout(this.resetAlertMessage, 4000)
     },
 
-    login() {
-      if (this.allFieldsWithCorrectInput()) {
-        LoginService.sendLoginRequest(this.username, this.password)
-            .then(response => this.handleLoginResponse = response.data)
-            .catch(error => this.handleLoginErrorResponse = error.response.data)
-
-      } else {
-        this.alertMissingFields();
-      }
-
+    updateSessionStorageWithUserDetails() {
+      sessionStorage.setItem('userId', this.loginResponse.userId);
+      sessionStorage.setItem('roleName', this.loginResponse.roleName)
     },
-  },
 
+    handleLoginErrorResponse(error) {
+      this.errorResponse = error.response.data
+      let httpStatusCode = error.response.status;
+
+      if (this.isIncorrectCredentials(httpStatusCode)) {
+        this.handleIncorrectCredentialsAlert();
+      } else {
+        NavigationService.navigateToErrorView()
+      }
+    },
+
+    isIncorrectCredentials(httpStatusCode) {
+      return HttpStatusCodes.STATUS_FORBIDDEN === httpStatusCode
+          && BusinessErrors.CODE_INCORRECT_CREDENTIALS === this.errorResponse.errorCode;
+    },
+
+    handleIncorrectCredentialsAlert() {
+      this.errorMessage = this.errorResponse.message
+      setTimeout(this.resetAlertMessage, 4000);
+    },
+
+    resetAlertMessage() {
+      this.errorMessage = ''
+    },
+
+  }
 }
 </script>
