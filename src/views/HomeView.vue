@@ -23,7 +23,7 @@
         </div>
 
       </div>
-      <div class="col col-3 ">
+      <div  class="col col-3 "> //v-if="false"
 
         <div class="col col-8" >
           <AlertDanger :message="message" />
@@ -68,15 +68,17 @@ export default {
       return this.username.length > 0 && this.password.length > 0;
     },
 
-    login() {
+    alertMissingFields() {
+      this.message = "Täida kõik väljad"
+      setTimeout(this.resetAlertMessage, 4000)
+    }, login() {
       if (this.allFieldsWithCorrectInput()) {
         LoginService.sendLoginRequest(this.username, this.password)
             .then(response => this.handleLoginResponse = response.data)
             .catch(error => this.handleLoginErrorResponse = error.response.data)
 
       } else {
-        this.message = "Täida kõik väljad"
-        setTimeout(this.resetAlertMessage, 4000)
+        this.alertMissingFields();
       }
 
     },
