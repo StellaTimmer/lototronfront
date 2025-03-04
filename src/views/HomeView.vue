@@ -50,6 +50,9 @@
 <script>
 import LoginService from "@/services/LoginService";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
+import router from "@/router";
+import HttpStatusCodes from "@/errors/HttpStatusCodes";
+import BusinessErrors from "@/errors/BusinessErrors";
 
 
 export default {
@@ -60,6 +63,14 @@ export default {
       username: '',
       password: '',
       message: '',
+      loginResponse: {
+        userId: 0,
+        roleName: '',
+      },
+      errorResponse: {
+        message: '',
+        errorCode: 0,
+      }
     }
   },
   methods: {
@@ -82,7 +93,40 @@ export default {
       }
 
     },
-  },
+    handleLoginResponse(response) {
+      this.loginResponse = response.data
+      sessionStorage.setItem('userId', this.loginResponse.userId);
+      sessionStorage.setItem('roleName', this.loginResponse.roleName);
+      router.push({name: 'lototronRoute'})
+
+    },
+    isIncorrectCredentials(httpStatusCode) {
+      return HttpStatusCodes.STATUS_FORBIDDEN === httpStatusCode
+          && BusinessErrors.CODE_INCORRECT_CREDENTIALS === this.errorResponse.errorCode;
+
+    }, handleIncorrectCredentialsAlert() {
+      this.message = this.errorResponse.message
+      setTimeout(this.resetAlertMessage, 4000);
+
+    }, handleLoginErrorResponse(error) {
+      this.errorResponse = error.response.data
+      let httpStatusCode = error.response.status;
+
+      if (this.isIncorrectCredentials(httpStatusCode)) {
+        this.handleIncorrectCredentialsAlert();
+      } else {
+        router.push({name: 'errorRoute'})
+
+      }
+
+      }
+
+    },
+  resetAlertMessage() {
+    this.message = ''
+  }
+
+
 
 }
 </script>
