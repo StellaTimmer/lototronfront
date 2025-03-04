@@ -39,7 +39,7 @@
         </div>
         <div>
           <button @click="login" type="submit" class="btn btn-primary me-3">Logi sisse</button>
-          <button type="submit" class="btn btn-secondary">Registreeri konto</button>
+          <button @click="navigateToRegisterView" type="submit" class="btn btn-secondary">Registreeri konto</button>
         </div>
 
       </div>
@@ -134,6 +134,10 @@ export default {
 
     resetAlertMessage() {
       this.errorMessage = ''
+    },
+
+    navigateToRegisterView() {
+      NavigationService.navigateToRegisterView()
     },
 
   }
