@@ -98,8 +98,7 @@ export default {
     handleLoginResponse(response) {
       this.loginResponse = response.data
       this.updateSessionStorageWithUserDetails();
-      router.push({name: 'lototronRoute'})
-
+      NavigationService.navigateToLototronView()
     },
 
     alertMissingFields() {

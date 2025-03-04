@@ -4,4 +4,8 @@ export default {
     navigateToErrorView() {
         // router.push({name: 'errorRoute'})
     },
+
+    navigateToLototronView() {
+        router.push({name: 'lototronRoute'})
+    },
 }
