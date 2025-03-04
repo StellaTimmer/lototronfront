@@ -23,10 +23,11 @@
         </div>
 
       </div>
-      <div  class="col col-3 "> //v-if="false"
+      <div  class="col col-3 ">
+<!--        //v-if="false"-->
 
-        <div class="col col-8" >
-          <AlertDanger :message="message" />
+        <div class="col col-8">
+          <AlertDanger :message="errorMessage"/>
         </div>
 
         <div class="mb-3">
@@ -39,7 +40,7 @@
         </div>
         <div>
           <button @click="login" type="submit" class="btn btn-primary me-3">Logi sisse</button>
-          <button type="submit" class="btn btn-secondary">Registreeri konto</button>
+          <button @click="navigateToRegisterView" type="submit" class="btn btn-secondary">Registreeri konto</button>
         </div>
 
       </div>
@@ -53,6 +54,7 @@ import AlertDanger from "@/components/alert/AlertDanger.vue";
 import router from "@/router";
 import HttpStatusCodes from "@/errors/HttpStatusCodes";
 import BusinessErrors from "@/errors/BusinessErrors";
+import NavigationService from "@/services/NavigationService";
 
 
 export default {
@@ -62,71 +64,83 @@ export default {
     return {
       username: '',
       password: '',
-      message: '',
+      errorMessage: '',
       loginResponse: {
         userId: 0,
-        roleName: '',
+        roleName: ''
       },
       errorResponse: {
         message: '',
-        errorCode: 0,
+        errorCode: 0
       }
     }
   },
   methods: {
 
+    login() {
+      if (this.allFieldsWithCorrectInput()) {
+        this.sendLoginRequest();
+      } else {
+        this.alertMissingFields();
+      }
+    },
+
+
     allFieldsWithCorrectInput() {
       return this.username.length > 0 && this.password.length > 0;
     },
 
-    alertMissingFields() {
-      this.message = "Täida kõik väljad"
-      setTimeout(this.resetAlertMessage, 4000)
-    }, login() {
-      if (this.allFieldsWithCorrectInput()) {
-        LoginService.sendLoginRequest(this.username, this.password)
-            .then(response => this.handleLoginResponse = response.data)
-            .catch(error => this.handleLoginErrorResponse = error.response.data)
-
-      } else {
-        this.alertMissingFields();
-      }
-
+    sendLoginRequest() {
+      LoginService.sendLoginRequest(this.username, this.password)
+          .then(response => this.handleLoginResponse(response))
+          .catch(error => this.handleLoginErrorResponse(error))
     },
+
     handleLoginResponse(response) {
       this.loginResponse = response.data
-      sessionStorage.setItem('userId', this.loginResponse.userId);
-      sessionStorage.setItem('roleName', this.loginResponse.roleName);
-      router.push({name: 'lototronRoute'})
-
+      this.updateSessionStorageWithUserDetails();
+      NavigationService.navigateToLototronView()
     },
-    isIncorrectCredentials(httpStatusCode) {
-      return HttpStatusCodes.STATUS_FORBIDDEN === httpStatusCode
-          && BusinessErrors.CODE_INCORRECT_CREDENTIALS === this.errorResponse.errorCode;
 
-    }, handleIncorrectCredentialsAlert() {
-      this.message = this.errorResponse.message
-      setTimeout(this.resetAlertMessage, 4000);
+    alertMissingFields() {
+      this.errorMessage = 'Täida kõik väljad'
+      setTimeout(this.resetAlertMessage, 4000)
+    },
 
-    }, handleLoginErrorResponse(error) {
+    updateSessionStorageWithUserDetails() {
+      sessionStorage.setItem('userId', this.loginResponse.userId);
+      sessionStorage.setItem('roleName', this.loginResponse.roleName)
+    },
+
+    handleLoginErrorResponse(error) {
       this.errorResponse = error.response.data
       let httpStatusCode = error.response.status;
 
       if (this.isIncorrectCredentials(httpStatusCode)) {
         this.handleIncorrectCredentialsAlert();
       } else {
-        router.push({name: 'errorRoute'})
-
+        NavigationService.navigateToErrorView()
       }
-
-      }
-
     },
-  resetAlertMessage() {
-    this.message = ''
+
+    isIncorrectCredentials(httpStatusCode) {
+      return HttpStatusCodes.STATUS_FORBIDDEN === httpStatusCode
+          && BusinessErrors.CODE_INCORRECT_CREDENTIALS === this.errorResponse.errorCode;
+    },
+
+    handleIncorrectCredentialsAlert() {
+      this.errorMessage = this.errorResponse.message
+      setTimeout(this.resetAlertMessage, 4000);
+    },
+
+    resetAlertMessage() {
+      this.errorMessage = ''
+    },
+
+    navigateToRegisterView() {
+      NavigationService.navigateToRegisterView()
+    },
+
   }
-
-
-
 }
 </script>
