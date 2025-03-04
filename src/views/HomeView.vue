@@ -1,6 +1,8 @@
 <template>
   <div class="container text-center">
     <div class="row">
+
+
       <div class="col-4 justify-content-center">
 
         <div class="row">
@@ -23,6 +25,10 @@
       </div>
       <div class="col col-3 ">
 
+        <div class="col col-8" >
+          <AlertDanger :message="message" />
+        </div>
+
         <div class="mb-3">
           <label class="form-label">Kasutajanimi</label>
           <input v-model="username" type="text" class="form-control">
@@ -43,14 +49,17 @@
 
 <script>
 import LoginService from "@/services/LoginService";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+
 
 export default {
   name: 'HomeView',
+  components: {AlertDanger},
   data() {
     return {
       username: '',
       password: '',
-
+      message: '',
     }
   },
   methods: {
@@ -65,7 +74,11 @@ export default {
             .then(response => this.handleLoginResponse = response.data)
             .catch(error => this.handleLoginErrorResponse = error.response.data)
 
+      } else {
+        this.message = "Täida kõik väljad"
+        setTimeout(this.resetAlertMessage, 4000)
       }
+
     },
   },
 
