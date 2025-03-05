@@ -11,19 +11,17 @@
       <div class="row">
 
         <div> <h1>LOO LÕUNA:</h1> </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+
+        <div style="margin-bottom: 120px;"></div>
+
         <div class="col">
           <div> <h3>Vali kuupäev:</h3> </div>
           <br>
           <br>
-<!--          // kuupäeva valik:-->
 
+<!--      // kuupäeva valik:-->
           <div>
-            <label for="date-picker">Vali sobiv tööpäev:</label>
+            <label for="date-picker">Valikus tööpäevad:</label>
             <br>
             <h3>
             <input
@@ -49,20 +47,63 @@
             <p>Valitud kuupäev: {{ selectedDate }}</p>
           </div>
 
-          <!--//vahe elementide vahel:-->
           <div style="margin-bottom: 150px;"></div>
 
           <div> <h3> Vali söögikoht: </h3> </div>
+          <div style="margin-bottom: 20px;"></div>
 
-          
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">
+              Guru Restoran
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Beer Garden
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Tallinn Pizza & Kebab
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Hesburger Viru
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Kanuti Ramen Bar
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Restaurant Tai Boh
+            </label>
+          </div>
+
+
+
+
         </div>
 
 
         <div class="col">
 
           <div> <h3> Vali kellaaeg: </h3> </div>
+          <div style="margin-bottom: 80px;"></div>
+          <h3>
+          <input type="time" name="" id="">
+          </h3>
 
-          <div style="margin-bottom: 150px;"></div>
+          <div style="margin-bottom: 270px;"></div>
 
           <div>
             <button type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
@@ -75,15 +116,11 @@
         <div class="col">
 
           <div> <h5> Sinu lõunad: </h5> </div>
-          <br>
-          <br>
-          <br>
-          <br>
+          <div style="margin-bottom: 100px;"></div>
           <div>
             Tulemas:
           </div>
-          <br>
-          <br>
+          <div style="margin-bottom: 80px;"></div>
           <div>
             Möödunud:
           </div>
