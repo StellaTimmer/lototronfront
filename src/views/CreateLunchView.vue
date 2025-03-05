@@ -1,3 +1,4 @@
+
 <template>
 
   <div>
@@ -9,22 +10,20 @@
 
       <div class="row">
 
-        <div> Loo lõuna: </div>
+        <div> <h1>LOO LÕUNA:</h1> </div>
+        <br>
+        <br>
         <br>
         <br>
         <br>
         <div class="col">
-          <div>
-            Vali kuupäev:
-          </div>
+          <div> <h3>Vali kuupäev:</h3> </div>
           <br>
           <br>
           <br>
           <br>
           <br>
-          <div>
-            Vali söögikoht:
-          </div>
+          <div> <h3> Vali söögikoht: </h3> </div>
 
 
         </div>
@@ -32,9 +31,7 @@
 
         <div class="col">
 
-          <div>
-            Vali kellaaeg:
-          </div>
+          <div> <h3> Vali kellaaeg: </h3> </div>
           <br>
           <br>
           <br>
@@ -49,9 +46,7 @@
 
         <div class="col">
 
-          <div>
-            Sinu lõunad:
-          </div>
+          <div> <h5> Sinu lõunad: </h5> </div>
           <br>
           <br>
           <br>
