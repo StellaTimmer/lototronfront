@@ -10,15 +10,13 @@
 
       <div class="row">
 
-        <div> <h1>LOO LÕUNA:</h1> </div>
+        <div> <h1 class="mb-5">LOO LÕUNA:</h1> </div>
 
-        <div style="margin-bottom: 120px;"></div>
 
         <div class="col">
            <h3 class="mb-5">Vali kuupäev:</h3>
 
-
-<!--      // kuupäeva valik:-->
+<!--      // kuupäeva valikuks kalender:-->
           <div>
             <label for="date-picker">Valikus tööpäevad:</label>
             <br>
