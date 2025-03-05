@@ -9,6 +9,7 @@ export default {
         router.push({name: 'lototronRoute'})
     },
 
+
     navigateToRegisterView() {
         router.push({name: 'registrationRoute'})
     },
