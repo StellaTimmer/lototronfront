@@ -102,6 +102,8 @@
 
 <script>
 import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
+import SelectedRestaurantService from "@/services/SelectedRestaurantService";
+import NavigationService from "@/services/NavigationService";
 
 export default {
   name: "CreateLunchView",
@@ -125,6 +127,16 @@ export default {
   methods: {
     setSelectedRestaurantId(selectedRestaurantId) {
       this.selectedRestaurantId = selectedRestaurantId
+    },
+
+    getRestaurants() {
+      SelectedRestaurantService.sendGetRestaurantsRequest()
+          .then(response => this.handleGetRestaurantsResponse(response))
+          .catch(()=>NavigationService.navigateToErrorView())
+    },
+
+    handleGetRestaurantsResponse(response) {
+      this.restaurants = response.data
     },
 
     disableWeekends() {
@@ -161,6 +173,7 @@ export default {
   mounted() {
     // Call the method on mounted to initialize the date restrictions
     this.disableWeekends();
+    this.getRestaurants();
   },
 }
 
