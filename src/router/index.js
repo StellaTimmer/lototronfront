@@ -4,11 +4,12 @@ import ErrorView from "@/views/ErrorView.vue";
 import LototronView from "@/views/LototronView.vue";
 import CreateLunchView from "@/views/CreateLunchView.vue";
 import JoinLunchView from "@/views/JoinLunchView.vue";
+import RegistrationView from "@/views/RegistrationView.vue";
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'homeRoute',
     component: HomeView
   },
   {
@@ -31,6 +32,12 @@ const routes = [
     name: 'errorRoute',
     component: ErrorView // burgsi vaade
   },
+
+  {
+    path: '/register',
+    name: 'registrationRoute',
+    component: RegistrationView
+  }
 
 ]
 

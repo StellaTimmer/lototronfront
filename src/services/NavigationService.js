@@ -10,6 +10,10 @@ export default {
     },
 
     navigateToRegisterView() {
-        router.push({name: 'registerRoute'})
+        router.push({name: 'registrationRoute'})
+    },
+
+    navigateToHomeView() {
+        router.push({name: 'homeRoute'})
     }
 }
