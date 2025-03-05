@@ -2,9 +2,7 @@
   <div class="container text-center">
     <div class="row justify-content-center">
 
-
       <div class="col-4 justify-content-center">
-
         <div class="row">
           <p>
             Tere tulemast lõunalototroni!
@@ -13,7 +11,6 @@
             Aitame
           </p>
         </div>
-
         <div class="row">
           <img src="@/assets/toidupilt3.jpg"
                height="100"
@@ -21,15 +18,13 @@
                class="img-fluid"
                alt="toidupilt">
         </div>
-
       </div>
-      <div  class="col col-3 ">
-<!--        //v-if="false"-->
+
+      <div class="col col-3 ">
 
         <div class="col col-8">
           <AlertDanger :message="errorMessage"/>
         </div>
-
         <div class="mb-3">
           <label class="form-label">Kasutajanimi</label>
           <input v-model="username" type="text" class="form-control">
