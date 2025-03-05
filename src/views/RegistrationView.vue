@@ -12,8 +12,18 @@
         <div class="col col-3">
 
         <div class="input-group mb-3">
+        <span class="input-group-text">nimi</span>
+        <input v-model="newUser.firstName" type="text" class="form-control">
+      </div>
+
+          <div class="input-group mb-3">
+        <span class="input-group-text">perekonnanimi</span>
+        <input v-model="newUser.lastName" type="text" class="form-control">
+      </div>
+
+          <div class="input-group mb-3">
         <span class="input-group-text">email</span>
-        <input v-model="newUser.username" type="text" class="form-control">
+        <input v-model="newUser.userName" type="text" class="form-control">
       </div>
 
         <div class="input-group mb-3">
@@ -55,7 +65,9 @@ export default {
       errorMessage: '',
       passwordRetype: '',
       newUser: {
-        username: '',
+        firstName:'',
+        lastName:'',
+        userName: '',
         password: '',
         phoneNumber:'',
       }
@@ -65,14 +77,39 @@ export default {
     passwordNoMatch() {
       return this.passwordRetype !== this.newUser.password;
     },
+
+    allFieldsWithCorrectInput() {
+    return this.newUser.firstName.length > 0
+        && this.newUser.lastName.length > 0
+        && this.newUser.userName.length > 0
+        && this.newUser.password.length > 0
+        && this.passwordRetype.length> 0
+        && this.newUser.phoneNumber.length > 0;
+    },
+
+    alertMissingFields() {
+      this.errorMessage = "Täida kõik väljad"
+      setTimeout(this.resetAlertMessage, 4000)
+    },
+
     addNewUser() {
-      if (this.passwordNoMatch()){
-        this.errorMessage = "Parool ei kattu"
-      } else {
+      if (!this.allFieldsWithCorrectInput()) {
+        this.alertMissingFields();
+        return;
+      }
+
+      if (this.passwordNoMatch()) {
+        this.errorMessage = "Parool ei kattu";
+        return;
+      }
+
         UserService.sendPostNewUserRequest(this.newUser)
             .then(() => NavigationService.navigateToHomeView())
             .catch(() => NavigationService.navigateToErrorView());
-      }
+    },
+
+    resetAlertMessage() {
+      this.errorMessage = '';
     }
   }
 }
