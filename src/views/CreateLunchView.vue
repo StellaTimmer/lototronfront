@@ -15,9 +15,8 @@
         <div style="margin-bottom: 120px;"></div>
 
         <div class="col">
-          <div> <h3>Vali kuupäev:</h3> </div>
-          <br>
-          <br>
+           <h3 class="mb-5">Vali kuupäev:</h3>
+
 
 <!--      // kuupäeva valik:-->
           <div>
@@ -28,8 +27,6 @@
                 type="date"
                 id="date-picker"
                 v-model="selectedDate"
-                :min="minDate"
-                :max="maxDate"
                 @click="disableWeekends"
                 @input="checkWeekend"
             />
@@ -50,45 +47,10 @@
           <div style="margin-bottom: 150px;"></div>
 
           <div> <h3> Vali söögikoht: </h3> </div>
-          <div style="margin-bottom: 20px;"></div>
+          <RestaurantsDropdown :available-restaurants="restaurants"
+                               @event-new-restaurant-selected="setSelectedRestaurantId"
 
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-            <label class="form-check-label" for="flexRadioDefault1">
-              Guru Restoran
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Beer Garden
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Tallinn Pizza & Kebab
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Hesburger Viru
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Kanuti Ramen Bar
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Restaurant Tai Boh
-            </label>
-          </div>
-
+          />
 
 
 
@@ -141,19 +103,34 @@
 
 
 <script>
+import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
+
 export default {
   name: "CreateLunchView",
+  components: {RestaurantsDropdown},
 
   data() {
     return {
+      selectedRestaurantId: 0,
       selectedDate: '',  // Holds the selected date
       minDate: '',  // Minimum allowable date
       maxDate: '',  // Maximum allowable date
       isWeekendSelected: false, // Flag to show weekend selection error
+      restaurants: [
+        {
+          restaurantId: 0,
+          restaurantName: ''
+        }
+      ],
     };
   },
   methods: {
+    setSelectedRestaurantId(selectedRestaurantId) {
+      this.selectedRestaurantId = selectedRestaurantId
+    },
+
     disableWeekends() {
+      Date.now()
       const today = new Date();
 
       // Set min date (disable weekends before today)
