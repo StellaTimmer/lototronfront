@@ -96,6 +96,14 @@ export default {
           restaurantName: ''
         }
       ],
+      lunchEventDto: {
+        userId: 0,
+        restaurantId: 0,
+        paxTotal: 0,
+        paxAvailable: 0,
+        date: '',
+        time: ''
+      },
     };
   },
   methods: {
@@ -113,6 +121,8 @@ export default {
       this.restaurants = response.data
     },
 
+    // sendSelectedDate
+
     disableWeekends() {
       Date.now()
       const today = new Date();
@@ -122,7 +132,6 @@ export default {
 
       // Set max date (disable weekends after today)
       let maxDate = new Date(9999, 11, 31);
-
 
       // Set min and max date attributes
       this.minDate = minDate.toISOString().split('T')[0];
@@ -144,6 +153,8 @@ export default {
       this.isWeekendSelected = false;
     }
   },
+
+
   mounted() {
     // Call the method on mounted to initialize the date restrictions
     this.disableWeekends();

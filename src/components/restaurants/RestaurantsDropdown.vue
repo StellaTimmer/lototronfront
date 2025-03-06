@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     handleSelectedRestaurantChange(event) {
-      this.$emit('event-new-restaurant-selected', event.target.value)
+      this.$emit('event-new-restaurant-selected', Number(event.target.value))
     }
   }
 }
