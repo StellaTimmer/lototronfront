@@ -12,6 +12,12 @@ export default {
          //         time: '' sama asi teha, mis restodega tehtud, time Stringina.
          //         piirangud kellaaja valimisel
          //         Validations???
+         //
+         //         Mõte BUTTONIga siduda vali kp, aeg, koht - button kutsub välj ameetodi
+         //         Valideerib, et kõik väljad täidetud
+         //         (analoog sendtPostAtmLocatoion Requestsist (locationVie))
+         //
+         //          Siduda UserId kuidagi külge ??? Sesion storage?
 
      }
 
