@@ -1,34 +1,26 @@
-
 <template>
 
   <div>
 
-    <div class="container text-center">
-      <br>
-      <br>
-      <br>
+    <div class="container text-center mt-5">
 
       <div class="row">
 
-        <div> <h1 class="mb-5">LOO LÕUNA:</h1> </div>
+        <div><h1 class="mb-5">LOO LÕUNA:</h1></div>
 
+        <div class="col"><h3 class="mb-5">Vali kuupäev:</h3>
 
-        <div class="col">
-           <h3 class="mb-5">Vali kuupäev:</h3>
+          <!--      // kuupäeva valikuks kalender:-->
+          <div style="margin-bottom: 150px;">
+            <label for="date-picker">Valikus tööpäevad:</label><br>
 
-<!--      // kuupäeva valikuks kalender:-->
-          <div>
-            <label for="date-picker">Valikus tööpäevad:</label>
-            <br>
-            <h3>
-            <input
+            <h3><input
                 type="date"
                 id="date-picker"
                 v-model="selectedDate"
                 @click="disableWeekends"
                 @input="checkWeekend"
-            />
-            </h3>
+            /></h3>
 
             <!-- Modal for weekend error -->
             <div v-if="isWeekendSelected" class="modal">
@@ -38,36 +30,22 @@
               </div>
             </div>
 
-
             <p>Valitud kuupäev: {{ selectedDate }}</p>
           </div>
 
-          <div style="margin-bottom: 150px;"></div>
-
-          <div> <h3> Vali söögikoht: </h3> </div>
+          <div><h3> Vali söögikoht: </h3></div>
           <RestaurantsDropdown :available-restaurants="restaurants"
                                @event-new-restaurant-selected="setSelectedRestaurantId"
-
           />
-
-
 
         </div>
 
-
         <div class="col">
-
-          <div> <h3> Vali kellaaeg: </h3> </div>
-          <div style="margin-bottom: 80px;"></div>
-          <h3>
-          <input type="time" name="" id="">
-          </h3>
-
-          <div style="margin-bottom: 270px;"></div>
+          <div style="margin-bottom: 80px;"><h3> Vali kellaaeg: </h3></div>
+          <div style="margin-bottom: 270px;"><h3><input type="time" name="" id=""></h3></div>
 
           <div>
             <button type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
-
           </div>
 
         </div>
@@ -75,15 +53,11 @@
 
         <div class="col">
 
-          <div> <h5> Sinu lõunad: </h5> </div>
-          <div style="margin-bottom: 100px;"></div>
-          <div>
-            Tulemas:
-          </div>
-          <div style="margin-bottom: 80px;"></div>
-          <div>
-            Möödunud:
-          </div>
+          <div style="margin-bottom: 100px;"><h5> Sinu lõunad: </h5></div>
+
+          <div style="margin-bottom: 80px;"> Tulemas:</div>
+
+          <div>Möödunud:</div>
 
         </div>
 
@@ -132,7 +106,7 @@ export default {
     getRestaurants() {
       SelectedRestaurantService.sendGetRestaurantsRequest()
           .then(response => this.handleGetRestaurantsResponse(response))
-          .catch(()=>NavigationService.navigateToErrorView())
+          .catch(() => NavigationService.navigateToErrorView())
     },
 
     handleGetRestaurantsResponse(response) {
@@ -160,7 +134,7 @@ export default {
       const selected = new Date(this.selectedDate);
       const day = selected.getDay();
 
-      if (day === 0 || day === 6) { // Sunday (0) or Saturday (6)
+      if (day === 0 || day === 6) {
         this.isWeekendSelected = true;
       } else {
         this.isWeekendSelected = false;
@@ -178,7 +152,7 @@ export default {
 }
 
 
-
+// TODO: Siin L&P-päeva errori modal - lisada CSS faili Make-it-pretty faasis
 </script>
 
 <style scoped>
