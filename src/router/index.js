@@ -10,7 +10,7 @@ const routes = [
   },
   {
     path: '/register',
-    name: 'registrationRoute',
+    name: 'registerRoute',
     component: RegistrationView
   }
 

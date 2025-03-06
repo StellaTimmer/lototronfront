@@ -30,7 +30,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label">E-mail</label>
+          <label class="form-label">Kasutajanimi</label>
           <input v-model="username" type="text" class="form-control">
         </div>
         <div class="mb-3">
