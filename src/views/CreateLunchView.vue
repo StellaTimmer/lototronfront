@@ -20,7 +20,8 @@
                 v-model="selectedDate"
                 @click="disableWeekends"
                 @input="checkWeekend"
-            /></h3>
+            />
+            </h3>
 
             <!-- Modal for weekend error -->
             <div v-if="isWeekendSelected" class="modal">
@@ -34,8 +35,8 @@
           </div>
 
           <div><h3> Vali söögikoht: </h3></div>
-          <RestaurantsDropdown :available-restaurants="restaurants"
-                               @event-new-restaurant-selected="setSelectedRestaurantId"
+          <RestaurantsDropdown :restaurants="restaurants" :selected-restaurant-id="lunchEventDto.restaurantId"
+                               @event-new-restaurant-selected="setLunchEventDtoRestaurantId"
           />
 
         </div>
@@ -78,6 +79,8 @@
 import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
 import SelectedRestaurantService from "@/services/SelectedRestaurantService";
 import NavigationService from "@/services/NavigationService";
+import axios from "axios";
+import LunchEventService from "@/services/LunchEventService";
 
 export default {
   name: "CreateLunchView",
@@ -107,8 +110,32 @@ export default {
     };
   },
   methods: {
-    setSelectedRestaurantId(selectedRestaurantId) {
-      this.selectedRestaurantId = selectedRestaurantId
+
+
+    addNewLunchEvent() {
+      LunchEventService.sendPostLunchEventRequest(this.lunchEventDto)
+          .then(response => {this.someDataBlockResponseObject = response.data})
+          .catch(error => {this.someDataBlockErrorResponseObject = error.response.data})
+    },
+
+
+    ///Teeme meetodi, et saaks postida uue luncheventi
+    //sendPostAtmLocationRequest
+
+//      TODO: dellega saadame kaasa:
+//     lunchEventDto: {
+//         userId: 0, - välj auurida, kuidas saame userId, session Storage'ist?
+//         restaurantId: 0, - selectedRestaurantId - olemas
+//         paxTotal: 0, - muudatused Frondi kuvas ja kõikjla mujal kaaa
+//         paxAvailable: 0, - teha, et sätestatakse automaatselt : PaxTotal-1
+//         date: '', - peaaegu olemas "selectedDate" to date - >stringiks
+//         time: '' sama asi teha, mis restodega tehtud, time Stringina.
+//         piirangud kellaaja valimisel
+//         Validations???
+
+
+    setLunchEventDtoRestaurantId(selectedRestaurantId) {
+      this.lunchEventDto.restaurantId = selectedRestaurantId
     },
 
     getRestaurants() {

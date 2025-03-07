@@ -1,9 +1,9 @@
 <template>
 
   <div>
-    <select :value="selectedRestaurantId" @change="handleSelectedRestaurantChange" class="form-select" aria-label="Default select example">
+    <select :value="selectedRestaurantId" @change="handleSelectedRestaurantChange" class="form-select">
       <option value=0>Vali söögikoht</option>
-      <option v-for="restaurant in availableRestaurants" :value="restaurant.restaurantId">{{restaurant.restaurantName}}</option>
+      <option v-for="restaurant in restaurants" :key="restaurants.restaurantId" :value="restaurant.restaurantId">{{restaurant.restaurantName}}</option>
 
     </select>
 
@@ -17,7 +17,7 @@
 export default {
   name: "RestaurantsDropdown",
   props: {
-    availableRestaurants: {},
+    restaurants: {},
     selectedRestaurantId: {
       type: Number,
       default: 0

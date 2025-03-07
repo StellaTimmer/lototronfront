@@ -1,8 +1,13 @@
+import axios from "axios";
+
 export default {
 
-     sendPostLunchEventRequest() {
+     sendPostLunchEventRequest(lunchEventDto) {
+          return axios.post('/lunch-event', lunchEventDto);
+     },
 
-         //TODO: dellega saadame kaasa:
+
+     //TODO: dellega saadame kaasa:
          //     lunchEventDto: {
          //         userId: 0, - välj auurida, kuidas saame userId, session Storage'ist?
          //         restaurantId: 0, - selectedRestaurantId - olemas
@@ -19,7 +24,7 @@ export default {
          //
          //          Siduda UserId kuidagi külge ??? Sesion storage?
 
-     }
+
 
 
 
