@@ -29,12 +29,12 @@
                 <button @click="closeModal">Close</button>
               </div>
             </div>
-
-            <p>Valitud kuupäev: {{ selectedDate }}</p>
+            <p>{{lunchEventDto.date}}</p>
           </div>
 
           <div><h3> Vali söögikoht: </h3></div>
           <RestaurantsDropdown :available-restaurants="restaurants"
+                               :selected-restaurant-id="lunchEventDto.restaurantId"
                                @event-new-restaurant-selected="setSelectedRestaurantId"
           />
 
@@ -42,10 +42,14 @@
 
         <div class="col">
           <div style="margin-bottom: 80px;"><h3> Vali kellaaeg: </h3></div>
-          <div style="margin-bottom: 270px;"><h3><input type="time" name="" id=""></h3></div>
+          <div style="margin-bottom: 270px;"><h3><input type="time"
+                                                        v-model="lunchEventDto.time"
+                                                        name="timeInput"
+                                                        id="timeInput"></h3></div>
+
 
           <div>
-            <button type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
+            <button @click="createLunchEvent" type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
           </div>
 
         </div>
@@ -78,6 +82,8 @@
 import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
 import SelectedRestaurantService from "@/services/SelectedRestaurantService";
 import NavigationService from "@/services/NavigationService";
+import axios from "axios";
+import LunchEventService from "@/services/LunchEventService";
 
 export default {
   name: "CreateLunchView",
@@ -86,7 +92,6 @@ export default {
   data() {
     return {
       selectedRestaurantId: 0,
-      selectedDate: '',  // Holds the selected date
       minDate: '',  // Minimum allowable date
       maxDate: '',  // Maximum allowable date
       isWeekendSelected: false, // Flag to show weekend selection error
@@ -96,6 +101,7 @@ export default {
           restaurantName: ''
         }
       ],
+      isOkToCreateNewLunchEvent: false,
       lunchEventDto: {
         userId: 0,
         restaurantId: 0,
@@ -107,8 +113,9 @@ export default {
     };
   },
   methods: {
+
     setSelectedRestaurantId(selectedRestaurantId) {
-      this.selectedRestaurantId = selectedRestaurantId
+      this.lunchEventDto.selectedRestaurantId = selectedRestaurantId
     },
 
     getRestaurants() {
@@ -121,7 +128,33 @@ export default {
       this.restaurants = response.data
     },
 
-    // sendSelectedDate
+    createLunchEvent() {
+      if (this.allFieldsAreWithInput()) {
+        this.sendPostCreateLunchEventRequest();
+      } else {
+        this.alertMissingFields();
+      }
+    },
+    sendPostCreateLunchEventRequest() {
+      LunchEventService.sendPostLunchEventRequest(this.lunchEventDto)
+          .then(response => this.handlePostCreateLunchEventRequest(response))
+          .catch(error => this.handlePostCreateLunchEventErrorRequest(error))
+    },
+
+    allFieldsAreWithInput() {
+      //TODO:  Suts ridu, et vaadata, kas date + time + resto + id + paxud on olemas
+      return true;
+    },
+
+    alertMissingFields() {
+      //TODO:  nats meetodit siia ka
+    },
+
+
+    // Meetod - handleCreateLunchEvent(),
+
+
+
 
     disableWeekends() {
       Date.now()

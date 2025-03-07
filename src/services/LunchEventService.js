@@ -1,6 +1,14 @@
+import axios from "axios";
+
 export default {
 
-     sendPostLunchEventRequest() {
+     sendPostLunchEventRequest(lunchEventDto) {
+          return axios.post('/lunch-event', lunchEventDto);
+     },
+
+
+ //- 1. saadab backi info Dto
+ // - 2. pushib "uuele vaatele" (st kõrvale vaade uus lõuna sul PENDING)
 
          //TODO: dellega saadame kaasa:
          //     lunchEventDto: {
@@ -18,9 +26,6 @@ export default {
          //         (analoog sendtPostAtmLocatoion Requestsist (locationVie))
          //
          //          Siduda UserId kuidagi külge ??? Sesion storage?
-
-     }
-
 
 
 }
