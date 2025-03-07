@@ -8,29 +8,11 @@
 
         <div><h1 class="mb-5">LOO LÕUNA:</h1></div>
 
-        <div class="col"><h3 class="mb-5">Vali kuupäev:</h3>
+        <div class="col">
 
-          <!--      // kuupäeva valikuks kalender:-->
-          <div style="margin-bottom: 150px;">
-            <label for="date-picker">Valikus tööpäevad:</label><br>
-
-            <h3><input
-                type="date"
-                id="date-picker"
-                v-model="selectedDate"
-                @click="disableWeekends"
-                @input="checkWeekend"
-            /></h3>
-
-            <!-- Modal for weekend error -->
-            <div v-if="isWeekendSelected" class="modal">
-              <div class="modal-content">
-                <h3>Laupäevad ja pühapäevad ei ole valikus.</h3>
-                <button @click="closeModal">Close</button>
-              </div>
-            </div>
-            <p>{{lunchEventDto.date}}</p>
-          </div>
+          <DateSelector :date="lunchEventDto.date"
+                        @update:date="updateDate"
+          />
 
           <div><h3> Vali söögikoht: </h3></div>
           <RestaurantsDropdown :available-restaurants="restaurants"
@@ -40,12 +22,16 @@
 
         </div>
 
+
         <div class="col">
-          <div style="margin-bottom: 80px;"><h3> Vali kellaaeg: </h3></div>
-          <div style="margin-bottom: 270px;"><h3><input type="time"
-                                                        v-model="lunchEventDto.time"
-                                                        name="timeInput"
-                                                        id="timeInput"></h3></div>
+
+          <div>
+
+            <TimeSelector style="margin-bottom: 180px;"
+                :time="lunchEventDto.time"
+                @update:time="updateTime"
+            />
+
 
 
           <div>
@@ -54,13 +40,12 @@
 
         </div>
 
+        </div>
 
         <div class="col">
 
           <div style="margin-bottom: 100px;"><h5> Sinu lõunad: </h5></div>
-
           <div style="margin-bottom: 80px;"> Tulemas:</div>
-
           <div>Möödunud:</div>
 
         </div>
@@ -69,12 +54,12 @@
           Siia tulevad reklaamid
         </div>
 
-      </div>
+
     </div>
 
   </div>
 
-
+</div>
 </template>
 
 
@@ -82,20 +67,20 @@
 import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
 import SelectedRestaurantService from "@/services/SelectedRestaurantService";
 import NavigationService from "@/services/NavigationService";
-import axios from "axios";
 import LunchEventService from "@/services/LunchEventService";
+import DateSelector from "@/components/availability/DateSelector.vue";
+import TimeSelector from "@/components/availability/TimeSelector.vue";
 
 export default {
   name: "CreateLunchView",
-  components: {RestaurantsDropdown},
+  components: {TimeSelector, DateSelector, RestaurantsDropdown},
 
   data() {
     return {
       selectedRestaurantId: 0,
       minDate: '',  // Minimum allowable date
       maxDate: '',  // Maximum allowable date
-      isWeekendSelected: false, // Flag to show weekend selection error
-      restaurants: [
+       restaurants: [
         {
           restaurantId: 0,
           restaurantName: ''
@@ -115,13 +100,21 @@ export default {
   methods: {
 
     setSelectedRestaurantId(selectedRestaurantId) {
-      this.lunchEventDto.selectedRestaurantId = selectedRestaurantId
+      this.lunchEventDto.restaurantId = selectedRestaurantId
+    },
+
+    updateDate(newDate) {
+      this.lunchEventDto.date = newDate;
     },
 
     getRestaurants() {
       SelectedRestaurantService.sendGetRestaurantsRequest()
           .then(response => this.handleGetRestaurantsResponse(response))
           .catch(() => NavigationService.navigateToErrorView())
+    },
+
+    updateTime(newTime) {
+      this.lunchEventDto.time = newTime;
     },
 
     handleGetRestaurantsResponse(response) {
@@ -150,71 +143,15 @@ export default {
       //TODO:  nats meetodit siia ka
     },
 
-
-    // Meetod - handleCreateLunchEvent(),
-
-
-
-
-    disableWeekends() {
-      Date.now()
-      const today = new Date();
-
-      // Set min date (disable weekends before today)
-      let minDate = new Date(2000, 0, 1);
-
-      // Set max date (disable weekends after today)
-      let maxDate = new Date(9999, 11, 31);
-
-      // Set min and max date attributes
-      this.minDate = minDate.toISOString().split('T')[0];
-      this.maxDate = maxDate.toISOString().split('T')[0];
-    },
-
-    // Check if the selected date is a weekend
-    checkWeekend() {
-      const selected = new Date(this.selectedDate);
-      const day = selected.getDay();
-
-      if (day === 0 || day === 6) {
-        this.isWeekendSelected = true;
-      } else {
-        this.isWeekendSelected = false;
-      }
-    },
-    closeModal() {
-      this.isWeekendSelected = false;
-    }
   },
 
 
   mounted() {
     // Call the method on mounted to initialize the date restrictions
-    this.disableWeekends();
     this.getRestaurants();
   },
 }
 
-
-// TODO: Siin L&P-päeva errori modal - lisada CSS faili Make-it-pretty faasis
 </script>
 
-<style scoped>
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.modal-content {
-  background-color: #186671;
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-  width: 1200px;
-}
-
-button:hover {
-  background-color: #d7b710;
-}
-</style>
