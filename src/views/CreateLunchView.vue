@@ -34,7 +34,8 @@
           </div>
 
           <div><h3> Vali söögikoht: </h3></div>
-          <RestaurantsDropdown :restaurants="restaurants" :selected-restaurant-id="lunchEventDto.restaurantId"
+          <RestaurantsDropdown :restaurants="restaurants"
+                               :selected-restaurant-id="lunchEventDto.restaurantId"
                                @event-new-restaurant-selected="setLunchEventDtoRestaurantId"
           />
 
