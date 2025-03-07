@@ -44,6 +44,7 @@
 
 <script>
 import NavigationService from "@/services/NavigationService";
+import router from "@/router";
 
 export default {
   name: "LototronView",
@@ -54,16 +55,17 @@ export default {
 
 
   methods: {
+
+
     navigateToCreateLunchView() {
-      NavigationService.navigateToCreateLunchView()
+      NavigationService.navigateToCreateLunchView();
     },
 
 
-  navigateToJoinLunchView() {
-    NavigationService.navigateToJoinLunchView()
+    navigateToJoinLunchView() {
+      NavigationService.navigateToJoinLunchView();
+    },
   }
-
-  },
 
 }
 

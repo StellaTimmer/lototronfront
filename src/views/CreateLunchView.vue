@@ -42,8 +42,19 @@
         </div>
 
         <div class="col">
-          <div style="margin-bottom: 80px;"><h3> Vali kellaaeg: </h3></div>
-          <div style="margin-bottom: 270px;"><h3><input type="time" name="" id=""></h3></div>
+
+          <div style="margin-bottom: 80px;">
+            <h3> Vali kellaaeg: </h3>
+          </div>
+
+          <div style="margin-bottom: 270px;">
+            <h3><input type="time" name="" id=""></h3>
+          </div>
+          <div>
+            <h3>Kui palju on lõunatajaid?</h3>
+            <AttendanceSelector :initial-count="lunchEventDto.paxTotal"
+                                @attendance-updated="handleAttendanceUpdate"/>
+          </div>
 
           <div>
             <button type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
@@ -81,10 +92,11 @@ import SelectedRestaurantService from "@/services/SelectedRestaurantService";
 import NavigationService from "@/services/NavigationService";
 import axios from "axios";
 import LunchEventService from "@/services/LunchEventService";
+import AttendanceSelector from "@/components/attendanceselector/AttendanceSelector.vue";
 
 export default {
   name: "CreateLunchView",
-  components: {RestaurantsDropdown},
+  components: {AttendanceSelector, RestaurantsDropdown},
 
   data() {
     return {
@@ -111,6 +123,12 @@ export default {
   },
   methods: {
 
+    handleAttendanceUpdate(data) {
+      this.lunchEventDto.paxTotal = data.paxTotal
+      this.lunchEventDto.paxAvailable = data.paxAvailable
+
+    },
+
 
     addNewLunchEvent() {
       LunchEventService.sendPostLunchEventRequest(this.lunchEventDto)
@@ -118,14 +136,13 @@ export default {
           .catch(error => {this.someDataBlockErrorResponseObject = error.response.data})
     },
 
-
-    ///Teeme meetodi, et saaks postida uue luncheventi
-    //sendPostAtmLocationRequest
+    getUserIdFromSession() {
+      const userId = sessionStorage.getItem('userId');
+      return userId ? JSON.parse(userId) : 0;
+    },
 
 //      TODO: dellega saadame kaasa:
 //     lunchEventDto: {
-//         userId: 0, - välj auurida, kuidas saame userId, session Storage'ist?
-//         restaurantId: 0, - selectedRestaurantId - olemas
 //         paxTotal: 0, - muudatused Frondi kuvas ja kõikjla mujal kaaa
 //         paxAvailable: 0, - teha, et sätestatakse automaatselt : PaxTotal-1
 //         date: '', - peaaegu olemas "selectedDate" to date - >stringiks
@@ -176,17 +193,20 @@ export default {
         this.isWeekendSelected = false;
       }
     },
+
     closeModal() {
       this.isWeekendSelected = false;
     }
   },
 
-
-  mounted() {
-    // Call the method on mounted to initialize the date restrictions
+  beforeMount() {
+    this.lunchEventDto.userId = this.getUserIdFromSession();
     this.disableWeekends();
     this.getRestaurants();
   },
+
+
+
 }
 
 

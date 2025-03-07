@@ -15,5 +15,15 @@ export default {
 
     navigateToHomeView() {
         router.push({name: 'homeRoute'})
-    }
+    },
+
+    navigateToCreateLunchView() {
+        router.push({name: 'createLunchRoute'})
+    },
+
+    navigateToJoinLunchView() {
+        router.push({name: 'joinLunchRoute'})
+    },
+
+
 }
