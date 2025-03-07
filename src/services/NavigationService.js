@@ -9,12 +9,21 @@ export default {
         router.push({name: 'lototronRoute'})
     },
 
-
     navigateToRegisterView() {
-        router.push({name: 'registrationRoute'})
+        router.push({name: 'registerRoute'})
     },
 
     navigateToHomeView() {
         router.push({name: 'homeRoute'})
-    }
+    },
+
+    navigateToCreateLunchView() {
+        router.push({name: 'createLunchRoute'})
+    },
+
+    navigateToJoinLunchView() {
+        router.push({name: 'joinLunchRoute'})
+    },
+
+
 }
