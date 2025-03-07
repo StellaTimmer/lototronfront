@@ -17,7 +17,7 @@
             <h3><input
                 type="date"
                 id="date-picker"
-                v-model="selectedDate"
+                v-model="lunchEventDto.date"
                 @click="disableWeekends"
                 @input="checkWeekend"
             />
@@ -30,8 +30,7 @@
                 <button @click="closeModal">Close</button>
               </div>
             </div>
-
-            <p>Valitud kuupäev: {{ selectedDate }}</p>
+            <p>{{lunchEventDto.date}}</p>
           </div>
 
           <div><h3> Vali söögikoht: </h3></div>
@@ -42,26 +41,26 @@
         </div>
 
         <div class="col">
+          <div style="margin-bottom: 80px;"><h3> Vali kellaaeg: </h3></div>
+          <div style="margin-bottom: 270px;"><h3><input type="time"
+                                                        v-model="lunchEventDto.time"
+                                                        name="timeInput"
+                                                        id="timeInput"></h3></div>
 
-          <div style="margin-bottom: 80px;">
-            <h3> Vali kellaaeg: </h3>
-          </div>
 
-          <div style="margin-bottom: 270px;">
-            <h3><input type="time" name="" id=""></h3>
-          </div>
           <div>
             <h3>Kui palju on lõunatajaid?</h3>
             <AttendanceSelector :initial-count="lunchEventDto.paxTotal"
-                                @attendance-updated="handleAttendanceUpdate"/>
+                                @attendance-updated="handleAttendanceUpdate"
+            />
           </div>
 
+
           <div>
-            <button type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
+            <button @click="addNewLunchEvent" type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
           </div>
 
         </div>
-
 
         <div class="col">
 
@@ -100,7 +99,6 @@ export default {
   data() {
     return {
       selectedRestaurantId: 0,
-      selectedDate: '',  // Holds the selected date
       minDate: '',  // Minimum allowable date
       maxDate: '',  // Maximum allowable date
       isWeekendSelected: false, // Flag to show weekend selection error
@@ -110,6 +108,7 @@ export default {
           restaurantName: ''
         }
       ],
+      isOkToCreateNewLunchEvent: false,
       lunchEventDto: {
         userId: 0,
         restaurantId: 0,
@@ -128,15 +127,14 @@ export default {
 
     },
 
-
     addNewLunchEvent() {
       LunchEventService.sendPostLunchEventRequest(this.lunchEventDto)
-          .then(response => {
-            this.someDataBlockResponseObject = response.data
-          })
-          .catch(error => {
-            this.someDataBlockErrorResponseObject = error.response.data
-          })
+          // .then(response => {
+          //   this.someDataBlockResponseObject = response.data
+          // })
+          // .catch(error => {
+          //   this.someDataBlockErrorResponseObject = error.response.data
+          // })
     },
 
     getUserIdFromSession() {
@@ -146,13 +144,10 @@ export default {
 
 //      TODO: dellega saadame kaasa:
 //     lunchEventDto: {
-//         paxTotal: 0, - muudatused Frondi kuvas ja kõikjla mujal kaaa
-//         paxAvailable: 0, - teha, et sätestatakse automaatselt : PaxTotal-1
 //         date: '', - peaaegu olemas "selectedDate" to date - >stringiks
 //         time: '' sama asi teha, mis restodega tehtud, time Stringina.
 //         piirangud kellaaja valimisel
 //         Validations???
-
 
     setLunchEventDtoRestaurantId(selectedRestaurantId) {
       this.lunchEventDto.restaurantId = selectedRestaurantId
@@ -167,8 +162,6 @@ export default {
     handleGetRestaurantsResponse(response) {
       this.restaurants = response.data
     },
-
-    // sendSelectedDate
 
     disableWeekends() {
       Date.now()

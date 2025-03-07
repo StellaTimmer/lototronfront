@@ -1,19 +1,15 @@
 <template>
-
   <div>
     <select class="form-select" v-model="attendeeCount" @change="updateValues">
       <option disabled value="">Lõunatajate arv</option>
       <option v-for="n in 9" :key="n" :value="n + 1">{{ n + 1 }}</option>
     </select>
   </div>
-
 </template>
 
 <script>
-
 export default {
   name: "AttendanceSelector",
-
   props: {
     initialCount: {
       type: Number,
