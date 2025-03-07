@@ -11,7 +11,7 @@
         <br>
         <br>
         <br>
-        <button @click="navigateToCreateLunchView" type="button" class="btn btn-warning btn-lg" >Loo lõuna</button>
+        <button @click="navigateToCreateLunchView" type="button" class="btn btn-warning btn-lg">Loo lõuna</button>
         <br>
         <br>
         <br>
@@ -44,7 +44,6 @@
 
 <script>
 import NavigationService from "@/services/NavigationService";
-import router from "@/router";
 
 export default {
   name: "LototronView",

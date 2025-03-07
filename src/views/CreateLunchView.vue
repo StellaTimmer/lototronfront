@@ -90,7 +90,6 @@
 import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
 import SelectedRestaurantService from "@/services/SelectedRestaurantService";
 import NavigationService from "@/services/NavigationService";
-import axios from "axios";
 import LunchEventService from "@/services/LunchEventService";
 import AttendanceSelector from "@/components/attendanceselector/AttendanceSelector.vue";
 
@@ -132,8 +131,12 @@ export default {
 
     addNewLunchEvent() {
       LunchEventService.sendPostLunchEventRequest(this.lunchEventDto)
-          .then(response => {this.someDataBlockResponseObject = response.data})
-          .catch(error => {this.someDataBlockErrorResponseObject = error.response.data})
+          .then(response => {
+            this.someDataBlockResponseObject = response.data
+          })
+          .catch(error => {
+            this.someDataBlockErrorResponseObject = error.response.data
+          })
     },
 
     getUserIdFromSession() {
@@ -204,7 +207,6 @@ export default {
     this.disableWeekends();
     this.getRestaurants();
   },
-
 
 
 }
