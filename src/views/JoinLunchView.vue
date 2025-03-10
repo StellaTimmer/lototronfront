@@ -1,27 +1,25 @@
 <template>
   <div class="container mt-4">
-    <h1 class="text-center mb-4">Liitu Lõunaga</h1>
+    <h1 class="text-center mb-4">Liitu lõunaga</h1>
 
     <div class="row">
+      <!--Kutsume CalendarView välja-->
       <div class="col-md-6">
-        <!-- Calendar component -->
         <div class="card mb-4">
           <div class="card-header">
             <h4>Vali kuupäev</h4>
           </div>
           <div class="card-body py-3">
-            <CalendarView
-                :events="calendarEvents"
-                :selectedDate="selectedDate"
-                @date-selected="handleDateSelected"
-                @month-changed="handleMonthChanged"
+            <CalendarView :events="calendarEvents"
+                          :selectedDate="selectedDate"
+                          @date-selected="handleDateSelected"
+                          @month-changed="handleMonthChanged"
             />
           </div>
         </div>
       </div>
-
+      <!--Kutsume MyEvents välja-->
       <div class="col-md-6">
-        <!-- My upcoming lunch events component -->
         <div class="card mb-4">
           <div class="card-header">
             <h4>Minu lõunad</h4>
@@ -29,57 +27,47 @@
           <div class="card-body">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
-                <button
-                    class="nav-link active"
-                    id="upcoming-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#upcoming-tab-pane"
-                    type="button"
-                    role="tab"
-                    aria-controls="upcoming-tab-pane"
-                    aria-selected="true"
-                >
+                <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab"
+                        data-bs-target="#upcoming-tab-pane" type="button" role="tab"
+                        aria-controls="upcoming-tab-pane" aria-selected="true">
                   Tulemas
                 </button>
               </li>
               <li class="nav-item" role="presentation">
-                <button
-                    class="nav-link"
-                    id="past-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#past-tab-pane"
-                    type="button"
-                    role="tab"
-                    aria-controls="past-tab-pane"
-                    aria-selected="false"
-                >
+                <button class="nav-link" id="past-tab" data-bs-toggle="tab"
+                        data-bs-target="#past-tab-pane" type="button" role="tab"
+                        aria-controls="past-tab-pane" aria-selected="false">
                   Möödunud
                 </button>
               </li>
             </ul>
 
             <div class="tab-content pt-3" id="myTabContent">
-              <div class="tab-pane fade show active" id="upcoming-tab-pane" role="tabpanel" aria-labelledby="upcoming-tab" tabindex="0">
-                <p v-if="upcomingEvents.length === 0" class="text-muted">Sul pole tulevaid lõunaid.</p>
+              <!--Tulemas evendid-->
+              <div class="tab-pane fade show active" id="upcoming-tab-pane" role="tabpanel"
+                   aria-labelledby="upcoming-tab" tabindex="0">
+                <p v-if="upcomingMyEvents.length === 0" class="text-muted">Sul pole tulevaid lõunaid.</p>
                 <ul v-else class="list-group">
-                  <li v-for="event in upcomingEvents" :key="event.id" class="list-group-item d-flex justify-content-between align-items-center">
+                  <li v-for="event in upcomingMyEvents" :key="event.id"
+                      class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                      <strong>{{ formatDateDisplay(event.date) }}</strong> kell {{ event.time }}
-                      <br />
+                      <strong>{{ formatDateDisplayToEstonian(event.date) }}</strong> kell {{ event.time }}
+                      <br/>
                       <span class="text-muted">{{ event.restaurantName }}</span>
                     </div>
                     <span class="badge bg-primary rounded-pill">{{ event.paxTotal }} inimest</span>
                   </li>
                 </ul>
               </div>
-
+              <!--Möödunud evendid-->
               <div class="tab-pane fade" id="past-tab-pane" role="tabpanel" aria-labelledby="past-tab" tabindex="0">
-                <p v-if="pastEvents.length === 0" class="text-muted">Sul pole möödunud lõunaid.</p>
+                <p v-if="pastMyEvents.length === 0" class="text-muted">Sul pole möödunud lõunaid.</p>
                 <ul v-else class="list-group">
-                  <li v-for="event in pastEvents" :key="event.id" class="list-group-item d-flex justify-content-between align-items-center">
+                  <li v-for="event in pastMyEvents" :key="event.id"
+                      class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                      <strong>{{ formatDateDisplay(event.date) }}</strong> kell {{ event.time }}
-                      <br />
+                      <strong>{{ formatDateDisplayToEstonian(event.date) }}</strong> kell {{ event.time }}
+                      <br/>
                       <span class="text-muted">{{ event.restaurantName }}</span>
                     </div>
                     <span class="badge bg-secondary rounded-pill">{{ event.paxTotal }} inimest</span>
@@ -91,8 +79,7 @@
         </div>
       </div>
     </div>
-
-    <!-- Lunch events table for selected date -->
+    <!--Evendid valitud kuupäeval-->
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -105,7 +92,7 @@
             </p>
 
             <p v-else-if="eventsForSelectedDate.length === 0" class="text-center text-muted">
-              Sellel päeval pole lõunasündmusi.
+              Sellel päeval pole veel keegi korraldanud lõunat.
             </p>
 
             <table v-else class="table table-hover">
@@ -130,10 +117,10 @@
                 <td>{{ event.paxTotal }}</td>
                 <td>{{ event.paxAvailable }}</td>
                 <td>
-                  <!-- Already joined indicator -->
+                  <!--Juba liitunud evendiga-->
                   <span v-if="hasUserJoinedEvent(event.id)" class="badge bg-success">Juba liitunud</span>
 
-                  <!-- Join button (disabled if full or already joined) -->
+                  <!--Liitumine evendiga-->
                   <button
                       v-else
                       class="action-button yellow"
@@ -147,14 +134,13 @@
               </tbody>
             </table>
 
-            <!-- Join confirmation section -->
+            <!--liitumise kinnitamine-->
             <div v-if="selectedEvent" class="mt-3 p-3 border rounded bg-light">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
                   <strong>Valitud:</strong> {{ selectedEvent.restaurantName }} kell {{ selectedEvent.time }}
                 </div>
 
-                <!-- Show different message if already joined -->
                 <div v-if="hasUserJoinedEvent(selectedEvent.id)" class="text-success">
                   <strong>Oled juba selle lõunaga liitunud!</strong>
                 </div>
@@ -163,12 +149,11 @@
                     class="action-button yellow"
                     @click="confirmJoin"
                 >
-                  Kinnita liitumine
+                  Kinnita
                 </button>
               </div>
             </div>
 
-            <!-- Success alert -->
             <div v-if="joinSuccess" class="alert alert-success mt-3">
               Oled edukalt liitunud lõunasündmusega!
             </div>
@@ -181,114 +166,48 @@
 
 <script>
 import CalendarView from '@/components/lunchevent/CalendarView.vue';
-import axios from 'axios';
 
 export default {
   name: 'JoinLunchView',
-  components: {
-    CalendarView
-  },
+  components: {CalendarView},
   data() {
     return {
       selectedDate: new Date(),
       selectedEvent: null,
       joinSuccess: false,
       isLoading: false,
-      userId: null, // Will be set from session storage
-      // Mock events data - would be fetched from an API in a real application
+      userId: null,
       lunchEvents: [
         {
-          id: 1,
-          date: '2025-03-10',
-          time: '12:00',
-          restaurantName: 'Vapiano',
-          paxTotal: 4,
-          paxAvailable: 2,
-          status: 'available'
-        },
-        {
-          id: 2,
-          date: '2025-03-10',
-          time: '13:00',
-          restaurantName: 'Lendav Taldrik',
-          paxTotal: 6,
-          paxAvailable: 3,
-          status: 'available'
-        },
-        {
-          id: 3,
-          date: '2025-03-11',
-          time: '12:30',
-          restaurantName: 'Ülo Resto',
-          paxTotal: 3,
+          id: 0,
+          date: '',
+          time: '',
+          restaurantName: '',
+          paxTotal: 0,
           paxAvailable: 0,
-          status: 'full'
+          status: ''
         },
-        {
-          id: 4,
-          date: '2025-03-14',
-          time: '12:15',
-          restaurantName: 'Kohvik Moon',
-          paxTotal: 5,
-          paxAvailable: 2,
-          status: 'available'
-        }
       ],
-      // My events - this keeps track of which events the user has joined
       myEvents: [
         {
-          id: 101,
-          lunchEventId: 3, // This connects to the lunch event with ID 3
-          date: '2025-03-11',
-          time: '12:30',
-          restaurantName: 'Ülo Resto',
-          paxTotal: 3,
-          status: 'upcoming'
+          id: 0,
+          lunchEventId: 0,
+          date: '',
+          time: '',
+          restaurantName: '',
+          paxTotal: 0,
+          status: ''
         },
-        {
-          id: 102,
-          lunchEventId: 4, // This connects to the lunch event with ID 4 (but dated as past)
-          date: '2025-03-05',
-          time: '13:30',
-          restaurantName: 'Karja Kelder',
-          paxTotal: 4,
-          status: 'past'
-        }
       ]
     };
   },
   computed: {
-    // Format events for the calendar component
+
     calendarEvents() {
-      // Group events by date to determine which days have events
-      const eventsByDate = {};
-
-      this.lunchEvents.forEach(event => {
-        // Extract just the date part (YYYY-MM-DD)
-        const eventDate = event.date;
-
-        if (!eventsByDate[eventDate]) {
-          eventsByDate[eventDate] = [];
-        }
-
-        eventsByDate[eventDate].push(event);
-      });
-
-      // Convert to array format expected by calendar
-      return Object.keys(eventsByDate).map(date => {
-        // Check if there are any available events for this date
-        const hasAvailableEvents = eventsByDate[date].some(event =>
-            event.paxAvailable > 0 && !this.hasUserJoinedEvent(event.id)
-        );
-
-        return {
-          date: date,
-          status: hasAvailableEvents ? 'available' : 'full'
-        };
-      });
+      const eventsByDate = this.groupEventsByDate(this.lunchEvents);
+      return this.formatEventsForCalendar(eventsByDate);
     },
 
-    // Events for the selected date
     eventsForSelectedDate() {
       if (!this.selectedDate) return [];
 
@@ -296,23 +215,18 @@ export default {
       return this.lunchEvents.filter(event => event.date === formattedDate);
     },
 
-    // Upcoming events for the user
-    upcomingEvents() {
+    upcomingMyEvents() {
       return this.myEvents.filter(event => event.status === 'upcoming');
     },
 
-    // Past events for the user
-    pastEvents() {
+    pastMyEvents() {
       return this.myEvents.filter(event => event.status === 'past');
     }
+
   },
-  mounted() {
-    // Get user ID from session storage
-    this.userId = this.getUserId();
-    this.fetchLunchEvents();
-    this.fetchMyEvents();
-  },
+
   methods: {
+
     handleDateSelected(date) {
       this.selectedDate = date;
       this.selectedEvent = null;
@@ -321,13 +235,11 @@ export default {
     },
 
     handleMonthChanged(date) {
-      // Fetch events for the new month
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
       this.fetchLunchEventsForMonth(year, month);
     },
 
-    // Check if the current user has already joined this event
     hasUserJoinedEvent(eventId) {
       return this.myEvents.some(myEvent =>
           myEvent.lunchEventId === eventId && myEvent.status === 'upcoming'
@@ -335,7 +247,6 @@ export default {
     },
 
     selectEvent(event) {
-      // Don't reset selection if the event is already selected
       if (this.selectedEvent && this.selectedEvent.id === event.id) return;
 
       this.selectedEvent = event;
@@ -343,7 +254,6 @@ export default {
     },
 
     joinEvent(event) {
-      // Don't allow joining full events or events already joined
       if (event.paxAvailable === 0 || this.hasUserJoinedEvent(event.id)) return;
 
       this.selectEvent(event);
@@ -415,8 +325,7 @@ export default {
       return `${year}-${month}-${day}`;
     },
 
-    // Format date for display
-    formatDateDisplay(dateStr) {
+    formatDateDisplayToEstonian(dateStr) {
       const date = new Date(dateStr);
       return date.toLocaleDateString('et-EE', {
         month: 'long',
@@ -424,12 +333,10 @@ export default {
       });
     },
 
-    // Get user ID from session storage
-    getUserId() {
+    getUserIdFromSessionStorage() {
       return sessionStorage.getItem('userId') || 0;
     },
 
-    // API calls (simulated)
     fetchLunchEvents(date) {
       this.isLoading = true;
 
@@ -481,8 +388,49 @@ export default {
       //   .catch(error => {
       //     console.error('Error fetching my events:', error);
       //   });
+    },
+
+    groupEventsByDate(events) {
+      const groupedEvents = {};
+
+      events.forEach(event => {
+        const eventDate = event.date;
+
+        if (!groupedEvents[eventDate]) {
+          groupedEvents[eventDate] = [];
+        }
+
+        groupedEvents[eventDate].push(event);
+      });
+
+      return groupedEvents;
+    },
+
+    dateHasAvailableEvents(eventsForDate) {
+      return eventsForDate.some(event =>
+          event.paxAvailable > 0 && !this.hasUserJoinedEvent(event.id)
+      );
+    },
+
+    formatEventsForCalendar(groupedEvents) {
+      return Object.keys(groupedEvents).map(date => {
+        const hasAvailableEvents = this.dateHasAvailableEvents(groupedEvents[date]);
+
+        return {
+          date: date,
+          status: hasAvailableEvents ? 'available' : 'full'
+        };
+      });
     }
-  }
+
+  },
+
+  mounted() {
+    this.userId = this.getUserIdFromSessionStorage();
+    this.fetchLunchEvents();
+    this.fetchMyEvents();
+  },
+
 };
 </script>
 

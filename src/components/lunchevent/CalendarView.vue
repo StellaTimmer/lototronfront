@@ -1,6 +1,6 @@
 <template>
   <div class="calendar-container">
-<!--     Kalendri vaade kuu, aasta ja navigatsiooniga -->
+<!--     Kuu ja aastavaade ja navigatsiooniga -->
     <div class="calendar-header d-flex justify-content-between align-items-center mb-3">
       <button class="action-button yellow" @click="prevMonth">
         <font-awesome-icon icon="chevron-left" />
@@ -69,7 +69,8 @@ export default {
     };
   },
 
-  computed: {  //arvutab uuesti määratletud atribuudid kui nende sõltuvused muutuvad
+  //arvutab uuesti määratletud atribuudid kui nende sõltuvused muutuvad
+  computed: {
     currentYear() {
       return this.currentDate.getFullYear();
     },
@@ -83,45 +84,34 @@ export default {
           .toLocaleString('et-EE', { month: 'long' });
     },
 
-    // Calculate the starting day offset (how many empty cells before the first day)
     startingDayOffset() {
       const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-      // Converting from Sunday-based (0-6) to Monday-based (0-4) for weekdays only
-      // If Sunday (0), return 5, else adjust by 1 (Monday = 0, Tuesday = 1, etc.)
-      return firstDay === 0 ? 5 : firstDay - 1;
+      return this.convertToMondayBased(firstDay);
     },
 
-    // Get all weekdays (Mon-Fri) in the current month
     weekdaysInMonth() {
       const days = [];
-      const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+      const daysInMonth = this.getDaysInMonth();
 
       for (let i = 1; i <= daysInMonth; i++) {
-        const date = new Date(this.currentYear, this.currentMonth, i);
-        const dayOfWeek = date.getDay();
-
-        // Only include weekdays (Monday-Friday: 1-5)
-        if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-          days.push({
-            date: i,
-            dayOfWeek: dayOfWeek,
-            fullDate: new Date(date)
-          });
-        }
+        if (this.isWeekday(i)) {days.push(this.createDayObject(i));}
       }
       return days;
     }
   },
 
+  //
   watch: {
-    // Watch for external changes to the selected date
+
     selectedDate(newDate) {
       if (newDate) {
         this.internalSelectedDate = new Date(newDate);
       }
     }
   },
+
   methods: {
+
     prevMonth() {
       const newDate = new Date(this.currentDate);
       newDate.setMonth(newDate.getMonth() - 1);
@@ -141,41 +131,70 @@ export default {
       this.$emit('date-selected', date);
     },
 
-    // Check if a date has lunch events
+    //make it pretty
     hasLunchEvents(date) {
       const dateStr = this.formatDate(date);
 
-      // Check events array for matching date with available status
       return this.events.some(event => {
-        // If event.date is a date object, format it first
-        const eventDate = typeof event.date === 'object'
-            ? this.formatDate(event.date)
-            : (typeof event.date === 'number'
-                ? this.formatDate(new Date(this.currentYear, this.currentMonth, event.date))
-                : event.date);
+        let eventDate;
+        if (typeof event.date === 'object') {
+          eventDate = this.formatDate(event.date);
+        } else {
+          if (typeof event.date === 'number') {
+            eventDate = this.formatDate(new Date(this.currentYear, this.currentMonth, event.date));
+          } else {
+            eventDate = event.date;
+          }
+        }
 
         return eventDate === dateStr && event.status === 'available';
       });
     },
 
-    // Check if a date is the currently selected date
     isSelectedDate(date) {
       return this.formatDate(date) === this.formatDate(this.internalSelectedDate);
     },
 
-    // Check if a date is today
     isToday(date) {
       return this.formatDate(date) === this.formatDate(this.today);
     },
 
-    // Format date to YYYY-MM-DD for comparison
     formatDate(date) {
       const d = new Date(date);
       const year = d.getFullYear();
       const month = String(d.getMonth() + 1).padStart(2, '0');
       const day = String(d.getDate()).padStart(2, '0');
       return `${year}-${month}-${day}`;
+    },
+
+    convertToMondayBased(day) {
+      if (day === 0) {
+        return 5;
+      } else {
+        return day - 1;
+      }
+    },
+
+    getDaysInMonth() {
+      return new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+    },
+
+    isWeekday(dayOfMonth) {
+      const date = new Date(this.currentYear, this.currentMonth, dayOfMonth);
+      const dayOfWeek = date.getDay();
+      return dayOfWeek >= 1 && dayOfWeek <= 5;
+    },
+
+    createDayObject(dayOfMonth) {
+      const date = new Date(this.currentYear, this.currentMonth, dayOfMonth);
+      return {
+        date: dayOfMonth,
+        dayOfWeek: date.getDay(),
+        fullDate: new Date(date)
+      };
     }
+
+
   }
 };
 </script>
