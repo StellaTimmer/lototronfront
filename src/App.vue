@@ -2,12 +2,32 @@
 
   <div>
     <nav>
-    <router-link to="/">Lototron</router-link>
+      <MainMenu v-if="isLoggedIn" @logout="handleLogout" />
+      <router-view @login="handleLogin"/>
   </nav>
-    <router-view/>
-  </div>
 
+  </div>
 </template>
 
 <script>
+import MainMenu from "./components/MainMenu.vue";
+
+export default {
+components: {
+MainMenu
+},
+  data() {
+  return {
+    isLoggedIn: false
+  };
+  },
+methods: {
+  handleLogin() {
+    this.isLoggedIn = true;
+  },
+  handleLogout() {
+    this.isLoggedIn = false;
+  }
+}
+};
 </script>

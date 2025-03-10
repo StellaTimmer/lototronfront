@@ -1,0 +1,31 @@
+/* Bännerite konteiner */
+.ad-banner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Kaugus bännerite vahel */
+    overflow: hidden;  /* Peidab kõik, mis ületab määratud suuruse */
+}
+
+/* Bänneri pilt */
+.ad-banner {
+    width: 100%;           /* Pilt täidab kogu oma konteineri laiusest */
+    max-width: 400px;      /* Piirame maksimaalselt laius 400px */
+    height: auto;          /* Kõrgus määratakse automaatselt */
+    border-radius: 10px;   /* Ümarad nurgad */
+    cursor: pointer;       /* Muudame kursori, et näidata, et pilt on klikitav */
+    transition: transform 0.3s ease; /* Sujuv animatsioon */
+}
+
+/* Bänneri hover efekt */
+.ad-banner:hover {
+    transform: scale(1.05); /* Suurendab pilti */
+}
+
+/* Eemaldab bännerite ümber oleva valge ala */
+.ad-link {
+    display: block;
+    width: 100%;
+    height: 100%;  /* Täidab kogu oma konteineri */
+    text-decoration: none; /* Eemaldab lingi alajaotuse */
+}
