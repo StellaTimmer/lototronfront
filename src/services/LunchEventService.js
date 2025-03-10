@@ -7,7 +7,10 @@ export default {
      },
 
 
-     //TODO: dellega saadame kaasa:
+ //- 1. saadab backi info Dto
+ // - 2. pushib "uuele vaatele" (st kõrvale vaade uus lõuna sul PENDING)
+
+         //TODO: dellega saadame kaasa:
          //     lunchEventDto: {
          //         userId: 0, - välj auurida, kuidas saame userId, session Storage'ist?
          //         restaurantId: 0, - selectedRestaurantId - olemas
@@ -23,9 +26,6 @@ export default {
          //         (analoog sendtPostAtmLocatoion Requestsist (locationVie))
          //
          //          Siduda UserId kuidagi külge ??? Sesion storage?
-
-
-
 
 
 }
