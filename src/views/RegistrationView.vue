@@ -112,7 +112,7 @@ export default {
             .catch((error) => {
               if (error.response && error.response.status === 409) {
                 this.errorMessage = "Kasutaja on juba olemas";
-              } else {    addNewUser();{
+              } else {this.addNewUser();{
                 if (!this.allFieldsWithCorrectInput()) {
                   this.alertMissingFields();
                 } else if (this.passwordNoMatch()) {
