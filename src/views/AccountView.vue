@@ -27,7 +27,6 @@
               <li class="nav-item">
                 <router-link to="/kuisimuude-generatoor" class="nav-link">Küsimuste Generaator</router-link>
               </li>
-              <!-- Logi välja nupp -->
               <li class="nav-item">
                 <button @click="logout" class="btn btn-danger action-button red">Logi välja</button>
               </li>
@@ -37,19 +36,14 @@
       </div>
     </div>
 
-    <!-- Profiilipilt ja pildihaldusnupud -->
     <div class="row my-4">
       <div class="col-md-6">
         <ProfileImage /> <!-- Profiilipildi komponent -->
-
         <button @click="isEditProfileModal = true" class="action-button yellow me-3">Muuda andmeid</button>
-        <button @click="isChangePasswordModal = true" class="action-button yellow me-3">Vaheta parool</button>
+        <button @click="openChangePasswordModal" class="action-button yellow me-3">Vaheta parool</button> <!-- Siin lisasime nupu parooli vahetamiseks -->
         <button @click="isDeleteAccountModal = true" class="action-button delete-button">Kustuta konto</button>
       </div>
-      <div class="col-md-1">
-
-
-      </div>
+      <div class="col-md-1"></div>
       <!-- Bännerite osa -->
       <div class="col-md-3">
         <a href="https://rotermann.ee/tana-lounaks/" target="_blank" class="ad-link">
@@ -64,40 +58,44 @@
       </div>
     </div>
 
-    <!-- Kolmas rida: Nupud -->
-    <div class="row buttons-row">
-      <div class="col">
-
-
-
-
-      </div>
-      <div class="col">
-      </div>
-      <div class="col">
-      </div>
-    </div>
-
     <!-- Modal aknad -->
-    <EditProfileModal v-if="isEditProfileModal" @close="isEditProfileModal = false"/>
-    <ChangePasswordModal v-if="isChangePasswordModal" @close="isChangePasswordModal = false"/>
+    <ChangePasswordModal
+        v-if="isChangePasswordModal"
+    :is-modal-open="isChangePasswordModal"
+    @close="isChangePasswordModal = false"
+    @submit="updatePassword"
+    />
+    <ChangeDataModal
+        :isModalOpen="isEditProfileModal"
+        :currentUserData="userData"
+        @submit="updateUserData"
+        @close="closeModal"
+    />
     <DeleteAccountModal v-if="isDeleteAccountModal" @close="isDeleteAccountModal = false" @confirm="handleDeleteAccount" />
   </div>
 </template>
 
 <script>
 import ProfileImage from "@/components/account/ProfileImage.vue"; // Impordi profiilipilt
+import ChangeDataModal from "@/components/modal/ChangeDataModal.vue"; // Impordi ChangeDataModal
+import ChangePasswordModal from "@/components/modal/ChangePasswordModal.vue"; // Impordi ChangePasswordModal
 
 export default {
   name: "AccountView",
   components: {
-    ProfileImage: ProfileImage,  // Profiilipilt
+    ProfileImage: ProfileImage,
+    ChangeDataModal: ChangeDataModal,
+    ChangePasswordModal: ChangePasswordModal, // Lisame ChangePasswordModal komponenti
   },
   data() {
     return {
-      // Muud andmed
+      userData: {
+        firstName: "Rain",
+        lastName: "Smith",
+        phone: "12345678",
+      },
       isEditProfileModal: false,
-      isChangePasswordModal: false,
+      isChangePasswordModal: false, // Modal parooli muutmiseks
       isDeleteAccountModal: false,
     };
   },
@@ -110,18 +108,27 @@ export default {
     handleDeleteAccount() {
       // Konto kustutamise loogika
     },
+    updateUserData(updatedData) {
+      this.userData = updatedData;
+      console.log("Kinnitatud andmed:", updatedData);
+    },
+    updatePassword(passwordData) {
+      console.log("Muudetud parool:", passwordData);
+      // Siin saad parooli muuta backendis või teha täiendavaid toiminguid
+      this.isChangePasswordModal = false; // Sulgege modal pärast muudatuste tegemist
+    },
+    openChangePasswordModal() {
+      this.isChangePasswordModal = true; // Avab modal parooli muutmiseks
+    },
+    closeModal() {
+      this.isEditProfileModal = false;
+      this.isChangePasswordModal = false;
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Logo paigutus ja suurus */
-.logo {
-  width: 150px;  /* Või kasuta sobivamaid mõõtmeid */
-  height: auto;  /* Kõrgus määratakse automaatselt */
-  object-fit: contain; /* Et pilt ei läheks moonutatud */
-}
-
 /* Üldine nuppude stiil */
 .action-button {
   padding: 10px 20px;
@@ -132,7 +139,7 @@ export default {
   transition: background-color 0.3s ease; /* Hover efekti üleminek */
 }
 
-/* Kollased nupud: Muuda pilti, Lisa pilti, Kustuta pilti, Muuda andmeid, Vaheta parool */
+/* Kollased nupud */
 .action-button.yellow {
   background-color: #f8da71; /* Kollane taust */
   color: #131317; /* Must tekst */
@@ -142,7 +149,7 @@ export default {
   background-color: #e2c04f; /* Tumekollane hover efekt */
 }
 
-/* Punased nupud: Logi välja ja Kustuta konto */
+/* Punased nupud */
 .action-button.red {
   background-color: #dc3545; /* Punane taust */
   color: white; /* Valge tekst */
@@ -152,7 +159,6 @@ export default {
   background-color: #c82333; /* Tumepunane hover efekt */
 }
 
-/* Kustuta konto nupp (eriti punane) */
 .delete-button {
   background-color: #dc3545; /* Punane taust */
   color: white; /* Tekstivärv */
@@ -160,21 +166,6 @@ export default {
 
 .delete-button:hover {
   background-color: #c82333; /* Tumepunane hover efekt */
-}
-
-/* Paigutus nuppude rida üksteise kõrvale */
-.buttons-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px; /* Väike kaugus nuppude vahel */
-  margin-top: 20px;
-}
-
-.row > .col {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* Bännerite stiil */
@@ -206,6 +197,6 @@ export default {
   width: 150px;
   height: 150px;
   border-radius: 50%; /* Ümmargune avatar */
-  object-fit: cover;  /* Tagab, et pilt täidaks ümmarguse kuju ilma deformeerumiseta */
+  object-fit: cover; /* Tagab, et pilt täidaks ümmarguse kuju ilma deformeerumiseta */
 }
 </style>
