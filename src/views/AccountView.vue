@@ -115,7 +115,7 @@ export default {
     updatePassword(passwordData) {
       console.log("Muudetud parool:", passwordData);
       // Siin saad parooli muuta backendis või teha täiendavaid toiminguid
-      this.isChangePasswordModal = false; // Sulgege modal pärast muudatuste tegemist
+      // this.isChangePasswordModal = false; // Sulgege modal pärast muudatuste tegemist
     },
     openChangePasswordModal() {
       this.isChangePasswordModal = true; // Avab modal parooli muutmiseks

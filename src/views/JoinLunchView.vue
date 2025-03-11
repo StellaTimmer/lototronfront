@@ -316,7 +316,6 @@ export default {
       }, 1000);
     },
 
-    // Format date to YYYY-MM-DD
     formatDate(date) {
       const d = new Date(date);
       const year = d.getFullYear();
