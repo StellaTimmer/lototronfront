@@ -73,7 +73,7 @@
 
 <script>
 import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
-import SelectedRestaurantService from "@/services/RestaurantService";
+import RestaurantService from "@/services/RestaurantService";
 import NavigationService from "@/services/NavigationService";
 import LunchEventService from "@/services/LunchEventService";
 import DateSelector from "@/components/availability/DateSelector.vue";
@@ -142,7 +142,7 @@ export default {
     },
 
     getRestaurants() {
-      SelectedRestaurantService.sendGetRestaurantsRequest()
+      RestaurantService.sendGetRestaurantsRequest()
           .then(response => this.handleGetRestaurantsResponse(response))
           .catch(() => NavigationService.navigateToErrorView())
     },

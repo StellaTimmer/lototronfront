@@ -166,6 +166,8 @@
 
 <script>
 import CalendarView from '@/components/lunchevent/CalendarView.vue';
+import RestaurantService from "@/services/RestaurantService";
+import LunchEventService from "@/services/LunchEventService";
 
 export default {
   name: 'JoinLunchView',
@@ -198,9 +200,11 @@ export default {
           paxTotal: 0,
           status: ''
         },
-      ]
+      ],
+      restaurants: []
     };
   },
+
   computed: {
 
     calendarEvents() {
@@ -339,43 +343,31 @@ export default {
     fetchLunchEvents(date) {
       this.isLoading = true;
 
-      // In a real application, this would be an API call
-      // axios.get('/api/lunch-events', { params: { date } })
-      //   .then(response => {
-      //     this.lunchEvents = response.data;
-      //   })
-      //   .catch(error => {
-      //     console.error('Error fetching lunch events:', error);
-      //   })
-      //   .finally(() => {
-      //     this.isLoading = false;
-      //   });
-
-      // Simulate API call
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 500);
+      LunchEventService.sendGetLunchEventsByDateRequest(date)
+          .then(response => {
+            this.lunchEvents = this.transformEventsData(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching lunch events by date:', error);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
     },
 
     fetchLunchEventsForMonth(year, month) {
       this.isLoading = true;
 
-      // In a real application, this would be an API call
-      // axios.get('/api/lunch-events', { params: { year, month } })
-      //   .then(response => {
-      //     this.lunchEvents = response.data;
-      //   })
-      //   .catch(error => {
-      //     console.error('Error fetching lunch events:', error);
-      //   })
-      //   .finally(() => {
-      //     this.isLoading = false;
-      //   });
-
-      // Simulate API call
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 500);
+      LunchEventService.sendGetLunchEventsByMonthRequest(year, month)
+          .then(response => {
+            this.lunchEvents = this.transformEventsData(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching lunch events for month:', error);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
     },
 
     fetchMyEvents() {
@@ -386,6 +378,7 @@ export default {
       //   })
       //   .catch(error => {
       //     console.error('Error fetching my events:', error);
+      //
       //   });
     },
 
@@ -420,15 +413,56 @@ export default {
           status: hasAvailableEvents ? 'available' : 'full'
         };
       });
+    },
+
+    transformEventsData(eventsData) {
+      if (!eventsData || !Array.isArray(eventsData)) return [];
+
+      return eventsData.map(event => {
+        // Create a new object with all original properties
+        const transformedEvent = { ...event };
+
+        // Map restaurantId to restaurantName
+        const restaurant = this.restaurants.find(r => r.restaurantId === event.restaurantId);
+        transformedEvent.restaurantName = restaurant ? restaurant.restaurantName : `Restaurant #${event.restaurantId}`;
+
+        return transformedEvent;
+      });
+    },
+
+    fetchRestaurants: function () {
+      return RestaurantService.sendGetRestaurantsRequest()
+          .then(response => {
+            this.restaurants = response.data;
+            return response; // Return the promise
+          })
+          .catch(error => {
+            console.error('Error fetching restaurants:', error);
+            return Promise.reject(error);
+          });
     }
 
   },
 
   mounted() {
     this.userId = this.getUserIdFromSessionStorage();
-    this.fetchLunchEvents();
-    this.fetchMyEvents();
-  },
+
+    // First fetch all restaurants
+    this.fetchRestaurants()
+        .then(() => {
+          // Then fetch events for current date
+          this.fetchLunchEvents(this.formatDate(this.selectedDate));
+
+          // And fetch user's events
+          this.fetchMyEvents();
+        })
+        .catch(error => {
+          console.error("Could not fetch restaurants:", error);
+          // Still try to fetch events even if restaurants failed
+          this.fetchLunchEvents(this.formatDate(this.selectedDate));
+          this.fetchMyEvents();
+        });
+  }
 
 };
 </script>
