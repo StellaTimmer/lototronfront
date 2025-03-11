@@ -59,26 +59,25 @@ export default {
   },
   data() {
     return {
-      updatedData: { ...this.currentUserData }, // Kopeerib algse andmed
+      updatedData: { ...this.currentUserData },
     };
   },
   methods: {
-    // Andmete kinnitamine ja modali sulgemine
+
     handleSubmit() {
-      this.$emit("submit", this.updatedData); // Saadab andmed AccountView-sse
-      this.$emit("close"); // Sulgeb modali
+      this.$emit("submit", this.updatedData);
+      this.$emit("close");
     },
 
-    // Vormi taastamine algsetest andmetest, kuid modal ei sulgu
     handleReset() {
-      this.updatedData = { ...this.currentUserData }; // Taastab algse oleku vormis
+      this.updatedData = { ...this.currentUserData };
     },
   },
 };
 </script>
 
 <style scoped>
-/* Modal stiilid */
+
 .modal-overlay {
   position: fixed;
   top: 0;
