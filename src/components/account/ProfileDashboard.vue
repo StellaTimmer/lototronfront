@@ -6,7 +6,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <!-- Logo -->
           <a class="navbar-brand" href="#">
-            <img src="@/assets/lototronlogo.jpg" alt="Logo" class="logo" />
+            <img src="../../assets/lototronlogo.jpg" alt="Logo" class="logo" />
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,10 +41,10 @@
       </div>
     </div>
 
-    <!-- Pildi haldamise ja nuppude osa -->
+
     <div class="row my-4">
       <div class="col-md-6">
-        <!-- Profiilipilt ja pildihaldusnupud -->
+
         <div class="profile-image-container">
           <img :src="profileImage" alt="Profiilipilt" class="profile-image" />
         </div>
@@ -56,7 +56,7 @@
       </div>
 
       <div class="col-md-6">
-        <!-- Bännerite osa -->
+
         <a href="https://rotermann.ee/tana-lounaks/" target="_blank" class="ad-link">
           <img src="/ad1.jpg" alt="Reklaam 1" class="ad-banner"/>
         </a>
@@ -69,7 +69,7 @@
       </div>
     </div>
 
-    <!-- Kolmas rida: Nupud -->
+
     <div class="row">
       <div class="col">
         <button @click="isEditProfileModal = true" class="action-button">Muuda andmeid</button>
@@ -82,19 +82,19 @@
       </div>
     </div>
 
-    <!-- Modal aknad (kui need ei ole seotud "logi välja" nupuga) -->
+
     <EditProfileModal v-if="isEditProfileModal" @close="isEditProfileModal = false"/>
     <ChangePasswordModal v-if="isChangePasswordModal" @close="isChangePasswordModal = false"/>
-    <DeleteAccountModal v-if="isDeleteAccountModal" @close="isDeleteAccountModal = false" @confirm="handleDeleteAccount" />
+    <DeleteAccountModal v-if="isDeleteAccountModal" @close="isDeleteAccountModal = false" @confirm="handleDeleteAccount"/>
   </div>
 </template>
 
 <script>
-import EditProfileModal from "@/components/account/EditProfileModal.vue";
-import ChangePasswordModal from "@/components/account/ChangePasswordModal.vue";
-import DeleteAccountModal from "@/components/account/DeleteAccountModal.vue";
+import EditProfileModal from "@/components/modal/EditProfileModal.vue";
+import ChangePasswordModal from "@/components/modal/ChangePasswordModal.vue";
+import DeleteAccountModal from "@/components/account/ProfileDashboard.vue";
 import axios from "axios";
-import {useRouter} from 'vue-router'; // Router kasutamine suunamiseks
+
 
 export default {
   name: "AccountView",
@@ -133,14 +133,13 @@ export default {
             alert("Konto kustutamine ebaõnnestus. Proovi uuesti!");
           });
     },
-    // Logi välja funktsioon
+
     logout() {
-      // Logi välja, 4-sekundiline viivitus ja suunamine pealehele
+
       alert("Logi välja toimub...");
 
       setTimeout(() => {
-        // Kui Vue Router on seadistatud, suunda pealehele
-        this.$router.push("/"); // Suunamine pealehele (kui kasutad Vue Routerit)
+        this.$router.push("/");
       }, 4000);
     }
   }
@@ -148,7 +147,7 @@ export default {
 </script>
 
 <style scoped>
-/* Üldine paigutus */
+
 .profile-image-container {
   display: flex;
   justify-content: center;
@@ -191,12 +190,6 @@ export default {
   background-color: #c82333;
 }
 
-.success-message {
-  margin-top: 20px;
-  color: green;
-  font-weight: bold;
-}
-
 .ad-banner {
   width: 100%;
   height: auto;
@@ -212,9 +205,9 @@ export default {
   display: block;
 }
 
-/* Logo paigutus */
+
 .logo {
-  width: 100px; /* Logo suurus */
+  width: 100px;
   height: auto;
 }
 </style>

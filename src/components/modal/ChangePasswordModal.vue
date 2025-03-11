@@ -73,7 +73,7 @@ export default {
       },
       errorMessage: "",
       successMessage: "",
-      // Add internal state to prevent parent from closing modal
+
       internalModalOpen: true,
       validationPassed: false
     };
@@ -89,36 +89,36 @@ export default {
   },
   methods: {
     handleSubmit() {
-      // Clear any previous messages
+
       this.errorMessage = "";
       this.successMessage = "";
       this.validationPassed = false;
 
-      // Validate required fields
+
       if (!this.passwordData.oldPassword) {
         this.errorMessage = "Vana parool on kohustuslik!";
-        return; // Stop form submission
+        return;
       }
 
       if (!this.passwordData.newPassword) {
         this.errorMessage = "Uus parool on kohustuslik!";
-        return; // Stop form submission
+        return;
       }
 
       // Check if passwords match
       if (this.passwordData.newPassword !== this.passwordData.confirmPassword) {
         this.errorMessage = "Paroolid ei ühti!";
-        return; // Stop form submission and keep modal open
+        return;
       }
 
-      // If we get here, validation has passed
+
       this.validationPassed = true;
       this.successMessage = "Parool edukalt muudetud!";
 
-      // Only emit submit event if validation passed
+
       this.$emit("submit", this.passwordData);
 
-      // Optional: Auto-close after a delay
+
       setTimeout(() => {
         if (this.validationPassed) {
           this.handleClose();
@@ -134,13 +134,13 @@ export default {
     },
 
     handleClose() {
-      // Only allow closing if validation passed or user clicked close button
+
       this.internalModalOpen = false;
       this.$emit("close");
       this.handleReset();
     },
 
-    // Close when clicking outside the modal
+
     handleBackdropClick() {
       this.handleClose();
     }
@@ -149,13 +149,8 @@ export default {
 </script>
 
 <style scoped>
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
-}
 
-/* Modal stiilid */
+
 .modal-overlay {
   position: fixed;
   top: 0;
