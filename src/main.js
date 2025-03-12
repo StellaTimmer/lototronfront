@@ -8,7 +8,7 @@ import axios from "axios";
 // bootstrap
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.js"
-
+// import '@/assets/css/style.css'
 import '@/assets/css/banner.css' // kui on oma style.css fail
 
 // Font Awesome imports

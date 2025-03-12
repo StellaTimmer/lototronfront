@@ -1,6 +1,11 @@
 <template>
 
   <div>
+    <template>
+      <div id="app">
+        <router-view />
+      </div>
+    </template>
 
     <div class="container text-center">
       <div class="row justify-content-center">
@@ -30,6 +35,8 @@ import MainMenu from "./components/MainMenu.vue";
 import NavBar from "@/components/navbar/NavBar.vue";
 import Banner from "@/components/navbar/Banner.vue";
 import '@/assets/css/banner.css'
+//import '@/assets/css/style.css'
+
 
 
 export default {
@@ -53,3 +60,7 @@ export default {
   }
 };
 </script>
+
+<!--<style>-->
+<!--@import url('@/assets/css/style.css');-->
+<!--</style>-->
