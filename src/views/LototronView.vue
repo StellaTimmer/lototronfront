@@ -2,10 +2,14 @@
   <div class="container text-center enlarged">
 
 
-    <div class="d-flex justify-content-evenly">
+    <div class="col-10">
 
-      <div class="col md-1">
+      <div class="col mt-5">
         <button @click="navigateToCreateLunchView" type="button" class="btn btn-warning big-button mt-5">Loo lõuna</button>
+
+      </div>
+
+      <div class="col">
 
         <button @click="navigateToJoinLunchView" type="button" class="btn btn-warning big-button mt-5">Liitu lõunaga</button>
       </div>

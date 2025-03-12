@@ -31,6 +31,7 @@ import NavBar from "@/components/navbar/NavBar.vue";
 import Banner from "@/components/navbar/Banner.vue";
 import '@/assets/css/banner.css'
 
+
 export default {
   components: {
     Banner,

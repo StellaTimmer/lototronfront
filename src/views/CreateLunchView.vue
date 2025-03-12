@@ -28,14 +28,14 @@
 
           <div>
 
-            <TimeSelector style="margin-bottom: 180px;"
+            <TimeSelector style="margin-bottom: 170px;"
                           :time="lunchEventDto.time"
                           @update:time="updateTime"
             />
 
 
             <div>
-              <h3>Kui palju on lõunatajaid?</h3>
+              <h3>Lõunatajate arv:</h3>
               <AttendanceSelector :initial-count="lunchEventDto.paxTotal"
                                   @attendance-updated="handleAttendanceUpdate"
               />
@@ -43,7 +43,7 @@
           </div>
 
           <div>
-            <button @click="addNewLunchEvent" type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
+            <button @click="addNewLunchEvent" type="submit" class="btn btn-warning" style="margin-top: 100px">KINNITA LÕUNA</button>
           </div>
 
         </div>
@@ -57,7 +57,7 @@
         </div>
 
       </div>
-      a
+
 
     </div>
 
