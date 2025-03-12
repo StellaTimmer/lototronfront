@@ -19,7 +19,7 @@
 
 
 
-      <div class="row my-4">
+      <div class="col md-1">
         <div class="col-md-1"></div>
         <div class="col-md-3 enlarged">
           <a href="https://rotermann.ee/tana-lounaks/" target="_blank" class="ad-link">
@@ -101,9 +101,12 @@ export default {
   transform: scale(1.05);
 }
 
+
 .ad-link {
   display: block;
   margin-bottom: 15px;
+  width: fit-content;
+  margin-left: 200px;
 }
 
 
