@@ -1,11 +1,4 @@
 <template>
-
-  <div class="mb-5">
-    <NavBar />
-    <router-view />
-  </div>
-
-
   <div class="container text-center enlarged">
 
 
@@ -16,28 +9,8 @@
 
         <button @click="navigateToJoinLunchView" type="button" class="btn btn-warning big-button mt-5">Liitu lõunaga</button>
       </div>
-
-
-
-      <div class="col md-1">
-        <div class="col-md-1"></div>
-        <div class="col-md-3 enlarged">
-          <a href="https://rotermann.ee/tana-lounaks/" target="_blank" class="ad-link">
-            <img src="/rotermann.png" height="225" width="225" alt="Reklaam 1" class="ad-banner"/>
-          </a>
-          <a href="https://xn--pevapakkumised-5hb.ee/tallinn/" target="_blank" class="ad-link">
-            <img src="/paevapakkumised.jpg" alt="Reklaam 2" class="ad-banner"/>
-          </a>
-          <a href="https://www.lhv.ee/et/terviselaen/" target="_blank" class="ad-link">
-            <img src="/RTBbanner.jpg" alt="Reklaam 3" class="ad-banner"/>
-          </a>
-        </div>
-      </div>
-
-
     </div>
   </div>
-
 
 </template>
 

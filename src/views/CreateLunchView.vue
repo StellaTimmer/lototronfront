@@ -1,11 +1,6 @@
 <template>
 
   <div>
-    <NavBar />
-    <router-view />
-  </div>
-
-  <div>
 
 
     <div class="container text-center mt-5">
@@ -61,13 +56,8 @@
 
         </div>
 
-        <div class="col">
-          Siia tulevad reklaamid
-        </div>
-
-        <div/>
       </div>
-
+      a
 
     </div>
 
@@ -86,10 +76,11 @@ import DateSelector from "@/components/availability/DateSelector.vue";
 import TimeSelector from "@/components/availability/TimeSelector.vue";
 import AttendanceSelector from "@/components/attendanceselector/AttendanceSelector.vue";
 import NavBar from "@/components/navbar/NavBar.vue";
+import Banner from "@/components/navbar/Banner.vue";
 
 export default {
   name: "CreateLunchView",
-  components: {NavBar, AttendanceSelector, TimeSelector, DateSelector, RestaurantsDropdown},
+  components: {Banner, NavBar, AttendanceSelector, TimeSelector, DateSelector, RestaurantsDropdown},
 
   data() {
     return {

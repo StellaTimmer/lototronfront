@@ -1,10 +1,12 @@
 <template>
   <div class="container text-center">
 
+    <!--  KUSTUTADA    -->
     <div class="row">
       <div class="col">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
@@ -38,14 +40,14 @@
 
     <div class="row my-4">
       <div class="col-md-6">
-        <ProfileImage />
+        <ProfileImage/>
         <button @click="isEditProfileModal = true" class="action-button yellow me-3">Muuda andmeid</button>
         <button @click="openChangePasswordModal" class="action-button yellow me-3">Vaheta parool</button>
         <button @click="isDeleteAccountModal = true" class="action-button delete-button">Kustuta konto</button>
       </div>
       <div class="col-md-1"></div>
 
-
+<!--  KUSTUTADA    -->
       <div class="col-md-3">
         <a href="https://rotermann.ee/tana-lounaks/" target="_blank" class="ad-link">
           <img src="/rotermann.png" height="225" width="225" alt="Reklaam 1" class="ad-banner"/>
@@ -196,7 +198,6 @@ export default {
   display: block;
   margin-bottom: 15px;
 }
-
 
 
 </style>

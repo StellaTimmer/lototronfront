@@ -1,10 +1,4 @@
 <template>
-
-  <div>
-    <NavBar />
-    <router-view />
-  </div>
-
   <div class="container mt-4">
     <h1 class="text-center mb-4">Liitu lõunaga</h1>
 

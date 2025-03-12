@@ -9,6 +9,8 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.js"
 
+import '@/assets/css/banner.css' // kui on oma style.css fail
+
 // Font Awesome imports
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
