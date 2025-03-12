@@ -1,6 +1,12 @@
 <template>
 
   <div>
+    <NavBar />
+    <router-view />
+  </div>
+
+  <div>
+
 
     <div class="container text-center mt-5">
 
@@ -79,10 +85,11 @@ import LunchEventService from "@/services/LunchEventService";
 import DateSelector from "@/components/availability/DateSelector.vue";
 import TimeSelector from "@/components/availability/TimeSelector.vue";
 import AttendanceSelector from "@/components/attendanceselector/AttendanceSelector.vue";
+import NavBar from "@/components/navbar/NavBar.vue";
 
 export default {
   name: "CreateLunchView",
-  components: {AttendanceSelector, TimeSelector, DateSelector, RestaurantsDropdown},
+  components: {NavBar, AttendanceSelector, TimeSelector, DateSelector, RestaurantsDropdown},
 
   data() {
     return {

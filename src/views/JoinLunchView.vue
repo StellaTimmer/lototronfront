@@ -1,4 +1,10 @@
 <template>
+
+  <div>
+    <NavBar />
+    <router-view />
+  </div>
+
   <div class="container mt-4">
     <h1 class="text-center mb-4">Liitu lõunaga</h1>
 
@@ -168,10 +174,11 @@
 import CalendarView from '@/components/lunchevent/CalendarView.vue';
 import RestaurantService from "@/services/RestaurantService";
 import LunchEventService from "@/services/LunchEventService";
+import NavBar from "@/components/navbar/NavBar.vue";
 
 export default {
   name: 'JoinLunchView',
-  components: {CalendarView},
+  components: {NavBar, CalendarView},
   data() {
     return {
       selectedDate: new Date(),

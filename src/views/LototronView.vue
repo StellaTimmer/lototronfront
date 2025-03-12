@@ -9,40 +9,18 @@
   <div class="container text-center enlarged">
 
 
-    <div class="d-flex justify-content-evenly ">
+    <div class="d-flex justify-content-evenly">
 
-      <div class="col col-4">
-        <br>
-        <br>
-        <br>
-        <br>
-        <button @click="navigateToCreateLunchView" type="button" class="btn btn-warning big-button">Loo lõuna</button>
-        <br>
-        <br>
-        <br>
-        <br>
-        <button @click="navigateToJoinLunchView" type="button" class="btn btn-warning big-button">Liitu lõunaga</button>
+      <div class="col md-1">
+        <button @click="navigateToCreateLunchView" type="button" class="btn btn-warning big-button mt-5">Loo lõuna</button>
 
-
-        <!--      -->
-
-        <!--        <div class="card">-->
-        <!--          <div class="card-body">-->
-        <!--            Liitu lõunaga-->
-        <!--          </div>-->
-        <!--        </div>-->
-
-        <!--        <button type="Loo lõuna" class="form-control"> </button>-->
-        <!--        <button type="Liitu lõunaga" class="form-control"> </button>-->
+        <button @click="navigateToJoinLunchView" type="button" class="btn btn-warning big-button mt-5">Liitu lõunaga</button>
       </div>
 
 
 
       <div class="row my-4">
-
         <div class="col-md-1"></div>
-
-
         <div class="col-md-3 enlarged">
           <a href="https://rotermann.ee/tana-lounaks/" target="_blank" class="ad-link">
             <img src="/rotermann.png" height="225" width="225" alt="Reklaam 1" class="ad-banner"/>
@@ -54,9 +32,8 @@
             <img src="/RTBbanner.jpg" alt="Reklaam 3" class="ad-banner"/>
           </a>
         </div>
-
-
       </div>
+
 
     </div>
   </div>
