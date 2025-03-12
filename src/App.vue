@@ -1,19 +1,23 @@
 <template>
 
   <div>
-    <nav>
-      <MainMenu v-if="isLoggedIn" @logout="handleLogout" />
+
+    <div>
+      <NavBar v-if="isLoggedIn" @logout="handleLogout"/>
       <router-view @login="handleLogin"/>
-  </nav>
+    </div>
+
 
   </div>
 </template>
 
 <script>
 import MainMenu from "./components/MainMenu.vue";
+import NavBar from "@/components/navbar/NavBar.vue";
 
 export default {
 components: {
+  NavBar,
 MainMenu
 },
   data() {

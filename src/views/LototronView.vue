@@ -1,5 +1,10 @@
 <template>
 
+  <div>
+    <NavBar />
+    <router-view />
+  </div>
+
 
   <div class="container text-center enlarged">
 
@@ -62,9 +67,13 @@
 
 <script>
 import NavigationService from "@/services/NavigationService";
+import NavBar from "@/components/navbar/NavBar.vue";
 
 export default {
   name: "LototronView",
+  components: {
+    NavBar,
+  },
 
   data() {
     return {}
