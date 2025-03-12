@@ -1,22 +1,22 @@
 <template>
 
 
-  <div class="container text-center">
+  <div class="container text-center enlarged">
 
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-evenly ">
 
       <div class="col col-4">
         <br>
         <br>
         <br>
         <br>
-        <button @click="navigateToCreateLunchView" type="button" class="btn btn-warning btn-lg">Loo lõuna</button>
+        <button @click="navigateToCreateLunchView" type="button" class="btn btn-warning big-button">Loo lõuna</button>
         <br>
         <br>
         <br>
         <br>
-        <button @click="navigateToJoinLunchView" type="button" class="btn btn-warning btn-lg">Liitu lõunaga</button>
+        <button @click="navigateToJoinLunchView" type="button" class="btn btn-warning big-button">Liitu lõunaga</button>
 
 
         <!--      -->
@@ -31,8 +31,26 @@
         <!--        <button type="Liitu lõunaga" class="form-control"> </button>-->
       </div>
 
-      <div class="col">
-        Siia tulevad reklaamid
+
+
+      <div class="row my-4">
+
+        <div class="col-md-1"></div>
+
+
+        <div class="col-md-3 enlarged">
+          <a href="https://rotermann.ee/tana-lounaks/" target="_blank" class="ad-link">
+            <img src="/rotermann.png" height="225" width="225" alt="Reklaam 1" class="ad-banner"/>
+          </a>
+          <a href="https://xn--pevapakkumised-5hb.ee/tallinn/" target="_blank" class="ad-link">
+            <img src="/paevapakkumised.jpg" alt="Reklaam 2" class="ad-banner"/>
+          </a>
+          <a href="https://www.lhv.ee/et/terviselaen/" target="_blank" class="ad-link">
+            <img src="/RTBbanner.jpg" alt="Reklaam 3" class="ad-banner"/>
+          </a>
+        </div>
+
+
       </div>
 
     </div>
@@ -72,3 +90,36 @@ export default {
 </script>
 
 
+<style scoped>
+
+.big-button {
+  font-size: 40px; /* Increase text size */
+  padding: 40px 100px; /* Adjust padding */
+  border-radius: 20px; /* Optional: smoother edges */
+}
+
+.enlarged {
+  width: 1000px; /* Adjust as needed */
+  height: 200px;
+}
+
+.ad-banner {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.ad-banner:hover {
+  transform: scale(1.05);
+}
+
+.ad-link {
+  display: block;
+  margin-bottom: 15px;
+}
+
+
+
+</style>
