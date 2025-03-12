@@ -41,7 +41,7 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="handleReset">Taasta</button>
-              <button type="submit" class="btn btn-primary">Kinnita</button>
+              <button type="submit" class="btn btn-primary" @click="handleSubmit">Kinnita</button>
             </div>
           </form>
         </div>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+
 export default {
   name: "ChangeDataModal",
   props: {
@@ -64,7 +65,7 @@ export default {
   },
   methods: {
 
-    handleSubmit() {
+     handleSubmit() {
       this.$emit("submit", this.updatedData);
       this.$emit("close");
     },
