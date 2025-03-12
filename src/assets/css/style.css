@@ -1,6 +1,24 @@
 
-/*.large-button {*/
-/*    font-size: 2.5rem; !* Adjust text size *!*/
-/*    padding: 150px 300px; !* Adjust padding *!*/
-/*    width: 2000px; !* Adjust width *!*/
+body {
+    background-image: url('public/amber-kipp-0PPw3nsbinQ-unsplash.jpg');
+    background-size: cover; /* Ensures the image covers the whole background */
+    background-position: center; /* Centers the background image */
+    background-attachment: fixed; /* Keeps the background fixed when scrolling */
+    height: 100%; /* Ensures the background stretches to fill the viewport */
+}
+
+
+
+/*Esilehel header ülesse???*/
+/*body {*/
+/*    padding-top: 60px;*/
+/*}*/
+
+/*.navbar {*/
+/*    margin-bottom: 20px; !* Adds space below navbar *!*/
+/*}*/
+
+/*.header-space {*/
+/*    height: 60px;*/
+/*    width: 100%;*/
 /*}*/

@@ -4,10 +4,11 @@ import router from './router'
 import VueAxios from "vue-axios";
 import axios from "axios";
 
-// import '@/assets/css/style.css' // kui on oma style.css fail
 // bootstrap
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.js"
+
+import '@/assets/css/banner.css' // kui on oma style.css fail
 
 // Font Awesome imports
 import {library} from '@fortawesome/fontawesome-svg-core'
