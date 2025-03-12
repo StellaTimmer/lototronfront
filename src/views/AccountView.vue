@@ -13,19 +13,19 @@
                 <router-link to="/lototron" class="nav-link">Lototron</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/loo-louna" class="nav-link">Loo Lõuna</router-link>
+                <router-link to="/createlunch" class="nav-link">Loo Lõuna</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/liitu-lounaga" class="nav-link">Liitu Lõunaga</router-link>
+                <router-link to="/joinlunch" class="nav-link">Liitu Lõunaga</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/konto" class="nav-link">Konto</router-link>
+                <router-link to="/account" class="nav-link">Konto</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/soogikohad" class="nav-link">Söögikohad</router-link>
+                <router-link to="/restaurants" class="nav-link">Söögikohad</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/kusimuste-generaator" class="nav-link">Küsimuste Generaator</router-link>
+                <router-link to="/generator" class="nav-link">Küsimuste Generaator</router-link>
               </li>
               <li class="nav-item">
                 <button @click="logout" class="btn btn-danger action-button red">Logi välja</button>
