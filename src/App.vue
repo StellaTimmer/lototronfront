@@ -2,9 +2,9 @@
 
   <div>
     <nav>
-      <MainMenu v-if="isLoggedIn" @logout="handleLogout" />
+      <MainMenu v-if="isLoggedIn" @logout="handleLogout"/>
       <router-view @login="handleLogin"/>
-  </nav>
+    </nav>
 
   </div>
 </template>
@@ -13,21 +13,21 @@
 import MainMenu from "./components/MainMenu.vue";
 
 export default {
-components: {
-MainMenu
-},
+  components: {
+    MainMenu
+  },
   data() {
-  return {
-    isLoggedIn: false
-  };
+    return {
+      isLoggedIn: false
+    };
   },
-methods: {
-  handleLogin() {
-    this.isLoggedIn = true;
-  },
-  handleLogout() {
-    this.isLoggedIn = false;
+  methods: {
+    handleLogin() {
+      this.isLoggedIn = true;
+    },
+    handleLogout() {
+      this.isLoggedIn = false;
+    }
   }
-}
 };
 </script>

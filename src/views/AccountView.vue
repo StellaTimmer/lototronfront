@@ -4,7 +4,8 @@
     <div class="row">
       <div class="col">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
@@ -38,7 +39,7 @@
 
     <div class="row my-4">
       <div class="col-md-6">
-        <ProfileImage />
+        <ProfileImage/>
         <button @click="isEditProfileModal = true" class="action-button yellow me-3">Muuda andmeid</button>
         <button @click="openChangePasswordModal" class="action-button yellow me-3">Vaheta parool</button>
         <button @click="isDeleteAccountModal = true" class="action-button delete-button">Kustuta konto</button>
@@ -69,7 +70,10 @@
     <ChangeDataModal
         :isModalOpen="isEditProfileModal"
         :currentUserData="userData"
-        @submit="updateUserData"
+        @event-firstName-changed="setUserDataFirstName"
+        @event-lastName-changed="setUserDataLastName"
+        @event-phoneNumber-changed="setUserDataPhoneNumber"
+        @event-update-profile="updateUserData"
         @close="closeModal"
     />
     <DeleteAccountModal
@@ -87,6 +91,7 @@ import ChangeDataModal from "@/components/modal/ChangeDataModal.vue";
 import ChangePasswordModal from "@/components/modal/ChangePasswordModal.vue";
 import DeleteAccountModal from "@/components/modal/DeleteAccountModal.vue";
 import NavigationService from "@/services/NavigationService";
+import ProfileService from "@/services/ProfileService";
 
 export default {
   name: "AccountView",
@@ -98,17 +103,43 @@ export default {
   },
   data() {
     return {
+      userId: Number(sessionStorage.getItem('userId')),
+
       userData: {
-        firstName: "Rain",
-        lastName: "Smith",
-        phone: "12345678",
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
       },
+
       isEditProfileModal: false,
       isChangePasswordModal: false,
       isDeleteAccountModal: false,
     };
   },
   methods: {
+    setUserDataFirstName(firstName) {
+      this.userData.firstName = firstName
+    },
+
+    setUserDataLastName(lastName) {
+      this.userData.lastName = lastName
+    },
+
+    setUserDataPhoneNumber(phoneNumber) {
+      this.userData.phoneNumber = phoneNumber
+    },
+
+
+    handleGetUserDataResponse(response) {
+      return this.userData = response.data;
+    },
+
+    getUserData() {
+      ProfileService.sendGetProfileRequest(this.userId)
+          .then(response => this.handleGetUserDataResponse(response))
+          .catch(() => NavigationService.navigateToErrorView())
+    },
+
     logout() {
       setTimeout(() => {
         this.$router.push("/");
@@ -121,9 +152,8 @@ export default {
         NavigationService.navigateToHomeView();
       }, 1000);
     },
-    updateUserData(updatedData) {
-      this.userData = updatedData;
-      console.log("Kinnitatud andmed:", updatedData);
+    updateUserData() {
+
     },
     updatePassword(passwordData) {
       console.log("Muudetud parool:", passwordData);
@@ -136,6 +166,9 @@ export default {
       this.isChangePasswordModal = false;
     },
   },
+  beforeMount() {
+    this.getUserData()
+  }
 };
 </script>
 
@@ -196,7 +229,6 @@ export default {
   display: block;
   margin-bottom: 15px;
 }
-
 
 
 </style>
