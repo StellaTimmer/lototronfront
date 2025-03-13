@@ -71,6 +71,8 @@ export default {
 
   //arvutab uuesti määratletud atribuudid kui nende sõltuvused muutuvad
   computed: {
+
+
     currentYear() {
       return this.currentDate.getFullYear();
     },

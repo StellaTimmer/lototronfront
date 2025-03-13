@@ -245,6 +245,11 @@ export default {
     },
 
     hasUserJoinedEvent(eventId) {
+      console.log('Checking joined events:',{
+        eventId: eventId,
+        myEvents: this.myEvents,
+        matchingEvents: this.myEvents.filter(myEvent => myEvent.lunchEventId === eventId && myEvent.status === 'upcoming')
+      });
       return this.myEvents.some(myEvent =>
           myEvent.lunchEventId === eventId && myEvent.status === 'upcoming'
       );
@@ -338,8 +343,11 @@ export default {
 
       LunchEventService.sendGetUserAddedAndRegisteredLunches(this.userId)
           .then(response => {
-            // Transform the data to match your frontend model
+
+            console.log('Fetched my events:', response.data)
             this.myEvents = this.processMyEventsData(response.data);
+
+            console.log('Processed my events:', this.myEvents)
           })
           .catch(error => {
             console.error('Error fetching my events:', error);
@@ -356,8 +364,8 @@ export default {
       return events.map(event => {
         const eventDate = new Date(event.date);
         return {
-          id: event.id,
-          lunchEventId: event.id,
+          id: event.eventId,
+          lunchEventId: event.eventId,
           date: event.date,
           time: event.time,
           restaurantName: this.getRestaurantName(event.restaurantId),
