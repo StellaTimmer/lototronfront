@@ -7,25 +7,25 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item active">
+          <li class="nav-item me-5 active ">
             <router-link to="/lototron" class="nav-link">Lototron</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item me-4">
             <router-link to="/createlunch" class="nav-link">Loo Lõuna</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item me-4">
             <router-link to="/joinlunch" class="nav-link">Liitu Lõunaga</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item me-5">
             <router-link to="/account" class="nav-link">Konto</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item me-5">
             <router-link to="/restaurants" class="nav-link">Söögikohad</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item me-4">
             <router-link to="/generator" class="nav-link">Küsimuste Generaator</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item me-5">
             <button @click="logout" class="btn btn-danger action-button red">Logi välja</button>
           </li>
         </ul>
@@ -58,7 +58,7 @@ export default {
 <style scoped>
 
 .navbar {
-  background-color: #f8f9fa !important;
+  background-color: transparent !important;
   padding: 10px 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -66,12 +66,13 @@ export default {
 /* Customize Navbar Links */
 .navbar-nav .nav-link {
   font-size: 18px;
-  color: #333 !important;
+  color: black !important;
+  font-weight: bold !important;
   padding: 10px 15px;
 }
 
 .navbar-nav .nav-link:hover {
-  color: #ff6600 !important;
+  color: white !important;
 }
 
 /* Logout Button */
