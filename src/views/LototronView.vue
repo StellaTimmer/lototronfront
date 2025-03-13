@@ -57,33 +57,14 @@ export default {
 
 .big-button {
   font-size: 40px; /* Increase text size */
-  padding: 40px 100px; /* Adjust padding */
+  padding: 30px 80px; /* Adjust padding */
   border-radius: 20px; /* Optional: smoother edges */
 }
 
 .enlarged {
   width: 1000px; /* Adjust as needed */
-  height: 200px;
+  height: 150px;
 }
 
-.ad-banner {
-  width: 100%;
-  max-width: 150px;
-  height: auto;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-}
-
-.ad-banner:hover {
-  transform: scale(1.05);
-}
-
-
-.ad-link {
-  display: block;
-  margin-bottom: 15px;
-  width: fit-content;
-  margin-left: 200px;
-}
 
 </style>
