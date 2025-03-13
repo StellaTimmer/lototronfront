@@ -4,6 +4,15 @@ export default {
 
     sendPostNewUserRequest(newUser) {
         return axios.post('api/users/register', newUser);
+    },
+
+    getCurrentUserId() {
+
+        return sessionStorage.getItem('userId') || 1;
+    },
+
+    isLoggedIn() {
+        return sessionStorage.getItem('userId') !== null;
     }
 
 }

@@ -1,144 +1,92 @@
 <template>
-
   <div>
-
-    <div class="container text-center mt-5">
-
+    <div class="container">
       <div class="row">
-
-        <div><h1 class="mb-5">LOO LÕUNA:</h1></div>
-
-        <div class="col">
-
-          <DateSelector :date="lunchEventDto.date"
-                        @update:date="updateDate"
+        <div class="col-6">
+          <h2>Vali kuupäev</h2>
+          <MonthCalendar
+              :selected-date="lunchEvent.date"
+              @event-date-selected="setLunchEventDate"
           />
-
-          <div><h3> Vali söögikoht: </h3></div>
-          <RestaurantsDropdown :restaurants="restaurants"
-                               :selected-restaurant-id="lunchEventDto.restaurantId"
-                               @event-new-restaurant-selected="setLunchEventDtoRestaurantId"
+        </div>
+        <div class="col-6">
+          <h2>Lisa lõuna</h2>
+          <LunchForm
+              :lunch-event="lunchEvent"
+              :restaurants="restaurants"
+              :error-message="errorMessage"
+              :success-message="successMessage"
+              :existing-lunch-times="existingLunchTimes"
+              @event-update-restaurant="setLunchEventRestaurant"
+              @event-update-pax-total="setLunchEventPaxTotal"
+              @event-update-time="setLunchEventTime"
+              @event-add-lunch="addNewLunchEvent"
+              @event-navigate-back="navigateToLunchesView"
           />
-
         </div>
-
-
-        <div class="col">
-
-          <div>
-
-            <TimeSelector style="margin-bottom: 180px;"
-                          :time="lunchEventDto.time"
-                          @update:time="updateTime"
-            />
-
-
-            <div>
-              <h3>Kui palju on lõunatajaid?</h3>
-              <AttendanceSelector :initial-count="lunchEventDto.paxTotal"
-                                  @attendance-updated="handleAttendanceUpdate"
-              />
-            </div>
-          </div>
-
-          <div>
-            <button @click="addNewLunchEvent" type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
-          </div>
-
-        </div>
-
-        <div class="col">
-
-          <div style="margin-bottom: 100px;"><h5> Sinu lõunad: </h5></div>
-          <div style="margin-bottom: 80px;"> Tulemas:</div>
-          <div>Möödunud:</div>
-
-        </div>
-
-        <div class="col">
-          Siia tulevad reklaamid
-        </div>
-
-        <div/>
       </div>
 
-
+      <div class="row mt-4">
+        <div class="col-12">
+          <h2>Minu lõunad</h2>
+          <MyLunches
+              :upcoming-lunches="upcomingLunches"
+              :past-lunches="pastLunches"
+              @event-cancel-lunch="cancelLunch"
+              @event-leave-lunch="leaveLunch"
+          />
+        </div>
+      </div>
     </div>
-
   </div>
-
-
 </template>
 
-
 <script>
-import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
+import MonthCalendar from "@/components/lunchevent/MonthCalendar.vue";
+import LunchForm from "@/components/lunchevent/LunchForm.vue";
+import MyLunches from "@/components/lunchevent/MyLunches.vue";
 import RestaurantService from "@/services/RestaurantService";
-import NavigationService from "@/services/NavigationService";
 import LunchEventService from "@/services/LunchEventService";
-import DateSelector from "@/components/availability/DateSelector.vue";
-import TimeSelector from "@/components/availability/TimeSelector.vue";
-import AttendanceSelector from "@/components/attendanceselector/AttendanceSelector.vue";
+import NavigationService from "@/services/NavigationService";
 
 export default {
-  name: "CreateLunchView",
-  components: {AttendanceSelector, TimeSelector, DateSelector, RestaurantsDropdown},
-
+  name: 'CreateLunchView',
+  components: {MonthCalendar, LunchForm, MyLunches},
   data() {
     return {
-      selectedRestaurantId: 0,
-      minDate: '',  // Minimum allowable date
-      maxDate: '',  // Maximum allowable date
-      restaurants: [
-        {
-          restaurantId: 0,
-          restaurantName: ''
-        }
-      ],
-      isOkToCreateNewLunchEvent: false,
-      lunchEventDto: {
-        userId: 0,
+      successMessage: '',
+      errorMessage: '',
+      isOkToAddNewLunch: false,
+      restaurants: [],
+      lunchEvent: {
         restaurantId: 0,
-        paxTotal: 0,
-        paxAvailable: 0,
+        paxTotal: 2,
         date: '',
         time: ''
       },
-    };
+      upcomingLunches: [],
+      pastLunches: [],
+      existingLunchTimes: []
+    }
   },
   methods: {
-
-    handleAttendanceUpdate(data) {
-      this.lunchEventDto.paxTotal = data.paxTotal
-      this.lunchEventDto.paxAvailable = data.paxAvailable
-
+    setLunchEventDate(date) {
+      this.lunchEvent.date = date
+      if (date) {
+        this.getExistingLunchTimes(date)
+      }
     },
 
-    addNewLunchEvent() {
-      LunchEventService.sendPostLunchEventRequest(this.lunchEventDto)
-      // .then(response => {
-      //   this.someDataBlockResponseObject = response.data
-      // })
-      // .catch(error => {
-      //   this.someDataBlockErrorResponseObject = error.response.data
-      // })
+    setLunchEventRestaurant(restaurantId) {
+      this.lunchEvent.restaurantId = restaurantId
     },
 
-    getUserIdFromSession() {
-      const userId = sessionStorage.getItem('userId');
-      return userId ? JSON.parse(userId) : 0;
+    setLunchEventPaxTotal(paxTotal) {
+      this.lunchEvent.paxTotal = paxTotal
     },
 
-//      TODO: dellega saadame kaasa:
-//     lunchEventDto: {
-//         Validations???
-
-    setLunchEventDtoRestaurantId(selectedRestaurantId) {
-      this.lunchEventDto.restaurantId = selectedRestaurantId
-    },
-
-    updateDate(newDate) {
-      this.lunchEventDto.date = newDate;
+    setLunchEventTime(time) {
+      this.lunchEvent.time = time
     },
 
     getRestaurants() {
@@ -147,33 +95,128 @@ export default {
           .catch(() => NavigationService.navigateToErrorView())
     },
 
-    updateTime(newTime) {
-      this.lunchEventDto.time = newTime;
-    },
-
     handleGetRestaurantsResponse(response) {
       this.restaurants = response.data
     },
 
-    allFieldsAreWithInput() {
-      //TODO:  Suts ridu, et vaadata, kas date + time + resto + id + paxud on olemas
-      return true;
+    getMyLunches() {
+      Promise.all([
+        LunchEventService.sendGetUpcomingCreatedLunchesRequest(),
+        LunchEventService.sendGetPastCreatedLunchesRequest()
+      ])
+          .then(([upcomingResponse, pastResponse]) => {
+            this.upcomingLunches = upcomingResponse.data
+            this.pastLunches = pastResponse.data
+          })
+          .catch(() => NavigationService.navigateToErrorView())
     },
 
-    alertMissingFields() {
-      //TODO:  nats meetodit siia ka
+    getExistingLunchTimes(date) {
+      LunchEventService.sendGetUserLunchesByDateRequest(date)
+          .then(response => {
+            this.existingLunchTimes = response.data.map(lunch => lunch.time)
+          })
+          .catch(() => {
+            this.existingLunchTimes = []
+          })
     },
 
+    navigateToLunchesView() {
+      NavigationService.navigateToLunchesView()
+    },
+
+    addNewLunchEvent() {
+      this.validateIsOkToAddNewLunch()
+      if (this.isOkToAddNewLunch) {
+        this.resetIsOkToAddNewLunch();
+
+        const formattedLunchEvent = {
+          ...this.lunchEvent,
+          time: this.lunchEvent.time + ':00'
+        };
+
+        LunchEventService.sendPostLunchEventRequest(formattedLunchEvent)
+            .then(response => this.handleAddNewLunchEventResponse(response))
+            .catch(error => this.handleAddNewLunchEventErrorResponse(error))
+      }
+    },
+
+    handleAddNewLunchEventResponse() {
+      this.successMessage = 'Lõunasündmus lisatud'
+      setTimeout(this.resetAllMessages, 4000)
+      this.resetAllFields()
+      this.getMyLunches()
+    },
+
+    handleAddNewLunchEventErrorResponse(error) {
+      this.errorMessage = error.response?.data?.message || 'Viga lõunasündmuse lisamisel'
+      setTimeout(this.resetAllMessages, 4000)
+    },
+
+    validateIsOkToAddNewLunch() {
+      if (this.lunchEvent.restaurantId === 0) {
+        this.errorMessage = 'Vali restoran'
+        setTimeout(this.resetAllMessages, 4000)
+      } else if (this.lunchEvent.date.length === 0) {
+        this.errorMessage = 'Vali kuupäev'
+        setTimeout(this.resetAllMessages, 4000)
+      } else if (this.lunchEvent.time.length === 0) {
+        this.errorMessage = 'Vali aeg'
+        setTimeout(this.resetAllMessages, 4000)
+      } else if (this.lunchEvent.paxTotal < 2) {
+        this.errorMessage = 'Osalejate arv peab olema vähemalt 2'
+        setTimeout(this.resetAllMessages, 4000)
+      } else {
+        this.isOkToAddNewLunch = true
+      }
+    },
+
+    resetIsOkToAddNewLunch() {
+      this.isOkToAddNewLunch = false
+    },
+
+    resetAllFields() {
+      this.lunchEvent.restaurantId = 0
+      this.lunchEvent.paxTotal = 2
+      this.lunchEvent.date = ''
+      this.lunchEvent.time = ''
+    },
+
+    resetAllMessages() {
+      this.successMessage = ''
+      this.errorMessage = ''
+    },
+
+    cancelLunch(lunchId) {
+      LunchEventService.sendDeleteLunchEventRequest(lunchId)
+          .then(() => {
+            this.successMessage = 'Lõuna on tühistatud';
+            setTimeout(this.resetAllMessages, 4000);
+            this.getMyLunches(); // Refresh the lists
+          })
+          .catch(error => {
+            this.errorMessage = error.response?.data?.message || 'Viga lõuna tühistamisel';
+            setTimeout(this.resetAllMessages, 4000);
+          });
+    },
+
+    leaveLunch(lunchId) {
+      LunchEventService.sendDeleteJoinedLunchRequest(lunchId)
+          .then(() => {
+            this.successMessage = 'Oled lõunast loobunud';
+            setTimeout(this.resetAllMessages, 4000);
+            this.getMyLunches(); // Refresh the lists
+          })
+          .catch(error => {
+            this.errorMessage = error.response?.data?.message || 'Viga lõunast loobumisel';
+            setTimeout(this.resetAllMessages, 4000);
+          });
+    }
   },
-
   beforeMount() {
-    this.lunchEventDto.userId = this.getUserIdFromSession();
-    this.getRestaurants();
-
+    this.getRestaurants()
+    this.getMyLunches()
   }
 }
-
-
 </script>
-
-
+`
