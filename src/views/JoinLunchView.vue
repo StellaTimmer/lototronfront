@@ -252,7 +252,7 @@ export default {
     },
 
     selectEvent(event) {
-      if (this.selectedEvent && this.selectedEvent.id === event.id) return;
+      if (this.selectedEvent && this.selectedEvent.eventId === event.eventId) return;
 
       this.selectedEvent = event;
       this.joinSuccess = false;
@@ -265,60 +265,23 @@ export default {
     },
 
     confirmJoin() {
-      // Don't allow joining if already joined
-      if (this.hasUserJoinedEvent(this.selectedEvent.id)) return;
+      if (this.hasUserJoinedEvent(this.selectedEvent.eventId)) return;
 
-      // Simulate API call to join the event
+
       this.isLoading = true;
 
-      setTimeout(() => {
-        this.isLoading = false;
-        this.joinSuccess = true;
-
-        // Update event data (paxAvailable decreases by 1)
-        const joinedEvent = this.lunchEvents.find(e => e.id === this.selectedEvent.id);
-        if (joinedEvent) {
-          joinedEvent.paxAvailable -= 1;
-
-          // If no more spots available, update status
-          if (joinedEvent.paxAvailable === 0) {
-            joinedEvent.status = 'full';
-          }
-        }
-
-        // Add to my events with reference to the original lunch event ID
-        this.myEvents.push({
-          id: Date.now(), // Temporary ID
-          lunchEventId: this.selectedEvent.id, // Reference to the original event
-          date: joinedEvent.date,
-          time: joinedEvent.time,
-          restaurantName: joinedEvent.restaurantName,
-          paxTotal: joinedEvent.paxTotal,
-          status: 'upcoming'
-        });
-
-        // In a real application, this would be an API call
-        // axios.post('/api/lunch-events/join', {
-        //   lunchEventId: this.selectedEvent.id,
-        //   userId: this.getUserId()
-        // })
-        //   .then(response => {
-        //     this.joinSuccess = true;
-        //     this.fetchLunchEvents(this.formatDate(this.selectedDate));
-        //     this.fetchMyEvents();
-        //   })
-        //   .catch(error => {
-        //     console.error('Error joining lunch event:', error);
-        //   })
-        //   .finally(() => {
-        //     this.isLoading = false;
-        //   });
-
-        // Reset selection after timeout
-        setTimeout(() => {
-          this.selectedEvent = null;
-        }, 3000);
-      }, 1000);
+      LunchEventService.sendPostJoinLunchEventRequest(this.selectedEvent.eventId, this.userId)
+          .then(response => {
+            this.joinSuccess = true;
+            this.fetchLunchEvents(this.formatDate(this.selectedDate));
+            this.fetchMyEvents();
+          })
+          .catch(error => {
+            console.error('Error joining lunch event:', error);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          })
     },
 
     formatDate(date) {
@@ -372,15 +335,54 @@ export default {
     },
 
     fetchMyEvents() {
-      // In a real application, this would be an API call
-      // axios.get('/api/my-lunch-events', { params: { userId: this.userId } })
-      //   .then(response => {
-      //     this.myEvents = response.data;
-      //   })
-      //   .catch(error => {
-      //     console.error('Error fetching my events:', error);
-      //
-      //   });
+      this.isLoading = true;
+
+      LunchEventService.sendGetUserAddedAndRegisteredLunches(this.userId)
+          .then(response => {
+            // Transform the data to match your frontend model
+            this.myEvents = this.processMyEventsData(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching my events:', error);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
+    },
+
+    processMyEventsData(events) {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+      return events.map(event => {
+        const eventDate = new Date(event.date);
+        return {
+          id: event.id,
+          lunchEventId: event.id,
+          date: event.date,
+          time: event.time,
+          restaurantName: this.getRestaurantName(event.restaurantId),
+          paxTotal: event.paxTotal,
+          status: eventDate < today ? 'past' : 'upcoming'
+        };
+      });
+    },
+
+    fetchPastEvents() {
+      LunchEventService.sendGetUserPastEventRegistrations(this.userId)
+          .then(response => {
+            const pastEvents = this.processMyEventsData(response.data);
+            pastEvents.forEach(event => event.status = 'past');
+            this.myEvents = [...this.myEvents, ...pastEvents];
+          })
+          .catch(error => {
+            console.error('Error fetching past events:', error);
+          });
+    },
+
+    getRestaurantName(restaurantId) {
+      const restaurant = this.restaurants.find(r => r.restaurantId === restaurantId);
+      return restaurant ? restaurant.restaurantName : `Restaurant #${restaurantId}`;
     },
 
     groupEventsByDate(events) {
@@ -431,11 +433,11 @@ export default {
       });
     },
 
-    fetchRestaurants: function () {
+    fetchRestaurants () {
       return RestaurantService.sendGetRestaurantsRequest()
           .then(response => {
             this.restaurants = response.data;
-            return response; // Return the promise
+            return response;
           })
           .catch(error => {
             console.error('Error fetching restaurants:', error);
@@ -448,20 +450,14 @@ export default {
   mounted() {
     this.userId = this.getUserIdFromSessionStorage();
 
-    // First fetch all restaurants
     this.fetchRestaurants()
         .then(() => {
-          // Then fetch events for current date
           this.fetchLunchEvents(this.formatDate(this.selectedDate));
 
-          // And fetch user's events
           this.fetchMyEvents();
         })
         .catch(error => {
           console.error("Could not fetch restaurants:", error);
-          // Still try to fetch events even if restaurants failed
-          this.fetchLunchEvents(this.formatDate(this.selectedDate));
-          this.fetchMyEvents();
         });
   }
 

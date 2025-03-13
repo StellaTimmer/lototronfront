@@ -49,7 +49,7 @@ export default {
       setTimeout(() => {
         this.$emit('confirm');
         this.closeModal();
-      }, 2000);
+      }, 500);
     }
   }
 };

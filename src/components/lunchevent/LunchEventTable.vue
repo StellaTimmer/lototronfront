@@ -5,6 +5,18 @@
         <h4>Lõunasündmused {{ formattedSelectedDate }}</h4>
         <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status"></span>
       </div>
+      <div v-if="selectedEvent" class="card-header bg-light border-top-0">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Valitud:</strong> {{ selectedEvent.restaurantName }} kell {{ selectedEvent.time }}
+          </div>
+          <button class="action-button yellow" @click="confirmJoin">Kinnita liitumine</button>
+        </div>
+      </div>
+
+      <div v-if="joinSuccess" class="alert alert-success mx-3 mt-3 mb-0">
+        Oled edukalt liitunud lõunasündmusega!
+      </div>
 
       <div class="card-body">
         <!-- No date selected message -->
@@ -52,21 +64,6 @@
           </tbody>
         </table>
       </div>
-
-      <!-- Join confirmation section -->
-      <div v-if="selectedEvent" class="card-footer">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <strong>Valitud:</strong> {{ selectedEvent.restaurantName }} kell {{ selectedEvent.time }}
-          </div>
-          <button class="action-button yellow" @click="confirmJoin">Kinnita liitumine</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Success alert -->
-    <div v-if="joinSuccess" class="alert alert-success mt-3">
-      Oled edukalt liitunud lõunasündmusega!
     </div>
   </div>
 </template>
@@ -106,11 +103,8 @@ export default {
     eventsForSelectedDate() {
       if (!this.selectedDate) return [];
 
-      // Filter events for the selected date
-      // In a real application, this might come from an API call
       const formattedDate = this.formatDate(this.selectedDate);
 
-      // Sample data for demonstration - in real app, filter this.events
       return [
         {
           id: 1,

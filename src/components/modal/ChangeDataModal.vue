@@ -10,10 +10,12 @@
           <form @submit.prevent="handleSubmit">
             <div class="mb-3">
               <label for="firstName" class="form-label">Eesnimi</label>
+<!--              <input type="text" :value="currentUserData.firstName" @input="$emit('event-firstName-changed', $event.target.value)">-->
               <input
                   type="text"
                   id="firstName"
-                  v-model="updatedData.firstName"
+                  :value="currentUserData.firstName"
+                  @input="$emit('event-firstName-changed', $event.target.value)"
                   class="form-control"
                   placeholder="Sisesta eesnimi"
               />
@@ -23,7 +25,8 @@
               <input
                   type="text"
                   id="lastName"
-                  v-model="updatedData.lastName"
+                  :value="currentUserData.lastName"
+                  @input="$emit('event-lastName-changed', $event.target.value)"
                   class="form-control"
                   placeholder="Sisesta perekonnanimi"
               />
@@ -33,7 +36,8 @@
               <input
                   type="text"
                   id="phone"
-                  v-model="updatedData.phone"
+                  :value="currentUserData.phoneNumber"
+                  @input="$emit('event-phoneNumber-changed', $event.target.value)"
                   class="form-control"
                   placeholder="Sisesta telefoninumber"
               />
@@ -41,7 +45,7 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="handleReset">Taasta</button>
-              <button type="submit" class="btn btn-primary">Kinnita</button>
+              <button type="submit" class="btn btn-primary" @click="handleSubmit">Kinnita</button>
             </div>
           </form>
         </div>
@@ -51,26 +55,23 @@
 </template>
 
 <script>
+
 export default {
   name: "ChangeDataModal",
   props: {
     isModalOpen: Boolean,
     currentUserData: Object,
   },
-  data() {
-    return {
-      updatedData: { ...this.currentUserData },
-    };
-  },
   methods: {
 
-    handleSubmit() {
-      this.$emit("submit", this.updatedData);
-      this.$emit("close");
+     handleSubmit() {
+      this.$emit("event-update-profile");
     },
 
     handleReset() {
-      this.updatedData = { ...this.currentUserData };
+      this.$emit('event-firstName-changed', "")
+      this.$emit('event-lastName-changed', "")
+      this.$emit('event-phoneNumber-changed', "")
     },
   },
 };
