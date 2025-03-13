@@ -103,11 +103,8 @@ export default {
     eventsForSelectedDate() {
       if (!this.selectedDate) return [];
 
-      // Filter events for the selected date
-      // In a real application, this might come from an API call
       const formattedDate = this.formatDate(this.selectedDate);
 
-      // Sample data for demonstration - in real app, filter this.events
       return [
         {
           id: 1,

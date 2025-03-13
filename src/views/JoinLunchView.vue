@@ -371,9 +371,7 @@ export default {
       LunchEventService.sendGetUserPastEventRegistrations(this.userId)
           .then(response => {
             const pastEvents = this.processMyEventsData(response.data);
-            // Make sure all of these are marked as past
             pastEvents.forEach(event => event.status = 'past');
-            // Add them to myEvents
             this.myEvents = [...this.myEvents, ...pastEvents];
           })
           .catch(error => {

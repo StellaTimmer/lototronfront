@@ -46,6 +46,7 @@ export default {
     handleLogin() {
       this.isLoggedIn = true;
     },
+
     handleLogout() {
       this.isLoggedIn = false;
     }
