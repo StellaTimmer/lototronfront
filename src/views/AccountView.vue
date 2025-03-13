@@ -10,10 +10,10 @@
 
         <img src="/settingspicture.jpg" alt="ProfileSettingPicture" class="profile-image">
 
-        <div class="buttons-container my-4">
+        <div class="buttons-container">
           <button @click="isEditProfileModal = true" class="action-button yellow">Muuda andmeid</button>
         </div>
-        <div class="buttons-container my-4">
+        <div class="buttons-container my-3">
           <button @click="openChangePasswordModal" class="action-button yellow">Vaheta parool</button>
         </div>
 
@@ -151,12 +151,12 @@ export default {
 
 
 .action-button.yellow {
-  background-color: #f8da71;
-  color: #131317;
+  background-color: #007bff;
+  color: white;
 }
 
 .action-button.yellow:hover {
-  background-color: #e2c04f;
+  background-color: #007bff;
 }
 
 

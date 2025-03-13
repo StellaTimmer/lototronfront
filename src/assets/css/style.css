@@ -1,6 +1,6 @@
 
 body {
-    background-image: url('public/amber-kipp-0PPw3nsbinQ-unsplash.jpg');
+    background-image: url('../../../public/kasutajakontopilt.jpg');
     background-size: cover; /* Ensures the image covers the whole background */
     background-position: center; /* Centers the background image */
     background-attachment: fixed; /* Keeps the background fixed when scrolling */

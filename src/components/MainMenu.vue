@@ -15,7 +15,6 @@
     </ul>
   </nav>
 
-
 </div>
 </template>
 

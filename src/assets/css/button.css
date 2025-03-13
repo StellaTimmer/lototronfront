@@ -10,12 +10,12 @@
 
 /* Kollased nupud */
 .action-button.yellow {
-    background-color: #f8da71;
+    background-color: #007bff;
     color: #131317;
 }
 
 .action-button.yellow:hover {
-    background-color: #e2c04f;
+    background-color: #007bff;
 }
 
 /* Punased nupud */
