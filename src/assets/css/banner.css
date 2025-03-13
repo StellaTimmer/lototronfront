@@ -1,0 +1,20 @@
+
+.ad-banner {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.ad-banner:hover {
+    transform: scale(1.05);
+}
+
+
+.ad-link {
+    display: block;
+    margin-bottom: 15px;
+    width: fit-content;
+    margin-left: 200px;
+}

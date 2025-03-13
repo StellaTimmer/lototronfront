@@ -5,12 +5,12 @@
       <div class="col-4 justify-content-center">
 
         <div class="row">
-          <p>
-            Tere tulemast lõunalototroni!
+          <h3>
+            Tere tulemast lõunalototroni!<br>
             Ei tea kellega lõunale minna?
             Pole probleemi
             Aitame
-          </p>
+          </h3>
         </div>
 
         <div class="row">
@@ -142,3 +142,5 @@ export default {
   }
 }
 </script>
+
+

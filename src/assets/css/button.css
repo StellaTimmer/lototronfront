@@ -1,0 +1,29 @@
+/* Üldine nuppude stiil */
+.action-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Hover efekti üleminek */
+}
+
+/* Kollased nupud */
+.action-button.yellow {
+    background-color: #f8da71;
+    color: #131317;
+}
+
+.action-button.yellow:hover {
+    background-color: #e2c04f;
+}
+
+/* Punased nupud */
+.action-button.red {
+    background-color: #dc3545;
+    color: white;
+}
+
+.action-button.red:hover {
+    background-color: #c82333;
+}

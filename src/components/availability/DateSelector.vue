@@ -24,7 +24,7 @@
           <button @click="closeModal">Close</button>
         </div>
       </div>
-      <p>{{localDate}}</p>
+      <p>{{ localDate }}</p>
     </div>
 
   </div>

@@ -5,6 +5,7 @@ import LototronView from "@/views/LototronView.vue";
 import CreateLunchView from "@/views/CreateLunchView.vue";
 import JoinLunchView from "@/views/JoinLunchView.vue";
 import RegistrationView from "@/views/RegistrationView.vue";
+import AccountView from "@/views/AccountView.vue"
 
 const routes = [
   {
@@ -37,6 +38,12 @@ const routes = [
     path: '/register',
     name: 'registerRoute',
     component: RegistrationView
+  },
+
+  {
+    path: '/account',
+    name: 'accountRoute',
+    component: AccountView
   }
 
 ]

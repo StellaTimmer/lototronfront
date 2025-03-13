@@ -2,6 +2,7 @@
 
   <div>
 
+
     <div class="container text-center mt-5">
 
       <div class="row">
@@ -27,40 +28,35 @@
 
           <div>
 
-            <TimeSelector style="margin-bottom: 180px;"
+            <TimeSelector style="margin-bottom: 170px;"
                           :time="lunchEventDto.time"
                           @update:time="updateTime"
             />
 
 
             <div>
-              <h3>Kui palju on lõunatajaid?</h3>
+              <h3>Lõunatajate arv:</h3>
               <AttendanceSelector :initial-count="lunchEventDto.paxTotal"
                                   @attendance-updated="handleAttendanceUpdate"
               />
             </div>
           </div>
 
-            <div>
-              <button @click="addNewLunchEvent" type="submit" class="btn btn-warning btn-lg">KINNITA LÕUNA</button>
-            </div>
-
+          <div>
+            <button @click="addNewLunchEvent" type="submit" class="btn btn-warning" style="margin-top: 100px">KINNITA LÕUNA</button>
           </div>
 
-          <div class="col">
-
-            <div style="margin-bottom: 100px;"><h5> Sinu lõunad: </h5></div>
-            <div style="margin-bottom: 80px;"> Tulemas:</div>
-            <div>Möödunud:</div>
-
-          </div>
-
-          <div class="col">
-            Siia tulevad reklaamid
-          </div>
-
-          <div/>
         </div>
+
+        <div class="col">
+
+          <div style="margin-bottom: 100px;"><h5> Sinu lõunad: </h5></div>
+          <div style="margin-bottom: 80px;"> Tulemas:</div>
+          <div>Möödunud:</div>
+
+        </div>
+
+      </div>
 
 
     </div>
@@ -73,16 +69,18 @@
 
 <script>
 import RestaurantsDropdown from "@/components/restaurants/RestaurantsDropdown.vue";
-import SelectedRestaurantService from "@/services/SelectedRestaurantService";
+import RestaurantService from "@/services/RestaurantService";
 import NavigationService from "@/services/NavigationService";
 import LunchEventService from "@/services/LunchEventService";
 import DateSelector from "@/components/availability/DateSelector.vue";
 import TimeSelector from "@/components/availability/TimeSelector.vue";
 import AttendanceSelector from "@/components/attendanceselector/AttendanceSelector.vue";
+import NavBar from "@/components/navbar/NavBar.vue";
+import Banner from "@/components/navbar/Banner.vue";
 
 export default {
   name: "CreateLunchView",
-  components: {AttendanceSelector, TimeSelector, DateSelector, RestaurantsDropdown},
+  components: {Banner, NavBar, AttendanceSelector, TimeSelector, DateSelector, RestaurantsDropdown},
 
   data() {
     return {
@@ -131,9 +129,6 @@ export default {
 
 //      TODO: dellega saadame kaasa:
 //     lunchEventDto: {
-//         date: '', - peaaegu olemas "selectedDate" to date - >stringiks
-//         time: '' sama asi teha, mis restodega tehtud, time Stringina.
-//         piirangud kellaaja valimisel
 //         Validations???
 
     setLunchEventDtoRestaurantId(selectedRestaurantId) {
@@ -145,7 +140,7 @@ export default {
     },
 
     getRestaurants() {
-      SelectedRestaurantService.sendGetRestaurantsRequest()
+      RestaurantService.sendGetRestaurantsRequest()
           .then(response => this.handleGetRestaurantsResponse(response))
           .catch(() => NavigationService.navigateToErrorView())
     },
@@ -158,15 +153,6 @@ export default {
       this.restaurants = response.data
     },
 
-    // createLunchEvent() {
-    //   if (this.allFieldsAreWithInput()) {
-    //     this.sendPostCreateLunchEventRequest();
-    //   } else {
-    //     this.alertMissingFields();
-    //   }
-    // },
-
-
     allFieldsAreWithInput() {
       //TODO:  Suts ridu, et vaadata, kas date + time + resto + id + paxud on olemas
       return true;
@@ -176,9 +162,6 @@ export default {
       //TODO:  nats meetodit siia ka
     },
 
-
-
-
   },
 
   beforeMount() {
@@ -186,7 +169,7 @@ export default {
     this.getRestaurants();
 
   }
-  }
+}
 
 
 </script>

@@ -2,30 +2,63 @@ import axios from "axios";
 
 export default {
 
-     sendPostLunchEventRequest(lunchEventDto) {
-          return axios.post('/lunch-event', lunchEventDto);
-     },
+    sendPostLunchEventRequest(lunchEventDto) {
+        return axios.post('/lunch-event', lunchEventDto);
+    },
 
+    sendGetLunchEventsByDateRequest(date) {
+        return axios.get('/lunch-events-by-date', {
+            params: {
+                nowDate: date
+            }
+        });
+    },
 
- //- 1. saadab backi info Dto
- // - 2. pushib "uuele vaatele" (st kõrvale vaade uus lõuna sul PENDING)
+    sendGetLunchEventsByMonthRequest(year, month) {
+         const yearMonthStr = `${year}-${String(month).padStart(2, '0')}`;
 
-         //TODO: dellega saadame kaasa:
-         //     lunchEventDto: {
-         //         userId: 0, - välj auurida, kuidas saame userId, session Storage'ist?
-         //         restaurantId: 0, - selectedRestaurantId - olemas
-         //         paxTotal: 0, - muudatused Frondi kuvas ja kõikjla mujal kaaa
-         //         paxAvailable: 0, - teha, et sätestatakse automaatselt : PaxTotal-1
-         //         date: '', - peaaegu olemas "selectedDate" to date - >stringiks
-         //         time: '' sama asi teha, mis restodega tehtud, time Stringina.
-         //         piirangud kellaaja valimisel
-         //         Validations???
-         //
-         //         Mõte BUTTONIga siduda vali kp, aeg, koht - button kutsub välj ameetodi
-         //         Valideerib, et kõik väljad täidetud
-         //         (analoog sendtPostAtmLocatoion Requestsist (locationVie))
-         //
-         //          Siduda UserId kuidagi külge ??? Sesion storage?
+         return axios.get('/lunch-events-by-month', {
+            params: {
+                yearMonth: yearMonthStr
+            }
+        });
+    },
+
+    sendGetUserLunchEvents(userId) {
+        return axios.get('/user-added-events', {
+            params: {
+                userId
+            }
+        })
+    },
+
+    sendPostJoinLunchEventRequest(lunchEventId, userId) {
+        return axios.post('/lunch-event/join', {
+            lunchEventId: lunchEventId,
+            userId: userId
+        });
+    },
+
+    sendGetAvailableLunchEvents() {
+        return axios.get('/lunch-events');
+    },
+
+    sendGetUserJoinedEvents(userId) {
+        return axios.get('/user-joined-events', {
+            params: {
+                userId
+            }
+        });
+    },
+
+    sendGetUserEventRegistration(lunchEventId, userId) {
+        return axios.get('/lunch-events/check-registration', {
+            params: {
+                lunchEventId,
+                userId
+            }
+        })
+    },
 
 
 }
