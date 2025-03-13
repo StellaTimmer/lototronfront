@@ -6,6 +6,7 @@ import CreateLunchView from "@/views/CreateLunchView.vue";
 import JoinLunchView from "@/views/JoinLunchView.vue";
 import RegistrationView from "@/views/RegistrationView.vue";
 import AccountView from "@/views/AccountView.vue"
+import QuestionsGenerator from "@/views/QuestionsGenerator.vue";
 
 const routes = [
   {
@@ -44,6 +45,12 @@ const routes = [
     path: '/account',
     name: 'accountRoute',
     component: AccountView
+  },
+
+  {
+    path: '/generator',
+    name: 'generatorRoute',
+    component: QuestionsGenerator
   }
 
 ]

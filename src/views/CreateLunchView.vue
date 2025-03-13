@@ -6,11 +6,8 @@
     <div class="container text-center mt-5">
 
       <div class="row">
-
         <div><h1 class="mb-5">LOO LÕUNA:</h1></div>
-
         <div class="col">
-
           <DateSelector :date="lunchEventDto.date"
                         @update:date="updateDate"
           />
@@ -20,20 +17,15 @@
                                :selected-restaurant-id="lunchEventDto.restaurantId"
                                @event-new-restaurant-selected="setLunchEventDtoRestaurantId"
           />
-
         </div>
 
 
         <div class="col">
-
           <div>
-
-            <TimeSelector style="margin-bottom: 170px;"
+            <TimeSelector style="margin-bottom: 150px;"
                           :time="lunchEventDto.time"
                           @update:time="updateTime"
             />
-
-
             <div>
               <h3>Lõunatajate arv:</h3>
               <AttendanceSelector :initial-count="lunchEventDto.paxTotal"
@@ -48,11 +40,55 @@
 
         </div>
 
-        <div class="col">
 
-          <div style="margin-bottom: 100px;"><h5> Sinu lõunad: </h5></div>
+
+        <div class="col">
+          <div class="card-header">
+            <h4>Sinu lõunad</h4>
+          </div>
           <div style="margin-bottom: 80px;"> Tulemas:</div>
-          <div>Möödunud:</div>
+<!--          <div class="card-body">-->
+<!--            <ul class="nav nav-tabs" id="myTab" role="tablist">-->
+<!--              <li class="nav-item" role="presentation">-->
+<!--                <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab"-->
+<!--                        data-bs-target="#upcoming-tab-pane" type="button" role="tab"-->
+<!--                        aria-controls="upcoming-tab-pane" aria-selected="true">-->
+<!--&lt;!&ndash;                  Tulemas&ndash;&gt;-->
+<!--                </button>-->
+<!--              </li>-->
+<!--              <li class="nav-item" role="presentation">-->
+<!--                <button class="nav-link" id="past-tab" data-bs-toggle="tab"-->
+<!--                        data-bs-target="#past-tab-pane" type="button" role="tab"-->
+<!--                        aria-controls="past-tab-pane" aria-selected="false">-->
+<!--&lt;!&ndash;                  Möödunud&ndash;&gt;-->
+<!--                </button>-->
+<!--              </li>-->
+<!--            </ul>-->
+
+<!--            <div class="tab-content pt-3" id="myTabContent">-->
+<!--              &lt;!&ndash;Tulemas evendid&ndash;&gt;-->
+<!--              <div class="tab-pane fade show active" id="upcoming-tab-pane" role="tabpanel"-->
+<!--                   aria-labelledby="upcoming-tab" tabindex="0">-->
+<!--                <p v-if="upcomingMyEvents.length === 0" class="text-muted">Sul pole tulevaid lõunaid.</p>-->
+<!--                <ul v-else class="list-group">-->
+<!--                  <li v-for="event in upcomingMyEvents" :key="event.id"-->
+<!--                      class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                    <div>-->
+<!--                      <strong>{{ formatDateDisplayToEstonian(event.date) }}</strong> kell {{ event.time }}-->
+<!--                      <br/>-->
+<!--                      <span class="text-muted">{{ event.restaurantName }}</span>-->
+<!--                    </div>-->
+<!--                    <span class="badge bg-primary rounded-pill">{{ event.paxTotal }} inimest</span>-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+
+
+
+          <!--          <div>Möödunud:</div>-->
 
         </div>
 

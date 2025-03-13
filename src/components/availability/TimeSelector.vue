@@ -2,8 +2,8 @@
 
   <div>
     <h3 class="mb-5">Vali kellaaeg:</h3>
-
-    <div style="margin-bottom: 50px;">
+    <br>
+    <div>
       <h3><input type="time" v-model="localTime" name="timeInput" id="timeInput" /></h3>
     </div>
 
