@@ -1,12 +1,11 @@
 
-/*body {*/
-/*    background-image: url('/amber-kipp-0PPw3nsbinQ-unsplash.jpg');*/
-/*    background-size: cover; !* Ensures the image covers the whole background *!*/
-/*    background-position: center; !* Centers the background image *!*/
-/*    background-attachment: fixed; !* Keeps the background fixed when scrolling *!*/
-/*    height: 100%; !* Ensures the background stretches to fill the viewport *!*/
-/*    margin: 0;*/
-/*}*/
+body {
+    background-image: url('public/amber-kipp-0PPw3nsbinQ-unsplash.jpg');
+    background-size: cover; /* Ensures the image covers the whole background */
+    background-position: center; /* Centers the background image */
+    background-attachment: fixed; /* Keeps the background fixed when scrolling */
+    height: 100%; /* Ensures the background stretches to fill the viewport */
+}
 
 
 

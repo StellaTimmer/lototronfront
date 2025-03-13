@@ -34,7 +34,7 @@ export default {
 
     sendPostJoinLunchEventRequest(lunchEventId, userId) {
         return axios.post('/lunch-event/join', {
-            lunchEventId: lunchEventId,
+            eventId: lunchEventId,
             userId: userId
         });
     },
@@ -59,6 +59,18 @@ export default {
             }
         })
     },
+
+    sendGetUserAddedAndRegisteredLunches(userId) {
+        return axios.get('/lunch-events/added-and-registered', {
+            params: { userId }
+        });
+    },
+
+    sendGetUserPastEventRegistrations(userId) {
+        return axios.get('/lunch-events/past-registrations', {
+            params: { userId }
+        });
+    }
 
 
 }
