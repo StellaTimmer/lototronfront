@@ -20,7 +20,7 @@
     <div class="row">
       <div class="col">
         <a href="https://www.lhv.ee/et/terviselaen/" target="_blank" class="ad-link">
-          <img src="/RTBbanner.jpg" alt="Reklaam 3" class="ad-banner"/>
+          <img src="../../../public/rtbkiirlaen.png" alt="Reklaam 3" class="ad-banner"/>
         </a>
       </div>
     </div>
