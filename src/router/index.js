@@ -7,6 +7,7 @@ import JoinLunchView from "@/views/JoinLunchView.vue";
 import RegistrationView from "@/views/RegistrationView.vue";
 import AccountView from "@/views/AccountView.vue"
 import QuestionsGenerator from "@/views/QuestionsGenerator.vue";
+import Restaurant from "@/views/RestaurantView.vue";
 
 const routes = [
   {
@@ -45,6 +46,12 @@ const routes = [
     path: '/account',
     name: 'accountRoute',
     component: AccountView
+  },
+
+  {
+    path: '/restaurants',
+    name: 'accountRestaurantRoute',
+    component: Restaurant
   },
 
   {
