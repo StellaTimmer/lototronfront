@@ -26,8 +26,10 @@
         <div class="col-12">
           <h2>Minu lõunad</h2>
           <MyLunches
-              :upcoming-lunches="upcomingJoinedLunches"
-              :past-lunches="pastJoinedLunches"
+              :upcoming-created-lunches="upcomingCreatedLunches"
+              :past-created-lunches="pastCreatedLunches"
+              :upcoming-joined-lunches="upcomingJoinedLunches"
+              :past-joined-lunches="pastJoinedLunches"
               @event-cancel-lunch="cancelLunch"
               @event-leave-lunch="leaveLunch"
           />
@@ -56,6 +58,8 @@ export default {
       selectedLunchEventId: 0,
       selectedDate: '',
       availableLunches: [],
+      upcomingCreatedLunches: [],
+      pastCreatedLunches: [],
       upcomingJoinedLunches: [],
       pastJoinedLunches: [],
       successMessage: '',
@@ -65,6 +69,7 @@ export default {
       currentMonth: new Date().getMonth() + 1
     }
   },
+
   methods: {
     setSelectedDate(date) {
       this.selectedDate = date
@@ -101,16 +106,20 @@ export default {
       this.availableLunches = response.data
     },
 
-    getMyJoinedLunches() {
+    getMyLunches() {
       Promise.all([
+        LunchEventService.sendGetUpcomingCreatedLunchesRequest(),
+        LunchEventService.sendGetPastCreatedLunchesRequest(),
         LunchEventService.sendGetUpcomingJoinedLunchesRequest(),
         LunchEventService.sendGetPastJoinedLunchesRequest()
       ])
-          .then(([upcomingResponse, pastResponse]) => {
-            this.upcomingJoinedLunches = upcomingResponse.data
-            this.pastJoinedLunches = pastResponse.data
+          .then(([upcomingCreatedResponse, pastCreatedResponse, upcomingJoinedResponse, pastJoinedResponse]) => {
+            this.upcomingCreatedLunches = upcomingCreatedResponse.data;
+            this.pastCreatedLunches = pastCreatedResponse.data;
+            this.upcomingJoinedLunches = upcomingJoinedResponse.data;
+            this.pastJoinedLunches = pastJoinedResponse.data;
           })
-          .catch(() => NavigationService.navigateToErrorView())
+          .catch(() => NavigationService.navigateToErrorView());
     },
 
     joinLunch(lunchEventId) {
@@ -127,9 +136,8 @@ export default {
       // TODO:
       this.successMessage = 'Oled edukalt lõunaga liitunud'
       setTimeout(this.resetAllMessages, 4000)
-      // Refresh data
       this.getAvailableLunches(this.selectedDate)
-      this.getMyJoinedLunches()
+      this.getMyLunches()
     },
 
     handleJoinLunchErrorResponse(error) {
@@ -142,7 +150,7 @@ export default {
           .then(() => {
             this.successMessage = 'Oled lõunast loobunud'
             setTimeout(this.resetAllMessages, 4000)
-            this.getMyJoinedLunches()
+            this.getMyLunches()
             if (this.selectedDate) {
               this.getAvailableLunches(this.selectedDate)
             }
@@ -158,7 +166,7 @@ export default {
           .then(() => {
             this.successMessage = 'Lõuna on tühistatud'
             setTimeout(this.resetAllMessages, 4000)
-            this.getMyJoinedLunches()
+            this.getMyLunches()
             if (this.selectedDate) {
               this.getAvailableLunches(this.selectedDate)
             }
@@ -175,7 +183,7 @@ export default {
     }
   },
   beforeMount() {
-    this.getMyJoinedLunches()
+    this.getMyLunches()
     this.getWorkdayCalendar()
   }
 }
