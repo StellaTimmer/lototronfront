@@ -120,12 +120,10 @@ export default {
       }, 1000);
     },
     updateUserData() {
-      console.log("Kasutaja andmete uuendamine:", this.userData);
       ProfileService.sendUpdateProfileRequest(this.userId, this.userData)
           .then(response => {
             this.handleGetUserDataResponse(response);
             this.isEditProfileModal = false;
-            alert("Andmed uuendatud edukalt!");
           })
           .catch(() => {});
     },
