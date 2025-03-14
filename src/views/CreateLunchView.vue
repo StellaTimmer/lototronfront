@@ -21,7 +21,7 @@
               @event-update-pax-total="setLunchEventPaxTotal"
               @event-update-time="setLunchEventTime"
               @event-add-lunch="addNewLunchEvent"
-              @event-navigate-back="navigateToLunchesView"
+              @event-navigate-back="navigateToLototronView"
           />
         </div>
       </div>
@@ -30,8 +30,10 @@
         <div class="col-12">
           <h2>Minu lõunad</h2>
           <MyLunches
-              :upcoming-lunches="upcomingLunches"
-              :past-lunches="pastLunches"
+              :upcoming-created-lunches="upcomingCreatedLunches"
+              :past-created-lunches="pastCreatedLunches"
+              :upcoming-joined-lunches="upcomingJoinedLunches"
+              :past-joined-lunches="pastJoinedLunches"
               @event-cancel-lunch="cancelLunch"
               @event-leave-lunch="leaveLunch"
           />
@@ -69,10 +71,15 @@ export default {
       },
       upcomingLunches: [],
       pastLunches: [],
-      existingLunchTimes: []
+      existingLunchTimes: [],
+      upcomingCreatedLunches: [],
+      pastCreatedLunches: [],
+      upcomingJoinedLunches: [],
+      pastJoinedLunches: []
     }
   },
   methods: {
+
     setLunchEventDate(date) {
       this.lunchEvent.date = date
       if (date) {
@@ -105,13 +112,17 @@ export default {
     getMyLunches() {
       Promise.all([
         LunchEventService.sendGetUpcomingCreatedLunchesRequest(),
-        LunchEventService.sendGetPastCreatedLunchesRequest()
+        LunchEventService.sendGetPastCreatedLunchesRequest(),
+        LunchEventService.sendGetUpcomingJoinedLunchesRequest(),
+        LunchEventService.sendGetPastJoinedLunchesRequest()
       ])
-          .then(([upcomingResponse, pastResponse]) => {
-            this.upcomingLunches = upcomingResponse.data
-            this.pastLunches = pastResponse.data
+          .then(([upcomingCreatedResponse, pastCreatedResponse, upcomingJoinedResponse, pastJoinedResponse]) => {
+            this.upcomingCreatedLunches = upcomingCreatedResponse.data;
+            this.pastCreatedLunches = pastCreatedResponse.data;
+            this.upcomingJoinedLunches = upcomingJoinedResponse.data;
+            this.pastJoinedLunches = pastJoinedResponse.data;
           })
-          .catch(() => NavigationService.navigateToErrorView())
+          .catch(() => NavigationService.navigateToErrorView());
     },
 
     getExistingLunchTimes(date) {
@@ -124,8 +135,8 @@ export default {
           })
     },
 
-    navigateToLunchesView() {
-      NavigationService.navigateToLunchesView()
+    navigateToLototronView() {
+      NavigationService.navigateToLototronView()
     },
 
     addNewLunchEvent() {

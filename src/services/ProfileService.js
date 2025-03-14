@@ -13,9 +13,6 @@ export default {
         return axios.put('/profile', userData,{
             params: {
                 userId: userId,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                phoneNumber: user.phoneNumber,
             }
         });
     }
