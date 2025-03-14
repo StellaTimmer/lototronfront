@@ -1,76 +1,113 @@
 import axios from "axios";
+import UserService from "./UserService";
 
 export default {
-
-    sendPostLunchEventRequest(lunchEventDto) {
-        return axios.post('/lunch-event', lunchEventDto);
+    sendPostLunchEventRequest(lunchEvent) {
+        return axios.post('/lunch/event', lunchEvent, {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
+            }
+        );
     },
 
-    sendGetLunchEventsByDateRequest(date) {
-        return axios.get('/lunch-events-by-date', {
+    sendGetAvailableLunchesRequest(date) {
+        return axios.get('/lunch/events/available', {
+                params: {
+                    userId: UserService.getCurrentUserId(),
+                    date: date
+                }
+            }
+        );
+    },
+
+    sendGetUserLunchesByDateRequest(date) {
+        return axios.get('/lunch/events/user-date', {
             params: {
-                nowDate: date
+                userId: UserService.getCurrentUserId(),
+                date: date
             }
         });
     },
 
-    sendGetLunchEventsByMonthRequest(year, month) {
-         const yearMonthStr = `${year}-${String(month).padStart(2, '0')}`;
-
-         return axios.get('/lunch-events-by-month', {
+    sendGetWorkdayCalendarRequest(year, month) {
+        return axios.get('/calendar', {
             params: {
-                yearMonth: yearMonthStr
+                year: year,
+                month: month
             }
         });
     },
 
-    sendGetUserLunchEvents(userId) {
-        return axios.get('/user-added-events', {
-            params: {
-                userId
+    sendGetUpcomingCreatedLunchesRequest() {
+        return axios.get('/lunch/events/upcoming/created', {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
             }
-        })
+        );
     },
 
-    sendPostJoinLunchEventRequest(lunchEventId, userId) {
-        return axios.post('/lunch-event/join', {
-            eventId: lunchEventId,
-            userId: userId
-        });
-    },
-
-    sendGetAvailableLunchEvents() {
-        return axios.get('/lunch-events');
-    },
-
-    sendGetUserJoinedEvents(userId) {
-        return axios.get('/user-joined-events', {
-            params: {
-                userId
+    sendGetPastCreatedLunchesRequest() {
+        return axios.get('/lunch/events/past/created', {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
             }
-        });
+        );
     },
 
-    sendGetUserEventRegistration(lunchEventId, userId) {
-        return axios.get('/lunch-events/check-registration', {
-            params: {
-                lunchEventId,
-                userId
+    sendGetUpcomingJoinedLunchesRequest() {
+        return axios.get('/lunch/events/upcoming/joined', {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
             }
-        })
+        );
     },
 
-    sendGetUserAddedAndRegisteredLunches(userId) {
-        return axios.get('/lunch-events/added-and-registered', {
-            params: { userId }
-        });
+    sendGetPastJoinedLunchesRequest() {
+        return axios.get('/lunch/events/past/joined', {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
+            }
+        );
     },
 
-    sendGetUserPastEventRegistrations(userId) {
-        return axios.get('/lunch-events/past-registrations', {
-            params: { userId }
-        });
+    sendPutLunchEventRequest(lunchEventId, lunchEvent) {
+        return axios.put('/lunch/event/' + lunchEventId, lunchEvent, {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
+            }
+        );
+    },
+
+    sendDeleteLunchEventRequest(lunchEventId) {
+        return axios.delete('/lunch/event/' + lunchEventId, {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
+            }
+        );
+    },
+
+    sendPostJoinLunchRequest(lunchEventId) {
+        return axios.post('/lunch/event/' + lunchEventId + '/join', null, {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
+            }
+        );
+    },
+
+    sendDeleteJoinedLunchRequest(lunchEventId) {
+        return axios.delete('/lunch/event/' + lunchEventId + '/join', {
+                params: {
+                    userId: UserService.getCurrentUserId()
+                }
+            }
+        );
     }
-
-
 }
