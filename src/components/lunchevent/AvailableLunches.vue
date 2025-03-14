@@ -48,8 +48,8 @@ export default {
       return timeString;
     },
 
-    joinLunch(lunchId) {
-      this.$emit('event-join-lunch', lunchId);
+    joinLunch(lunchEventId) {
+      this.$emit('event-join-lunch', lunchEventId);
     }
   }
 }

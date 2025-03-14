@@ -22,6 +22,9 @@
           <li class="nav-item me-5">
             <router-link to="/restaurants" class="nav-link">Söögikohad</router-link>
           </li>
+          <li v-if="isAdmin" class="nav-item me-4">
+            <router-link to="/generator" class="nav-link">admin naeb</router-link>
+          </li>
           <li class="nav-item me-4">
             <router-link to="/generator" class="nav-link">Küsimuste Generaator</router-link>
           </li>
@@ -39,15 +42,19 @@
 
 
 <script>
+import router from "@/router";
+
 export default {
   name: "NavBar",
+  props: {
+    isAdmin: Boolean,
+  },
 
   methods: {
     logout() {
       sessionStorage.clear()
-      setTimeout(() => {
-        this.$router.push("/");
-      }, 1000);
+      this.$emit('event-logout')
+      router.push({name: 'homeRoute'})
     },
   }
 }

@@ -52,6 +52,8 @@ export default {
   components: {NavBar, AlertDanger, AlertSuccess, AvailableLunches, MyLunches, MonthCalendar},
   data() {
     return {
+      userId: Number(sessionStorage.getItem("userId")),
+      selectedLunchEventId: 0,
       selectedDate: '',
       availableLunches: [],
       upcomingJoinedLunches: [],
@@ -111,13 +113,18 @@ export default {
           .catch(() => NavigationService.navigateToErrorView())
     },
 
-    joinLunch(lunchId) {
-      LunchEventService.sendPostJoinLunchRequest(lunchId)
+    joinLunch(lunchEventId) {
+      this.selectedLunchEventId = lunchEventId
+      LunchEventService.sendPostJoinLunchRequest(lunchEventId)
           .then(() => this.handleJoinLunchResponse())
           .catch(error => this.handleJoinLunchErrorResponse(error))
     },
 
     handleJoinLunchResponse() {
+      // TODO: sendPostSystemMessage POST /system-message kaasa kui RequestParam userId, lunchEventId
+      // TODO: system S, new N, subject ja body backendus
+      // TODO:
+      // TODO:
       this.successMessage = 'Oled edukalt lõunaga liitunud'
       setTimeout(this.resetAllMessages, 4000)
       // Refresh data

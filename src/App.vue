@@ -2,12 +2,12 @@
   <div :class="backgroundClass">
     <div class="container text-center">
       <div class="row justify-content-center">
-        <NavBar v-if="true" @logout="handleLogout"/>
+        <NavBar v-if="isLoggedIn" :is-admin="isAdmin" @event-logout="updateNavMenu"/>
       </div>
 
       <div class="row justify-content-center">
         <div class="col col-8">
-          <router-view @login="handleLogin"/>
+          <router-view @event-login="updateNavMenu"/>
         </div>
         <div class="col col-4">
           <Banner/>
@@ -34,7 +34,8 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false
+      isLoggedIn: false,
+      isAdmin: false
     };
   },
   computed: {
@@ -43,12 +44,15 @@ export default {
     }
   },
   methods: {
-    handleLogin() {
-      this.isLoggedIn = true;
+    updateNavMenu() {
+      let userId = sessionStorage.getItem('userId')
+      this.isLoggedIn = userId !== null
+      let roleName = sessionStorage.getItem('roleName')
+      this.isAdmin = roleName != null && 'admin' === roleName
     },
-    handleLogout() {
-      this.isLoggedIn = false;
-    }
+  },
+  mounted() {
+    this.updateNavMenu()
   }
 };
 </script>
