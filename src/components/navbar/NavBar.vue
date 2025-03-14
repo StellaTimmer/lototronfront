@@ -44,6 +44,7 @@ export default {
 
   methods: {
     logout() {
+      sessionStorage.clear()
       setTimeout(() => {
         this.$router.push("/");
       }, 1000);
