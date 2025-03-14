@@ -84,6 +84,7 @@ export default {
     };
   },
   methods: {
+
     setUserDataFirstName(firstName) {
       this.userData.firstName = firstName
     },
