@@ -24,6 +24,11 @@ export default {
     navigateToJoinLunchView() {
         router.push({name: 'joinLunchRoute'})
     },
-
+    navigateToRestaurantView() {
+        router.push({name: 'restaurantRoute'})
+    },
+    navigateToRestaurantMapView() {
+        router.push({name: 'restaurantMapRoute'})
+    },
 
 }
