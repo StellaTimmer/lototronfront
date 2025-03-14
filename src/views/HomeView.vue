@@ -10,8 +10,8 @@
           <h3>
             Tere tulemast lõunalototroni!<br>
             Ei tea kellega lõunale minna?
-            Pole probleemi
-            Aitame
+            Pole probleemi.
+            Aitame!
           </h3>
         </div>
 
@@ -33,7 +33,7 @@
           <input v-model="password" type="password" class="form-control">
         </div>
         <div>
-          <button @click="login" type="submit" class="btn btn-primary me-3">Logi sisse</button>
+          <button @click="login" type="submit" class="btn btn-warning me-3">Logi sisse</button>
           <button @click="navigateToRegisterView" type="submit" class="btn btn-secondary">Registreeri konto</button>
         </div>
 

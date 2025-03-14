@@ -19,14 +19,14 @@
           <li class="nav-item me-5">
             <router-link to="/account" class="nav-link">Konto</router-link>
           </li>
-          <li class="nav-item me-5">
+          <li class="nav-item me-4">
             <router-link to="/restaurants" class="nav-link">Söögikohad</router-link>
-          </li>
-          <li v-if="isAdmin" class="nav-item me-4">
-            <router-link to="/generator" class="nav-link">admin naeb</router-link>
           </li>
           <li class="nav-item me-4">
             <router-link to="/generator" class="nav-link">Küsimuste Generaator</router-link>
+          </li>
+          <li v-if="isAdmin" class="nav-item me-5">
+            <router-link to="/generator" class="nav-link">Sõnumid</router-link>
           </li>
           <li class="nav-item me-5">
             <button @click="logout" class="btn btn-danger action-button red">Logi välja</button>
@@ -79,7 +79,7 @@ export default {
 }
 
 .navbar-nav .nav-link:hover {
-  color: white !important;
+  color: #dd5d0d !important;
 }
 
 /* Logout Button */

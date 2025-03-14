@@ -44,7 +44,7 @@
 
     <div class="mt-4">
       <button @click="$emit('event-navigate-back')" type="button" class="btn btn-outline-dark me-3">Tagasi</button>
-      <button @click="$emit('event-add-lunch')" type="button" class="btn btn-outline-success">Lisa</button>
+      <button @click="$emit('event-add-lunch')" type="button" class="btn btn-outline-warning">Lisa</button>
     </div>
   </div>
 </template>
