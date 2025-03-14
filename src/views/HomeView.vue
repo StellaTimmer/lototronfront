@@ -1,6 +1,8 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
+  <div class="container text-center mt-5">
+
+    <div class="row justify-content-center mt-5">
+
 
       <div class="col-4 justify-content-center">
 
@@ -13,13 +15,7 @@
           </h3>
         </div>
 
-        <div class="row">
-          <img src="@/assets/toidupilt3.jpg"
-               height="100"
-               width="100"
-               class="img-fluid"
-               alt="toidupilt">
-        </div>
+
 
       </div>
       <div class="col col-3 ">
@@ -49,7 +45,6 @@
 <script>
 import LoginService from "@/services/LoginService";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
-import router from "@/router";
 import HttpStatusCodes from "@/errors/HttpStatusCodes";
 import BusinessErrors from "@/errors/BusinessErrors";
 import NavigationService from "@/services/NavigationService";
