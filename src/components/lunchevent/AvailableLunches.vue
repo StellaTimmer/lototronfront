@@ -14,7 +14,7 @@
           </p>
           <button v-if="!lunch.isCreator && !lunch.isJoined"
                   @click="joinLunch(lunch.id)"
-                  class="btn btn-outline-success"
+                  class="btn btn-outline-warning"
                   :disabled="lunch.paxAvailable <= 0">
             Liitu
           </button>
