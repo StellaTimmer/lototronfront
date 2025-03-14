@@ -55,6 +55,7 @@ export default {
   components: {AlertDanger},
   data() {
     return {
+      isLoggedIn: Boolean,
       username: '',
       password: '',
       errorMessage: '',
