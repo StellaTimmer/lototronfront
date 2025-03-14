@@ -97,8 +97,8 @@ export default {
     },
 
 
-    handleGetUserDataResponse(response) {
-      return this.userData = response.data;
+    handleGetUserDataResponse() {
+      // todo: alert edukalt muudetud
     },
 
     getUserData() {
@@ -121,8 +121,8 @@ export default {
     },
     updateUserData() {
       ProfileService.sendUpdateProfileRequest(this.userId, this.userData)
-          .then(response => {
-            this.handleGetUserDataResponse(response);
+          .then(() => {
+            this.handleGetUserDataResponse();
             this.isEditProfileModal = false;
           })
           .catch(() => {});
