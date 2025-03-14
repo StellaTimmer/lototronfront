@@ -97,8 +97,8 @@ export default {
     },
 
 
-    handleGetUserDataResponse(response) {
-      return this.userData = response.data;
+    handleGetUserDataResponse() {
+      // todo: alert edukalt muudetud
     },
 
     getUserData() {
@@ -120,12 +120,10 @@ export default {
       }, 1000);
     },
     updateUserData() {
-      console.log("Kasutaja andmete uuendamine:", this.userData);
       ProfileService.sendUpdateProfileRequest(this.userId, this.userData)
-          .then(response => {
-            this.handleGetUserDataResponse(response);
+          .then(() => {
+            this.handleGetUserDataResponse();
             this.isEditProfileModal = false;
-            alert("Andmed uuendatud edukalt!");
           })
           .catch(() => {});
     },
