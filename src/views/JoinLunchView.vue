@@ -32,6 +32,17 @@
               :past-joined-lunches="pastJoinedLunches"
               @event-cancel-lunch="cancelLunch"
               @event-leave-lunch="leaveLunch"
+              @event-edit-lunch="editLunch"
+          />
+
+          <EditLunchModal :modal-is-open="editModalIsOpen"
+                          :lunch-event-id="selectedLunchId"
+                          :lunch-event="selectedLunch"
+                          :restaurants="restaurants"
+                          :existing-lunch-times="existingLunchTimes"
+                          @event-close-modal="closeEditModal"
+                          @event-lunch-updated="handleLunchUpdated"
+                          @event-date-changed="handleEditDateChanged"
           />
         </div>
       </div>
@@ -48,10 +59,12 @@ import AlertDanger from "@/components/alert/AlertDanger.vue";
 import LunchEventService from "@/services/LunchEventService";
 import NavigationService from "@/services/NavigationService";
 import NavBar from "@/components/navbar/NavBar.vue";
+import EditLunchModal from "@/components/modal/EditLunchModal.vue";
+import RestaurantService from "@/services/RestaurantService";
 
 export default {
   name: 'JoinLunchView',
-  components: {NavBar, AlertDanger, AlertSuccess, AvailableLunches, MyLunches, MonthCalendar},
+  components: {NavBar, AlertDanger, AlertSuccess, AvailableLunches, MyLunches, MonthCalendar, EditLunchModal},
   data() {
     return {
       userId: Number(sessionStorage.getItem("userId")),
@@ -64,6 +77,11 @@ export default {
       pastJoinedLunches: [],
       successMessage: '',
       errorMessage: '',
+      editModalIsOpen: false,
+      selectedLunchId: 0,
+      selectedLunch: {},
+      restaurants: [],
+      existingLunchTimes: [],
       daysWithLunches: [],
       currentYear: new Date().getFullYear(),
       currentMonth: new Date().getMonth() + 1
@@ -180,11 +198,54 @@ export default {
     resetAllMessages() {
       this.successMessage = ''
       this.errorMessage = ''
+    },
+
+    getRestaurants() {
+      RestaurantService.sendGetRestaurantsRequest()
+          .then(response => {
+            this.restaurants = response.data;
+          })
+          .catch(() => NavigationService.navigateToErrorView());
+    },
+
+    editLunch(lunch) {
+      this.selectedLunchId = lunch.id;
+      this.selectedLunch = JSON.parse(JSON.stringify(lunch));
+      this.getExistingLunchTimes(lunch.date);
+      this.editModalIsOpen = true;
+    },
+
+    closeEditModal() {
+      this.editModalIsOpen = false;
+      this.selectedLunchId = 0;
+      this.selectedLunch = {};
+    },
+
+    handleLunchUpdated() {
+      this.getMyLunches();
+      if (this.selectedDate) {
+        this.getAvailableLunches(this.selectedDate);
+      }
+    },
+
+    getExistingLunchTimes(date) {
+      LunchEventService.sendGetUserLunchesByDateRequest(date)
+          .then(response => {
+            this.existingLunchTimes = response.data.map(lunch => lunch.time);
+          })
+          .catch(() => {
+            this.existingLunchTimes = [];
+          });
+    },
+
+    handleEditDateChanged(date) {
+      this.getExistingLunchTimes(date);
     }
   },
   beforeMount() {
     this.getMyLunches()
     this.getWorkdayCalendar()
+    this.getRestaurants()
   }
 }
 </script>

@@ -10,7 +10,7 @@
       </div>
 
       <div class="row justify-content-center">
-        <div class="col col-3">
+        <div class="col col-6">
 
           <div class="input-group mb-3">
             <span class="input-group-text">nimi</span>
@@ -42,7 +42,7 @@
             <input v-model="newUser.phoneNumber" type="text" class="form-control">
           </div>
 
-          <button @click="addNewUser" type="submit" class="btn-outline-success">Registreeri</button>
+          <button @click="addNewUser" type="submit" class="btn btn-primary">Registreeri</button>
 
         </div>
       </div>
@@ -112,7 +112,7 @@ export default {
             .catch((error) => {
               if (error.response && error.response.status === 409) {
                 this.errorMessage = "Kasutaja on juba olemas";
-              } else {    addNewUser();{
+              } else {
                 if (!this.allFieldsWithCorrectInput()) {
                   this.alertMissingFields();
                 } else if (this.passwordNoMatch()) {
@@ -130,7 +130,7 @@ export default {
                 }
               }
                 NavigationService.navigateToErrorView();
-              }
+
       });
       }
     },

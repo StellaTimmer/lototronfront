@@ -2,7 +2,8 @@
   <div>
     <ul class="nav nav-tabs" id="lunchTabs" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab">
+        <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button"
+                role="tab">
           Kõik tulemas
         </button>
       </li>
@@ -15,10 +16,10 @@
 
     <div class="tab-content">
       <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
-        <!-- Created lunches section -->
+
         <h5 class="mt-3 text-primary">Minu loodud</h5>
         <div v-if="upcomingCreatedLunches.length === 0" class="p-2 text-muted">
-          Sul pole tulevaid loodud lõunaid.
+          Sa pole loonud veel ühtegi lõunat!
         </div>
         <table v-else class="table table-sm">
           <thead>
@@ -40,6 +41,9 @@
               <button @click="cancelLunch(lunch.id)" class="btn btn-sm btn-outline-danger me-2">
                 Tühista
               </button>
+              <button @click="editLunch(lunch)" class="btn btn-sm btn-outline-warning">
+                Muuda
+              </button>
             </td>
           </tr>
           </tbody>
@@ -47,7 +51,7 @@
 
         <h5 class="mt-4 text-success">Lõunad, millega olen liitunud</h5>
         <div v-if="upcomingJoinedLunches.length === 0" class="p-2 text-muted">
-          Sul pole tulevaid lõunaid, millega oled liitunud.
+          Sa pole liitunud ühegi lõunaga!
         </div>
         <table v-else class="table table-sm">
           <thead>
@@ -162,6 +166,10 @@ export default {
 
     leaveLunch(lunchId) {
       this.$emit('event-leave-lunch', lunchId);
+    },
+
+    editLunch(lunch) {
+      this.$emit('event-edit-lunch', lunch);
     }
   }
 }

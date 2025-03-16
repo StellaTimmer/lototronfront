@@ -1,13 +1,12 @@
 <template>
-
   <div class="container text-center">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item me-5 active ">
+          <li class="nav-item me-5 active">
             <router-link to="/lototron" class="nav-link">Lototron</router-link>
           </li>
           <li class="nav-item me-4">
@@ -26,20 +25,16 @@
             <router-link to="/generator" class="nav-link">Küsimuste Generaator</router-link>
           </li>
           <li v-if="isAdmin" class="nav-item me-5">
-            <router-link to="/generator" class="nav-link">Sõnumid</router-link>
+            <router-link to="/messages" class="nav-link">Sõnumid</router-link>
           </li>
           <li class="nav-item me-5">
-            <button @click="logout" class="btn btn-danger action-button red">Logi välja</button>
+            <button @click="logout" class="btn btn-danger action-button">Logi välja</button>
           </li>
         </ul>
       </div>
     </nav>
-</div>
-
-
+  </div>
 </template>
-
-
 
 <script>
 import router from "@/router";
@@ -52,25 +47,32 @@ export default {
 
   methods: {
     logout() {
-      sessionStorage.clear()
-      this.$emit('event-logout')
-      router.push({name: 'homeRoute'})
+      sessionStorage.clear();
+      this.$emit("event-logout");
+      router.push({name: "homeRoute"});
     },
-  }
-}
-
+  },
+};
 </script>
 
-
 <style scoped>
-
 .navbar {
-  background-color: transparent !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white !important; /* Määra taustavärv, et see ei oleks läbipaistev */
   padding: 10px 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Tagab, et navbar jääb teiste elementide peale */
 }
 
-/* Customize Navbar Links */
+/* Lisa padding-top sisu jaoks, et navbar ei kataks lehe sisu */
+.container {
+  padding-top: 70px;
+}
+
+/* Kohanda Navbar Lingid */
 .navbar-nav .nav-link {
   font-size: 18px;
   color: black !important;
@@ -82,18 +84,11 @@ export default {
   color: #dd5d0d !important;
 }
 
-/* Logout Button */
+/* Logout Nupp */
 .action-button {
   font-size: 16px;
   padding: 8px 16px;
   border-radius: 5px;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .navbar-nav {
-    text-align: center;
-  }
 }
 
 </style>

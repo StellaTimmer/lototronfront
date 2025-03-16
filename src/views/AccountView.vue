@@ -113,6 +113,7 @@ export default {
         this.$router.push("/");
       }, 1000);
     },
+
     handleDeleteAccount() {
       console.log('Konto kustutatud');
       setTimeout(() => {
@@ -120,8 +121,9 @@ export default {
         NavigationService.navigateToHomeView();
       }, 1000);
     },
-    updateUserData() {
-      ProfileService.sendUpdateProfileRequest(this.userId, this.userData)
+
+    updateUserData(formData) {
+      ProfileService.sendUpdateProfileRequest(this.userId, formData)
           .then(() => {
             this.handleGetUserDataResponse();
             this.isEditProfileModal = false;
