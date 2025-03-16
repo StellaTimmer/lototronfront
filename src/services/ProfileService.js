@@ -15,5 +15,13 @@ export default {
                 userId: userId,
             }
         });
+    },
+
+    sendDeleteProfileImageRequest(userId) {
+        return axios.delete('/profile/image', {
+            params: {
+                userId: userId
+            }
+        });
     }
 }

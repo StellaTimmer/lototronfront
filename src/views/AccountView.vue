@@ -3,8 +3,12 @@
 
     <div class="row my-4">
       <div class="col-md-6">
-        <ProfileImage/>
-
+        <ProfileImage
+            ref="profileImage"
+            :imageData="userData.imageData"
+            :defaultImagePath="'/defaultpicture.jpg'"
+            @event-profile-image-changed="setUserDataImageData"
+        />
       </div>
       <div class="col">
 
@@ -76,6 +80,7 @@ export default {
         firstName: '',
         lastName: '',
         phoneNumber: '',
+        imageData: ''
       },
 
       isEditProfileModal: false,
@@ -84,6 +89,79 @@ export default {
     };
   },
   methods: {
+    setUserDataImageData(imageData, isDelete = false) {
+      this.userData.imageData = imageData;
+      // Optional: automatically update the profile when image changes
+      if (isDelete) {
+        this.deleteProfileImage();
+      } else if (imageData) {
+        this.updateUserDataWithImage();
+      }
+    },
+
+    deleteProfileImage() {
+      const profileImageRef = this.$refs.profileImage;
+
+      ProfileService.sendDeleteProfileImageRequest(this.userId)
+          .then(() => {
+            this.successMessage = "Profiilipilt on edukalt kustutatud";
+
+            // Update the userData to reflect the deleted image
+            this.userData.imageData = "";
+
+            // If we have a reference to the component, explicitly reset to default
+            if (profileImageRef) {
+              profileImageRef.resetToDefault();
+            }
+
+            setTimeout(() => {
+              this.successMessage = "";
+            }, 3000);
+          })
+          .catch((error) => {
+            console.error(error);
+            this.errorMessage = "Viga pildi kustutamisel. Palun proovige uuesti.";
+            setTimeout(() => {
+              this.errorMessage = "";
+            }, 3000);
+          });
+    },
+
+    updateUserDataWithImage() {
+      this.successMessage = "Pildi laadimine...";
+      ProfileService.sendUpdateProfileRequest(this.userId, this.userData)
+          .then(() => {
+            this.successMessage = "Pilt on edukalt uuendatud!";
+            setTimeout(() => {
+              this.successMessage = "";
+            }, 3000);
+          })
+          .catch((error) => {
+            console.error(error);
+            this.errorMessage = "Viga pildi salvestamisel. Palun proovige uuesti.";
+            setTimeout(() => {
+              this.errorMessage = "";
+            }, 3000);
+          });
+    },
+
+    updateUserDataWithoutImage() {
+      this.successMessage = "Pildi eemaldamine...";
+      ProfileService.sendUpdateProfileRequest(this.userId, this.userData)
+          .then(() => {
+            this.successMessage = "Pilt on edukalt eemaldatud!";
+            setTimeout(() => {
+              this.successMessage = "";
+            }, 3000);
+          })
+          .catch((error) => {
+            console.error(error);
+            this.errorMessage = "Viga pildi eemaldamisel. Palun proovige uuesti.";
+            setTimeout(() => {
+              this.errorMessage = "";
+            }, 3000);
+          });
+    },
 
     setUserDataFirstName(firstName) {
       this.userData.firstName = firstName
@@ -98,8 +176,8 @@ export default {
     },
 
 
-    handleGetUserDataResponse() {
-      // todo: alert edukalt muudetud
+    handleGetUserDataResponse(response) {
+      this.userData = response.data;
     },
 
     getUserData() {
