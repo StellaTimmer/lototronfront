@@ -18,7 +18,7 @@
 
 
       </div>
-      <div class="col col-3 ">
+      <div v-if="!isLoggedIn" class="col col-3 ">
 
         <div class="col col-8">
           <AlertDanger :message="errorMessage"/>
@@ -138,6 +138,16 @@ export default {
       NavigationService.navigateToRegisterView()
     },
 
+  },
+
+  beforeMount() {
+
+    const userId = sessionStorage.getItem('userId');
+    this.isLoggedIn = userId !== null;
+
+    if (this.isLoggedIn) {
+      NavigationService.navigateToLototronView();
+    }
   }
 }
 </script>
