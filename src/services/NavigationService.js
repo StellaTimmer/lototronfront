@@ -31,4 +31,8 @@ export default {
         router.push({name: 'restaurantMapRoute'})
     },
 
+    navigateToMessagesView() {
+        router.push({name: 'messagesRoute'})
+    },
+
 }

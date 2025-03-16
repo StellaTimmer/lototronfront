@@ -8,6 +8,7 @@ import RegistrationView from "@/views/RegistrationView.vue";
 import AccountView from "@/views/AccountView.vue"
 import QuestionsGenerator from "@/views/QuestionsGenerator.vue";
 import Restaurant from "@/views/RestaurantView.vue";
+import MessagesView from "@/views/MessagesView.vue";
 
 const routes = [
   {
@@ -58,7 +59,12 @@ const routes = [
     path: '/generator',
     name: 'generatorRoute',
     component: QuestionsGenerator
-  }
+  },
+  {
+    path: '/messages',
+    name: 'messagesRoute',
+    component: MessagesView
+  },
 
 ]
 

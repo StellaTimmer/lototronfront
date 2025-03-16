@@ -2,7 +2,12 @@
   <div :class="backgroundClass">
     <div class="container text-center">
       <div class="row justify-content-center">
-        <NavBar v-if="isLoggedIn" :is-admin="isAdmin" @event-logout="updateNavMenu"/>
+        <NavBar
+            ref="navBar"
+            v-if="isLoggedIn"
+            :is-admin="isAdmin"
+            @event-logout="updateNavMenu"
+        />
       </div>
 
       <div class="row justify-content-center">
@@ -14,7 +19,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -24,7 +28,6 @@ import NavBar from "@/components/navbar/NavBar.vue";
 import Banner from "@/components/navbar/Banner.vue";
 import '@/assets/css/banner.css';
 import '@/assets/css/background.css';
-
 
 export default {
   components: {
@@ -38,11 +41,13 @@ export default {
       isAdmin: false
     };
   },
+
   computed: {
     backgroundClass() {
       return this.isLoggedIn ? "background-logged-in" : "background-logged-out";
     }
   },
+
   methods: {
     updateNavMenu() {
       let userId = sessionStorage.getItem('userId')
@@ -50,13 +55,24 @@ export default {
       let roleName = sessionStorage.getItem('roleName')
       this.isAdmin = roleName != null && 'admin' === roleName
     },
+    refreshMessages() {
+      if (this.$refs.navBar) {
+        this.$refs.navBar.getUnreadMessageCount()
+      }
+    }
   },
+
   mounted() {
     this.updateNavMenu()
+
+    this.$root.refreshMessages = this.refreshMessages
+
+  },
+
+  provide() {
+    return {
+      refreshMessages: this.refreshMessages
+    }
   }
-};
+}
 </script>
-
-
-
-
