@@ -4,18 +4,20 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title">Muuda andmeid</h1>
-          <button type="button" class="btn-close" @click="$emit('close')" aria-label="Close"/>
+          <button type="button" class="btn-close" @click="$emit('close')" aria-label="Close">x</button>
         </div>
         <div class="modal-body">
+          <!-- Alert messages -->
+          <AlertDanger v-if="errorMessage" :message="errorMessage"/>
+          <AlertSuccess v-if="successMessage" :message="successMessage"/>
+
           <form @submit.prevent="handleSubmit">
             <div class="mb-3">
               <label for="firstName" class="form-label">Eesnimi</label>
-<!--              <input type="text" :value="currentUserData.firstName" @input="$emit('event-firstName-changed', $event.target.value)">-->
               <input
                   type="text"
                   id="firstName"
-                  :value="currentUserData.firstName"
-                  @input="$emit('event-firstName-changed', $event.target.value)"
+                  v-model="formData.firstName"
                   class="form-control"
                   placeholder="Sisesta eesnimi"
               />
@@ -25,8 +27,7 @@
               <input
                   type="text"
                   id="lastName"
-                  :value="currentUserData.lastName"
-                  @input="$emit('event-lastName-changed', $event.target.value)"
+                  v-model="formData.lastName"
                   class="form-control"
                   placeholder="Sisesta perekonnanimi"
               />
@@ -36,8 +37,7 @@
               <input
                   type="text"
                   id="phone"
-                  :value="currentUserData.phoneNumber"
-                  @input="$emit('event-phoneNumber-changed', $event.target.value)"
+                  v-model="formData.phoneNumber"
                   class="form-control"
                   placeholder="Sisesta telefoninumber"
               />
@@ -45,7 +45,7 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="handleReset">Taasta</button>
-              <button type="submit" class="btn btn-primary" @click="handleSubmit">Kinnita</button>
+              <button type="submit" class="btn btn-primary">Kinnita</button>
             </div>
           </form>
         </div>
@@ -55,30 +55,80 @@
 </template>
 
 <script>
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
 
 export default {
   name: "ChangeDataModal",
+  components: { AlertDanger, AlertSuccess },
   props: {
     isModalOpen: Boolean,
     currentUserData: Object,
   },
+  data() {
+    return {
+      formData: {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+      },
+      errorMessage: "",
+      successMessage: "",
+    };
+  },
+  watch: {
+    isModalOpen(newVal) {
+      if (newVal) {
+        this.formData = { ...this.currentUserData };
+        this.errorMessage = "";
+        this.successMessage = "";
+      }
+    }
+  },
   methods: {
+    validateForm() {
+      this.errorMessage = "";
+      if (!this.formData.firstName) {
+        this.errorMessage = "Eesnimi on kohustuslik!";
+        return false;
+      }
+      if (!this.formData.lastName) {
+        this.errorMessage = "Perekonnanimi on kohustuslik!";
+        return false;
+      }
+      if (!this.formData.phoneNumber) {
+        this.errorMessage = "Telefoninumber on kohustuslik!";
+        return false;
+      }
+      if (!/^\d+$/.test(this.formData.phoneNumber)) {
+        this.errorMessage = "Telefoninumber peab sisaldama ainult numbreid!";
+        return false;
+      }
+      return true;
+    },
 
-     handleSubmit() {
-      this.$emit("event-update-profile");
+    handleSubmit() {
+      if (this.validateForm()) {
+        this.$emit("event-update-profile", this.formData);
+        this.successMessage = "Andmed edukalt muudetud!";
+
+        setTimeout(() => {
+          this.successMessage = "";
+          this.$emit("close");
+        }, 4000);
+      }
     },
 
     handleReset() {
-      this.$emit('event-firstName-changed', "")
-      this.$emit('event-lastName-changed', "")
-      this.$emit('event-phoneNumber-changed', "")
+      this.formData = { firstName: "", lastName: "", phoneNumber: "" };
+      this.errorMessage = "";
+      this.successMessage = "";
     },
   },
 };
 </script>
 
 <style scoped>
-
 .modal-overlay {
   position: fixed;
   top: 0;
