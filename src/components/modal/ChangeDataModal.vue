@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title">Muuda andmeid</h1>
-          <button type="button" class="btn-close" @click="$emit('close')" aria-label="Close">x</button>
+          <button type="button" class="btn-close" @click="$emit('close')" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <!-- Alert messages -->
