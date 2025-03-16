@@ -1,11 +1,7 @@
 <template>
   <div class="container text-center mt-5">
-
     <div class="row justify-content-center mt-5">
-
-
       <div class="col-4 justify-content-center">
-
         <div class="row">
           <h3>
             Tere tulemast lõunalototroni!<br>
@@ -14,12 +10,8 @@
             Aitame!
           </h3>
         </div>
-
-
-
       </div>
-      <div class="col col-3 ">
-
+      <div class="col col-3 " v-if="!isLoggedIn">
         <div class="col col-8">
           <AlertDanger :message="errorMessage"/>
         </div>
@@ -36,7 +28,6 @@
           <button @click="login" type="submit" class="btn btn-warning me-3">Logi sisse</button>
           <button @click="navigateToRegisterView" type="submit" class="btn btn-secondary">Registreeri konto</button>
         </div>
-
       </div>
     </div>
   </div>
@@ -48,14 +39,14 @@ import AlertDanger from "@/components/alert/AlertDanger.vue";
 import HttpStatusCodes from "@/errors/HttpStatusCodes";
 import BusinessErrors from "@/errors/BusinessErrors";
 import NavigationService from "@/services/NavigationService";
-
+import axios from 'axios';
 
 export default {
   name: 'HomeView',
-  components: {AlertDanger},
+  components: { AlertDanger },
   data() {
     return {
-      isLoggedIn: Boolean,
+      isLoggedIn: false,
       username: '',
       password: '',
       errorMessage: '',
@@ -69,7 +60,22 @@ export default {
       }
     }
   },
+  mounted() {
+    this.checkSession();
+  },
   methods: {
+    checkSession() {
+      axios.get("/check-session")
+          .then(response => {
+            this.isLoggedIn = response.data;
+            if (this.isLoggedIn) {
+              this.$router.replace("/lototron"); // Kui kasutaja on sees, suuna kohe edasi
+            }
+          })
+          .catch(() => {
+            this.isLoggedIn = false;
+          });
+    },
 
     login() {
       if (this.allFieldsWithCorrectInput()) {
@@ -78,7 +84,6 @@ export default {
         this.alertMissingFields();
       }
     },
-
 
     allFieldsWithCorrectInput() {
       return this.username.length > 0 && this.password.length > 0;
@@ -91,32 +96,30 @@ export default {
     },
 
     handleLoginResponse(response) {
-      // todo too ära count uutest kirjadest kasutaades userId,
-      // todo arv emitttida ülesse
-      this.loginResponse = response.data
+      this.loginResponse = response.data;
       this.updateSessionStorageWithUserDetails();
-      this.$emit('event-login')
-      NavigationService.navigateToLototronView()
+      this.$emit('event-login');
+      NavigationService.navigateToLototronView();
     },
 
     alertMissingFields() {
-      this.errorMessage = 'Täida kõik väljad'
-      setTimeout(this.resetAlertMessage, 4000)
+      this.errorMessage = 'Täida kõik väljad';
+      setTimeout(this.resetAlertMessage, 4000);
     },
 
     updateSessionStorageWithUserDetails() {
       sessionStorage.setItem('userId', this.loginResponse.userId);
-      sessionStorage.setItem('roleName', this.loginResponse.roleName)
+      sessionStorage.setItem('roleName', this.loginResponse.roleName);
     },
 
     handleLoginErrorResponse(error) {
-      this.errorResponse = error.response.data
+      this.errorResponse = error.response.data;
       let httpStatusCode = error.response.status;
 
       if (this.isIncorrectCredentials(httpStatusCode)) {
         this.handleIncorrectCredentialsAlert();
       } else {
-        NavigationService.navigateToErrorView()
+        NavigationService.navigateToErrorView();
       }
     },
 
@@ -126,20 +129,17 @@ export default {
     },
 
     handleIncorrectCredentialsAlert() {
-      this.errorMessage = this.errorResponse.message
+      this.errorMessage = this.errorResponse.message;
       setTimeout(this.resetAlertMessage, 4000);
     },
 
     resetAlertMessage() {
-      this.errorMessage = ''
+      this.errorMessage = '';
     },
 
     navigateToRegisterView() {
-      NavigationService.navigateToRegisterView()
+      NavigationService.navigateToRegisterView();
     },
-
   }
 }
 </script>
-
-
