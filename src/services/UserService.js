@@ -13,6 +13,10 @@ export default {
 
     isLoggedIn() {
         return sessionStorage.getItem('userId') !== null;
+    },
+
+    sendChangePasswordRequest(passwordChange) {
+        return axios.patch('/user', passwordChange);
     }
 
 }

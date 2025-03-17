@@ -62,6 +62,7 @@ import ChangePasswordModal from "@/components/modal/ChangePasswordModal.vue";
 import DeleteAccountModal from "@/components/modal/DeleteAccountModal.vue";
 import NavigationService from "@/services/NavigationService";
 import ProfileService from "@/services/ProfileService";
+import UserService from "@/services/UserService";
 
 
 export default {
@@ -89,6 +90,8 @@ export default {
     };
   },
   methods: {
+
+
     setUserDataImageData(imageData, isDelete = false) {
       this.userData.imageData = imageData;
       // Optional: automatically update the profile when image changes
@@ -210,9 +213,25 @@ export default {
     },
 
     updatePassword(passwordData) {
-      console.log("Muudetud parool:", passwordData);
+      // Create the password change object that matches the backend DTO
+      const passwordChange = {
+        userId: this.userId,
+        oldPassword: passwordData.oldPassword,
+        newPassword: passwordData.newPassword
+      };
 
+      // Call the service to send the request
+      UserService.sendChangePasswordRequest(passwordChange)
+          .then(() => {
+            console.log("Parool edukalt muudetud");
+            // You could add success message handling here if needed
+          })
+          .catch(error => {
+            console.error("Parooli muutmine ebaõnnestus:", error);
+            // You could add error handling here if needed
+          });
     },
+
     openChangePasswordModal() {
       this.isChangePasswordModal = true;
     },
