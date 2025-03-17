@@ -15,7 +15,7 @@
     <div class="buttons-container">
       <button @click="changeProfilePicture" class="action-button">Muuda pilti</button>
       <button @click="deletePicture" class="action-button">Kustuta pilt</button>
-      <button @click="navigateToErrorView" class="action-button">KUI KÕIK TOIMIB!</button>
+      <button @click="navigateToErrorView" class="action-button">KUI RAINI ARVUTIS TOIMIB!</button>
     </div>
     <p v-if="statusMessage" class="status-message" :class="messageType">{{ statusMessage }}</p>
 
