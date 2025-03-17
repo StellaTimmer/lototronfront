@@ -15,6 +15,7 @@
     <div class="buttons-container">
       <button @click="changeProfilePicture" class="action-button">Muuda pilti</button>
       <button @click="deletePicture" class="action-button">Kustuta pilt</button>
+      <button @click="navigateToErrorView" class="action-button">KUI KÕIK TOIMIB!</button>
     </div>
     <p v-if="statusMessage" class="status-message" :class="messageType">{{ statusMessage }}</p>
 
@@ -23,6 +24,8 @@
 </template>
 
 <script>
+import NavigationService from "@/services/NavigationService";
+
 export default {
   name: "ProfileImage",
 
@@ -66,6 +69,10 @@ export default {
 
   },
   methods: {
+
+    navigateToErrorView() {
+      NavigationService.navigateToErrorView()
+    },
     changeProfilePicture() {
       this.$refs.fileInput.click();
     },
