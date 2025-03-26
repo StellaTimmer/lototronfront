@@ -75,13 +75,15 @@ export default {
         );
     },
 
-    sendPutLunchEventRequest(lunchEventId, lunchEvent) {
-        return axios.put('/lunch/event/' + lunchEventId, lunchEvent, {
-                params: {
-                    userId: UserService.getCurrentUserId()
-                }
+    sendPutLunchEventRequest(lunchEventId, updatedLunchEvent) {
+        return axios.put(`/lunch/event/${lunchEventId}`, updatedLunchEvent, {
+            params: {
+                userId: UserService.getCurrentUserId()
+            },
+            headers: {
+                'Content-Type': 'application/json'
             }
-        );
+        });
     },
 
     sendDeleteLunchEventRequest(lunchEventId) {

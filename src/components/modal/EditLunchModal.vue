@@ -187,11 +187,19 @@ export default {
       if (this.isOkToUpdateLunch) {
         this.resetIsOkToUpdateLunch();
 
+        let timeToUse = this.editedLunchEvent.time || this.lunchEvent.time;
+
+        if (timeToUse) {
+          if (!timeToUse.includes(':00') && timeToUse.split(':').length === 2) {
+            timeToUse = timeToUse + ':00';
+          }
+        }
+
         const updatedLunchEvent = {
           restaurantId: this.editedLunchEvent.restaurantId || this.lunchEvent.restaurantId,
           paxTotal: this.editedLunchEvent.paxTotal || this.lunchEvent.paxTotal,
           date: this.editedLunchEvent.date || this.lunchEvent.date,
-          time: (this.editedLunchEvent.time || this.lunchEvent.time) + (this.editedLunchEvent.time && !this.editedLunchEvent.time.includes(':00') ? ':00' : '')
+          time: timeToUse
         };
 
         LunchEventService.sendPutLunchEventRequest(this.lunchEventId, updatedLunchEvent)
@@ -201,16 +209,32 @@ export default {
     },
 
     validateIsOkToUpdateLunch() {
-      if (!this.lunchEvent.restaurantId && !this.editedLunchEvent.restaurantId) {
+      if (!this.editedLunchEvent.restaurantId && !this.lunchEvent.restaurantId) {
         this.errorMessage = 'Vali restoran';
         setTimeout(this.resetAllMessages, 4000);
-      } else if (this.editedLunchEvent.paxTotal < 2 && this.lunchEvent.paxTotal < 2) {
+        return;
+      }
+
+      if (this.editedLunchEvent.paxTotal < 2 && this.lunchEvent.paxTotal < 2) {
         this.errorMessage = 'Osalejate arv peab olema vähemalt 2';
         setTimeout(this.resetAllMessages, 4000);
-      } else {
-        this.isOkToUpdateLunch = true;
+        return;
       }
-    },
+
+      if (!this.editedLunchEvent.date && !this.lunchEvent.date) {
+        this.errorMessage = 'Vali kuupäev';
+        setTimeout(this.resetAllMessages, 4000);
+        return;
+      }
+
+      if (!this.editedLunchEvent.time && !this.lunchEvent.time) {
+        this.errorMessage = 'Vali aeg';
+        setTimeout(this.resetAllMessages, 4000);
+        return;
+      }
+
+      this.isOkToUpdateLunch = true;
+    }
 
     resetIsOkToUpdateLunch() {
       this.isOkToUpdateLunch = false;
@@ -226,7 +250,19 @@ export default {
     },
 
     handleUpdateLunchErrorResponse(error) {
-      this.errorMessage = error.response?.data?.message || 'Viga lõuna muutmisel';
+      console.error('Update lunch error:', error); // Log the full error object
+
+      if (error.response) {
+        console.error('Error response data:', error.response.data);
+        console.error('Error response status:', error.response.status);
+
+        this.errorMessage = error.response.data.message ||
+            error.response.data.detail ||
+            'Viga lõuna muutmisel';
+      } else {
+        this.errorMessage = 'Viga lõuna muutmisel';
+      }
+
       setTimeout(this.resetAllMessages, 4000);
     },
 
