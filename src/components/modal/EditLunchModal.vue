@@ -234,7 +234,7 @@ export default {
       }
 
       this.isOkToUpdateLunch = true;
-    }
+    },
 
     resetIsOkToUpdateLunch() {
       this.isOkToUpdateLunch = false;
