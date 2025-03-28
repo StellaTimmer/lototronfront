@@ -165,7 +165,7 @@ export default {
 
 .weekdays {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 columns for Mon-Fri */
+  grid-template-columns: repeat(5, 1fr);
   text-align: center;
   font-weight: bold;
   margin-bottom: 0.5rem;
@@ -174,7 +174,7 @@ export default {
 
 .days {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 columns for Mon-Fri */
+  grid-template-columns: repeat(5, 1fr);
   gap: 5px;
 }
 
@@ -221,7 +221,7 @@ export default {
 }
 
 .has-lunches {
-  background-color: #d4edda; /* Light green background */
+  background-color: #d4edda;
   border-color: #c3e6cb;
   position: relative;
 }
@@ -235,7 +235,7 @@ export default {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #28a745; /* Green dot indicator */
+  background-color: #28a745;
 }
 
 .has-lunches.selected {

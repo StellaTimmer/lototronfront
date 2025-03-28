@@ -39,7 +39,6 @@ export default {
     formatTime(timeString) {
       if (!timeString) return '';
 
-      // If the time includes seconds, remove them
       if (timeString.includes(':')) {
         const parts = timeString.split(':');
         return `${parts[0]}:${parts[1]}`;

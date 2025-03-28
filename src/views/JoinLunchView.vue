@@ -148,10 +148,7 @@ export default {
     },
 
     handleJoinLunchResponse() {
-      // TODO: sendPostSystemMessage POST /system-message kaasa kui RequestParam userId, lunchEventId
-      // TODO: system S, new N, subject ja body backendus
-      // TODO:
-      // TODO:
+
       this.successMessage = 'Oled edukalt lõunaga liitunud'
       setTimeout(this.resetAllMessages, 4000)
       this.getAvailableLunches(this.selectedDate)

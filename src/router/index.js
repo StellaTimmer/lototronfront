@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/error',
     name: 'errorRoute',
-    component: ErrorView // burgsi vaade
+    component: ErrorView
   },
 
   {

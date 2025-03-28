@@ -91,8 +91,6 @@ export default {
     },
 
     handleLoginResponse(response) {
-      // todo too ära count uutest kirjadest kasutaades userId,
-      // todo arv emitttida ülesse
       this.loginResponse = response.data
       this.updateSessionStorageWithUserDetails();
       this.$emit('event-login')
